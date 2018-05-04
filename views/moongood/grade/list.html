@@ -1,0 +1,249 @@
+
+{% extends "../layout/default.html" %} 
+{% block content %}
+	<script id="list-template" type="text/x-handlebars-template">
+	{% raw %}
+	<section class="Hui-article-box">
+	<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/grade/list" class="c-primary">区域等级列表</a>
+		</div>
+		
+	</nav>
+	<div class="row ml-20 mt-20 mr-20 clearfix">
+		
+		
+		
+	
+		<div class="text-r f-r">
+			<form id="splitPage" action="/moongood/grade/list">
+				<span class="select-box radius" style="width:120px">
+					<select class="select regionType" name="regionType" value="{{regionType}}" style="height:22px;">
+						<option value="">选择所属代理</option>
+						<option value="1">省级代理</option>
+						<option value="2">市级代理</option>
+						<option value="3">区级代理</option>
+					</select>
+				</span>
+				
+				<span class="select-box radius" style="width:100px">
+					<select class="select provinceCode" name="provinceCode" value="{{provinceCode}}" style="height:22px;">
+						<option value="">选择省份</option>
+						{{#each city}}
+							<option value="{{areaId}}">{{areaName}}</option>
+						{{/each}}
+					</select>
+				</span>
+				<!-- <span class="select-box radius" style="width:20%;display: none;">
+					<select class="select cityCode" name="cityCode" value="{{cityCode}}" style="height:22px;">
+						
+					</select>
+				</span> -->
+				{{#if cityCodeStr}}
+					<span class="select-box radius" style="width:80px;">
+						<select class="select cityCode" name="cityCode" value="{{cityCode}}" style="height:22px;">
+							<option value="{{cityCode}}">{{cityCodeStr}}</option>
+						</select>
+					</span>
+						
+				{{else}}
+				<span class="select-box radius" style="width:80px;display: none;">
+					<select class="select cityCode" name="cityCode" value="{{cityCode}}" style="height:22px;">
+						
+					</select>
+				</span>
+				{{/if}}
+				{{#if distinctCodeStr}}
+				<span class="select-box radius" style="width:80px;">
+					<select class="select distinctCode" name="distinctCode" value="{{distinctCode}}" style="height:22px;">
+						<option value="{{distinctCode}}">{{distinctCodeStr}}</option>
+					</select>
+				</span>
+				{{else}}
+				<span class="select-box radius" style="width:80px;display: none;">
+					<select class="select distinctCode" name="distinctCode" value="{{distinctCode}}" style="height:22px;">
+						
+					</select>
+				</span>
+				{{/if}}
+				
+				
+				
+				
+				<button name="" id="" class="btn btn-success radius" type="submit">
+					<i class="Hui-iconfont">&#xe709;</i>
+					查询
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="box-content pd-20">
+		<table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
+			<thead>
+				<tr class="text-c">
+					<th>所属代理区域</th>
+					<th>省市名称</th>
+					<th>区域等级</th>
+					
+					
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>	
+			{{#if model}}
+					{{#each model}}
+					<tr class="text-c">
+						<td class="status1" data-status="{{regionType}}"></td>
+						<td>{{provinceCodeStr}}{{cityCodeStr}}{{distinctCodeStr}}</td>
+						<td class="status" data-status="{{partnerLevel}}"></td>
+						
+						<td>
+							
+							<a class="btn btn-info mt-5" href="/moongood/grade/edit?id={{id}}&regionCode={{regionCode}}&update=edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							
+							
+							<!-- <a class="btn btn-info mt-5" > <i class="glyphicon glyphicon-zoom-in icon-white"></i> 上架</a> -->
+							<!-- <a class="btn btn-danger mt-5" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a> -->
+							
+							{{#equal status '3' }}
+							<!-- <a class="btn btn-info mt-5" href="/moongood/agent/update?id={{id}}&update=update"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 审核</a> -->
+							{{/equal}}
+							<!-- <a class="btn btn-info mt-5" href="/moongood/agent/edit?id={{id}}&update=edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							
+							<a class="btn btn-info mt-5" href="/moongood/agent/update?id={{id}}&update=update"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 审核</a>
+							<a class="btn btn-info mt-5" > <i class="glyphicon glyphicon-zoom-in icon-white"></i> 上架</a>
+							<a class="btn btn-danger mt-5" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a> -->
+							
+						</td>
+					</tr>
+					{{/each}}
+					{{else}}
+					<tr class="text-c">
+						<td colspan='3'>暂时还没有数据哦</td>
+					</tr>
+				{{/if}}
+			</tbody>
+		</table>
+		{{#if model}}
+		<div class="text-center">
+			<div id="splitPageDiv" class="pagination pagination-centered"></div>
+		</div>
+		{{/if}}
+	</div>
+  </section>
+	{% endraw %}
+	</script>
+	{% include "../layout/insidePage.html" %}
+
+	<script type="text/javascript">
+		var deleteItem = function(id){
+			layer_confirm("确认删除?", "{{api}}user/permission/element/delete", {id: id});
+		};
+		var city,aa,cityCodeStr,distinctCodeStr;
+		function city(){
+			$.ajax({
+				type: "GET",
+				url: "../../../hui-admin/static/js/city.json",
+				dataType:"json",
+			    jsonp:'callback',
+				success: function(d){
+					city=d;
+					
+				}
+			});
+		}
+		$(document).ready(function(){
+			city()
+			var regionCode;
+			if(getQueryParam('distinctCode')!=null){
+				
+				regionCode=getQueryParam('distinctCode')
+			}else{
+			
+				if(getQueryParam('cityCode')!=null){
+					regionCode=getQueryParam('cityCode')
+				}else{
+					regionCode=getQueryParam('provinceCode')
+				}
+			}
+			setTimeout(function(){
+				request({
+					url: "{{api}}mapi",
+					data: {_api:'zj.region.level',_v:'1.0',page:getQueryParam('pageIndex') || 1,regionCode:regionCode||undefined,pageSize:10},
+					type: "post",
+					dataType: "jsonp",
+            		jsonp: 'callback'
+				}).done(function(response){
+					console.log(response)
+					response.city=city;
+					
+					response.regionType = getQueryParam('regionType')||undefined;
+					response.provinceCode = getQueryParam('provinceCode')||undefined;
+					response.cityCode = getQueryParam('cityCode')||undefined;
+					response.distinctCode = getQueryParam('distinctCode')||undefined;
+					// if(getCookie("cityCodeStr")){
+					// 	alert('aa')
+					// 	response.cityCodeStr=getCookie("cityCodeStr")
+					// }
+					// if(getCookie("distinctCodeStr")){
+					// 	response.distinctCodeStr=getCookie("distinctCodeStr")
+					// }
+					substitute("#list-template", response);
+					getTimeList('.addTime');
+					$('select[name="provinceCode"]').change(function(){
+						var provinceCode=$('select[name="provinceCode"]').val();
+						for (var i = 0; i <city.length; i++) {
+							if(city[i].areaId==provinceCode){
+								aa=i;
+								$('select[name="cityCode"]').parent().show();
+								$('select[name="cityCode"]').children('option').remove();
+								$('select[name="cityCode"]').append('<option value="">选择市</option>')
+								for (var a = 0; a <city[i].cities.length; a++) {
+									$('select[name="cityCode"]').append('<option value="'+city[i].cities[a].areaId+'">'+city[i].cities[a].areaName+'</option');
+									// if(getQueryParam('cityCode')==city[i].cities[a].areaId){
+									// 	 setCookie("cityCodeStr", city[i].cities[a].areaName);
+									// }
+								}
+								
+							}
+						}
+					});
+					$('select[name="cityCode"]').change(function(){
+						// alert(aa)
+						var cityCode=$('select[name="cityCode"]').val();
+						for (var i = 0; i <city[aa].cities.length; i++) {
+							if(city[aa].cities[i].areaId==cityCode){
+								$('select[name="distinctCode"]').parent().show();
+								$('select[name="distinctCode"]').children('option').remove();
+								$('select[name="distinctCode"]').append('<option value="">选择区</option>')
+								for (var a = 0; a <city[aa].cities[i].counties.length; a++) {
+
+									$('select[name="distinctCode"]').append('<option value="'+city[aa].cities[i].counties[a].areaId+'">'+city[aa].cities[i].counties[a].areaName+'</option');
+									// if(getQueryParam('distinctCode')==city[aa].cities[i].counties[a].areaId){
+									// 	alert('aaa')
+									// 	 setCookie("distinctCodeStr", city[aa].cities[i].counties[a].areaName);
+									// }
+								}
+								
+							}
+						}
+					});
+					
+					// -1-删除 0-冻结 1-申请 2-已缴纳合作费用 3-审核失败 4-审核通过
+					getStatus(["未设置等级", "","R1","R2","R3","R4","R5"]);
+					getStatusList(["省级代理","市级代理","区级代理"]);
+					getList(".provinceCode option",response.provinceCode);
+					getList(".regionType option",response.regionType);
+					// getList(".partnerRole option",response.partnerRole);
+					initPage({
+						count: response.count,
+						pageIndex: parseInt(getQueryParam("pageIndex")) || 1
+
+					});
+				})
+			}, 500);	
+		})
+	</script>
+{% endblock %}
+

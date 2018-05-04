@@ -1,0 +1,410 @@
+
+<style type="text/css">
+.swfupload{
+	width: 100%;
+	height: 31px;
+}
+.uploadify-button-test {
+	width: 100%;
+	height: 31px;
+	background:#6595e3;
+	border-radius: 0;
+	border: none;
+}
+.uploadify:hover .uploadify-button {
+	background:#6595e3;
+}
+.img-show{
+	margin-bottom: 10px;
+}
+/*.btn-upload{
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	background: url({{host}}static/h-ui/images/btn-photo.png) no-repeat center center;
+	background-size: contain;
+
+}*/
+.input-text[type="number"] {
+   width: 100%;
+}
+.btn-upload{
+	width: 200px;
+	height: 100px;
+}
+.btn-upload img{
+	display: block;
+	width: 200px;
+	height: 100px;
+}
+.upload-url{
+	position: absolute;
+	width: 200px;
+	height: 100px;
+	left:20px;
+	display: none;
+	/*z-index: -9999;*/
+}
+</style>
+<script id="form-template" type="text/x-handlebars-template">
+{% raw %}
+<div class="box-content">
+	<div class="panel panel-default mt-20">
+		<div class="panel-body">
+			<form id="editForm" class="form form-horizontal">
+						<input type="hidden" value="{{id}}" name="contractId">
+						<input type="hidden" class="umbNo" value="{{model.evidence.idCardNagativeImg}}" name="idCardNagativeImg">
+						<input type="hidden" class="umbNo" value="{{model.evidence.idCardPositiveImg}}" name="idCardPositiveImg">
+						<input type="hidden" class="umbNo" value="{{model.evidence.bankCardPositiveImg}}" name="bankCardPositiveImg">
+						<input type="hidden" class="umbNo" value="{{model.evidence.idCardNagativeImg}}" name="payCredential">
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>产品名称：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="text" class="input-text radius version" value="{{model.productName}}" placeholder="产品名称" name="productName" disabled="disabled">
+						
+							</div>
+						</div>
+
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>客户姓名：</label>
+							<div class="formControls col-xs-6">
+								<input type="text" class="input-text radius surfaceNo" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")' value="{{model.realname}}" placeholder="客户姓名" name="realname" >
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>客户电话：</label>
+							<div class="formControls col-xs-6">
+								<input type="text " class="input-text radius qrCode" onblur='checkPhone(this.value,"mobile")' maxlength="11" value="{{model.mobile}}" placeholder="客户电话" name="mobile" >
+							</div>
+						</div>
+					
+						
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>打款金额（万元）：</label>
+							<div class="formControls col-xs-6">
+								<input type="number" class="input-text radius qrCode"  value="{{model.amtPay}}" placeholder="打款金额" onkeyup='this.value=this.value.replace(/\D/gi,"")' name="amtPay" >
+							</div>
+						</div>
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>预约金额（万元）：</label>
+							<div class="formControls col-xs-6">
+								<input type="number" class="input-text radius qrCode" value="{{model.amtReservation}}" placeholder="预约金额" onkeyup='this.value=this.value.replace(/\D/gi,"")' name="amtReservation"  >
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>银行卡号：</label>
+							<div class="formControls col-xs-6" >
+								<input type="number" class="input-text radius qrCode" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")' style="width: 100%;" maxlength="20" value="{{model.bankCardNumber}}" placeholder="银行卡号" name="bankCardNumber" >
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>开户银行：</label>
+							<div class="formControls col-xs-6">
+
+								<input type="text " class="input-text radius qrCode" value="{{model.openBank}}" placeholder="开户银行" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")' name="openBank" >
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>支行名称：</label>
+							<div class="formControls col-xs-6">
+								<input type="text " class="input-text radius qrCode" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")' value="{{model.branchBank}}" placeholder="支行名称" name="branchBank" >
+							</div>
+						</div>
+						<div class="row cl" >
+							<!-- <input type="hidden" name="categoryPicture" value="{{categoryPicture}}"> -->
+							<label class="form-label col-xs-3"><span class="c-red">*</span>身份证正面：</label>
+							<div class="formControls col-xs-2" >
+								
+								<div class="text-c btn-upload">
+									<img src="{{model.idCardNagativeImg}}">
+								</div>
+								<input class="upload-url" type="file" name="upfile" id="uploadfile1">
+								<input type="button" class="btn btn-success btnSum mt-30" value="上传身份证正面">
+								
+							</div>
+							
+							
+
+						</div>
+						
+			
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>身份证反面：</label>
+							<div class="formControls col-xs-2" >
+								
+								<div class="text-c btn-upload">
+									<img src="{{model.idCardPositiveImg}}">
+								</div>
+
+								<input class="upload-url" type="file" name="upfile" id="uploadfile2">
+								<input type="button" class="btn btn-success btnSum mt-30" value="上传身份证反面">
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>银行卡正面：</label>
+							<div class="formControls col-xs-2" >
+								
+								<div class="text-c  btn-upload">
+									<img src="{{model.bankCardPositiveImg}}">
+								</div>
+								<input class="upload-url" type="file" name="upfile" id="uploadfile3">
+								<input type="button" class="btn btn-success btnSum mt-30" value="上传银行卡正面">
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>打款凭证：</label>
+							<div class="formControls col-xs-2" >
+								
+								<div class="text-c  btn-upload">
+									<img src="{{model.payCredential}}">
+								</div>
+								<input class="upload-url" type="file" name="upfile" id="uploadfile4">
+								<input type="button" class="btn btn-success btnSum mt-30" value="上传打款凭证">
+								
+							</div>
+						</div>
+						{{#if update}}
+						<div class="row text-c ">
+						   <input class="btn btn-primary submit1" type="button"  value="审核通过">
+						   <input class="btn btn-primary submit2" type="button" value="不通过" >
+						</div>
+						{{else}}
+						<div class="row text-c ">
+						   <input class="btn btn-primary submit btnSum2"  value="提交">
+						</div>
+						{{/if}}
+					</form>
+						
+		</div>
+	</div>
+	
+	
+</div>
+
+{% endraw %}
+</script>
+<style type="text/css">
+	body{
+		overflow-x: hidden;
+	}
+
+</style>
+<script type="text/javascript">
+function replaceAll(str , replaceKey , replaceVal){
+  var reg = new RegExp(replaceKey , 'g');//g就是代表全部
+  return str.replace(reg , replaceVal || '');
+}
+function ajaxFileUpload(id) {
+	var biz;
+	if(id=="uploadfile1"){
+		biz="idcard"
+	}else if(id=="uploadfile2"){
+		biz="idcard"
+	}else if(id=="uploadfile3"){
+		biz="bankCard"
+	}else if(id=="uploadfile4"){
+		biz="tranCredentials"
+	}
+	var extras = {
+        _api: 'upload',
+        _v: '1.0',
+        biz:biz
+		};
+		
+	$.ajaxFileUpload({
+        url : '{{api}}upload?'+$._apiClient.buildData(extras),
+        secureuri: false,
+        fileElementId : id,
+        dataType : 'jsonp',
+        success : function(data, status) {
+        	// alert(data)
+        	if(data.success==true){
+        	
+        		var authUrl=replaceAll(data.model.authUrl , '&amp;' , '&');
+				
+        		$("#"+id).siblings(".btn-upload").children('img').attr('src',authUrl);
+        		console.log(authUrl)
+        		$('.upload-url').hide();
+        		$("#"+id).siblings(".btn-upload").show();
+        		if(id=="uploadfile1"){
+					$('input[name="idCardNagativeImg"]').val(data.model.filename)
+				}else if(id=="uploadfile2"){
+					$('input[name="idCardPositiveImg"]').val(data.model.filename)
+				}else if(id=="uploadfile3"){
+					$('input[name="bankCardPositiveImg"]').val(data.model.filename)
+				}else if(id=="uploadfile4"){
+					$('input[name="payCredential"]').val(data.model.filename)
+				}
+        		
+        	}else{
+        		data.msg = data.msgInfo || "服务器出错，请稍后再试";
+        		layer.alert(data.msg);
+        		
+        	}
+         console.log(status)
+        },
+        error : function(data, status, e) {
+            // alert('上传出错');
+            layer.alert("服务器出错，请稍后再试")
+        }
+    })
+}
+$(document).ready(function(){
+	
+	
+	{% if operation == 'edit' || operation == 'update'%}
+	request("{{api}}mapi",{contractId: getQueryParam('id'),_api:"zj.contract.info",_v:"1.0"}).done(function(response){
+		response.id=getQueryParam('id');
+		if(getQueryParam('update')=='update'){
+			response.update=getQueryParam('update');
+		}else if(getQueryParam('update')=='edit'){
+			response.edit=getQueryParam('update')
+		}
+		response.model.evidence=JSON.parse(response.model.evidence);
+		response.model.amtReservation=response.model.amtReservation/10000;
+		response.model.amtPay=response.model.amtPay/10000;
+		substitute("#form-template", response);
+		// init();
+		
+	
+      $(".btnSum").click(function () {
+
+      	if($(this).siblings('.upload-url').val()!=""){
+      		var id=$(this).siblings('.upload-url').attr('id')
+      		// alert(id)
+            ajaxFileUpload(id);	
+      	}
+      })
+		
+	
+
+	$(".btn-upload").click(function () {
+		$(this).siblings('.upload-url').click()
+		$(this).css("display","none").siblings('.upload-url').css({"display":"block","width":"300px ","height":"20px"})
+		
+            
+      	
+      })
+	$(".btnSum2").click(function(){
+		// if(parseInt($('input[name="amtPay"]').val())>=parseInt($('input[name="amtReservation"]').val())){
+			if($('input[name="realname"]').val()!=''&&$('input[name="mobile"]').val()!=''&&$('input[name="amtPay"]').val()!=''&&$('input[name="amtReservation"]').val()!=''&&$('input[name="bankCardNumber"]').val()!=''&&$('input[name="openBank"]').val()!=''&&$('input[name="branchBank"]').val()!=''&&$('input[name="idCardPositiveImg"]').val()!=''&&$('input[name="idCardNagativeImg"]').val()!=''&&$('input[name="bankCardPositiveImg"]').val()!=''&&$('input[name="payCredential"]').val()!=''){
+				request("{{api}}mapi",{contractId: getQueryParam('id'),_api:"zj.contract.audit",_v:"1.0",realname:$('input[name="realname"]').val(),mobile:$('input[name="mobile"]').val(),amtPay:$('input[name="amtPay"]').val()*10000,amtReservation:$('input[name="amtReservation"]').val()*10000,bankCardNumber:$('input[name="bankCardNumber"]').val(),openBank:$('input[name="openBank"]').val(),branchBank:$('input[name="branchBank"]').val(),idCardPositiveImg:$('input[name="idCardPositiveImg"]').val(),idCardNagativeImg:$('input[name="idCardNagativeImg"]').val(),bankCardPositiveImg:$('input[name="bankCardPositiveImg"]').val(),payCredential:$('input[name="payCredential"]').val()}).done(function(response){
+					console.log(response)
+					if(response.success==true){
+						layer.msg('修改成功');
+				    	setTimeout(function(){
+				    		location.href='/moongood/orderForm/list'
+				    	}, 1000);
+						
+					}
+				})
+			}else{
+				layer.msg('请填写完信息');
+				return;
+			}
+		// }else{
+		// 	layer.msg('打款金额要比预约金额大哦！');
+		// 	return;
+		// }
+		
+			
+			
+   
+	})
+      $(".submit1").click(function(){
+      	// if(parseInt($('input[name="amtPay"]').val())>=parseInt($('input[name="amtReservation"]').val())){
+	      	if($('input[name="realname"]').val()!=''&&$('input[name="mobile"]').val()!=''&&$('input[name="amtPay"]').val()!=''&&$('input[name="amtReservation"]').val()!=''&&$('input[name="bankCardNumber"]').val()!=''&&$('input[name="openBank"]').val()!=''&&$('input[name="branchBank"]').val()!=''&&$('input[name="idCardPositiveImg"]').val()!=''&&$('input[name="idCardNagativeImg"]').val()!=''&&$('input[name="bankCardPositiveImg"]').val()!=''&&$('input[name="payCredential"]').val()!=''){
+				request("{{api}}mapi",{contractId: getQueryParam('id'),status:5,_api:"zj.contract.audit",_v:"1.0",realname:$('input[name="realname"]').val(),mobile:$('input[name="mobile"]').val(),amtPay:$('input[name="amtPay"]').val()*10000,amtReservation:$('input[name="amtReservation"]').val()*10000,bankCardNumber:$('input[name="bankCardNumber"]').val(),openBank:$('input[name="openBank"]').val(),branchBank:$('input[name="branchBank"]').val(),idCardPositiveImg:$('input[name="idCardPositiveImg"]').val(),idCardNagativeImg:$('input[name="idCardNagativeImg"]').val(),bankCardPositiveImg:$('input[name="bankCardPositiveImg"]').val(),payCredential:$('input[name="payCredential"]').val()}).done(function(response){
+					console.log(response)
+					if(response.success==true){
+						layer.msg('审核通过');
+				    	setTimeout(function(){
+				    		location.href='/moongood/orderForm/list'
+				    	}, 1000);
+						
+					}
+				})
+			}else{
+				layer.msg('请填写完信息');
+				return;
+			}	
+			
+  //  		}else{
+		// 	layer.msg('打款金额要比预约金额大哦！');
+		// 	return;
+		// }
+	})
+	$('.submit2').click(function(){
+		// if(parseInt($('input[name="amtPay"]').val())>=parseInt($('input[name="amtReservation"]').val())){
+			if($('input[name="realname"]').val()!=''&&$('input[name="mobile"]').val()!=''&&$('input[name="amtPay"]').val()!=''&&$('input[name="amtReservation"]').val()!=''&&$('input[name="bankCardNumber"]').val()!=''&&$('input[name="openBank"]').val()!=''&&$('input[name="branchBank"]').val()!=''&&$('input[name="idCardPositiveImg"]').val()!=''&&$('input[name="idCardNagativeImg"]').val()!=''&&$('input[name="bankCardPositiveImg"]').val()!=''&&$('input[name="payCredential"]').val()!=''){
+			  // layer.close(index);
+				  layer.prompt({title: '不通过原因', formType: 2}, function(text, index){
+				  	console.log(text)
+				  	console.log(index)
+
+				  	request("{{api}}mapi",{contractId: getQueryParam('id'),status:4,_api:"zj.contract.audit",_v:"1.0",realname:$('input[name="realname"]').val(),mobile:$('input[name="mobile"]').val(),amtPay:$('input[name="amtPay"]').val()*10000,amtReservation:$('input[name="amtReservation"]').val()*10000,bankCardNumber:$('input[name="bankCardNumber"]').val(),openBank:$('input[name="openBank"]').val(),branchBank:$('input[name="branchBank"]').val(),idCardPositiveImg:$('input[name="idCardPositiveImg"]').val(),idCardNagativeImg:$('input[name="idCardNagativeImg"]').val(),bankCardPositiveImg:$('input[name="bankCardPositiveImg"]').val(),payCredential:$('input[name="payCredential"]').val(),failReason:text}).done(function(response){
+						console.log(response)
+						if(response.success==true){
+							layer.close(index);
+							layer.msg('不通过原因上传成功');
+					    	setTimeout(function(){
+					    		location.href='/moongood/orderForm/list'
+					    	}, 1000);
+							
+						}
+					})
+				    // layer.close(index);
+				    
+				  });
+			}else{
+				layer.msg('请填写完信息');
+				return;
+			}
+		// }else{
+		// 	layer.msg('打款金额要比预约金额大哦！');
+		// 	return;
+		// }	
+		// });
+	})         
+   
+  
+	})
+	{% else %}
+
+	
+		substitute("#form-template", {});
+		init()
+		
+		
+
+	
+		
+		
+		
+		$(".submit").click(function(){
+		
+			
+			
+   
+		})
+
+		
+	
+		
+
+	
+	
+	
+	
+	{% endif %}
+		// alert(i)
+	
+})
+
+</script>

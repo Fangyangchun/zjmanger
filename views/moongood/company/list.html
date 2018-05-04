@@ -1,0 +1,197 @@
+
+{% extends "../layout/default.html" %} 
+{% block content %}
+	<script id="list-template" type="text/x-handlebars-template">
+	{% raw %}
+	<section class="Hui-article-box">
+	<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/company/list" class="c-primary">企业列表</a>
+			
+		</div>
+		
+	</nav>
+	<div class="row ml-20 mt-20 mr-20 clearfix">
+		
+		<a class="btn  btn-success f-l mr-10 addBtn" style="font-size: 14px;" href="/moongood/company/add">
+			<i class="Hui-iconfont">&#xe600;</i>
+			添加企业
+		</a>
+		
+	
+		<div class="text-r f-r">
+			<form id="splitPage" action="/moongood/company/list">
+				<input placeholder="企业名称" style="width:100px" class="input-text mb-5 radius" type="text" name="companyName" value='{{companyName}}' maxlength="50" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>
+				<span class="select-box radius" style="width:100px;">
+					<select class="select productCategoryId " name="companyCategory"  style="height:22px;">
+						<option value="" selected="">企业类型</option>
+						
+						
+						{{#each jinrong}}
+								
+						  <option value="{{id}}">{{categoryName}}</option>
+						
+				
+						{{/each}}
+						<!-- <option value="23" {{#equal companyCategory '23' }}selected="selected"{{/equal}}>金融机构</option> -->
+						<!-- <option value="24" {{#equal companyCategory '24' }}selected="selected"{{/equal}}>艺术收藏</option>		 -->
+						
+					</select>
+				</span>
+				<!-- <span class="select-box radius" style="width:120px;">
+					<select class="select status " name="status"  style="height:22px;">
+						<option value="" selected="">企业状态</option>
+						<option value="0">冻结</option>
+						<option value="1">正常</option>
+						
+					</select>
+				</span> -->
+				
+				<button name="" id="" class="btn btn-success radius" type="submit">
+					<i class="Hui-iconfont">&#xe709;</i>
+					查询
+				</button>
+			</form>
+		</div>
+	</div>
+
+	<div class="box-content pd-20">
+		<table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
+			<thead>
+				<tr class="text-c">
+					<!-- <th>企业logo</th> -->
+					<th style="min-width: 30px;">企业名称</th>
+					<!-- <th>企业全称</th> -->
+					<th style="min-width: 30px;">企业类型</th>
+					<!-- <th>企业标签</th> -->
+					<th style="min-width: 30px;">联系人</th>
+					<th style="min-width: 50px;">联系电话 </th>
+					<!-- <th>状态</th> -->
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>	
+				{{#if model}}
+
+					{{#each model}}
+					<tr class="text-c">
+						<!-- <td><img src="{{logoImg}}"></td> -->
+						<td>{{companyName}}</td>
+						<!-- <td>{{companyFullName}}</td> -->
+						<td >{{companyCategoryName}}</td>
+						<!-- <td>{{tag}}</td> -->
+						<td>{{contactPerson}}</td>
+						<td>{{contactMobile}}</td>
+						<!-- <td class="addTime" data-time='{{updatedTime}}'></td> -->
+					<!-- 	<td class="status" data-status="{{status}}"></td> -->
+						<td>
+							
+							{{#equal status '1' }}
+							<a class="btn btn-info mt-5" href="/moongood/company/edit?id={{id}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							<!-- <a class="btn btn-info mt-5" onclick="xiaItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 冻结</a> -->
+							{{/equal}}
+							{{#equal status '0'}}
+							<!-- <a class="btn btn-info mt-5" onclick="shangItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i>解冻</a> -->
+							
+							{{/equal}}
+						<!-- 	<a class="btn btn-info mt-5" href="/moongood/company/edit?id={{id}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a> -->
+							<!-- <a class="btn btn-danger mt-5" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a> -->
+							{{#equal companyCategory '88' }}
+							<a class="btn btn-info mt-5" href="/moongood/product/list?companyId={{id}}&companyCategory={{companyCategory}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 产品管理</a>
+							{{else}}
+							<a class="btn btn-info mt-5" href="/moongood/item/list?id={{id}}&companyCategory={{companyCategory}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 项目管理</a>
+							<a class="btn btn-info mt-5" href="/moongood/company/shopList?id={{id}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 商品管理</a>
+							{{/equal}}
+							<!-- {{#equal companyCategory '22' }}
+							<a class="btn btn-info mt-5" href="/moongood/item/list?id={{id}}&companyCategory={{companyCategory}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 项目管理</a>
+							<a class="btn btn-info mt-5" href="/moongood/company/shopList?id={{id}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 商品管理</a>
+							{{/equal}}
+							{{#equal companyCategory '23' }}
+							<a class="btn btn-info mt-5" href="/moongood/item/list?id={{id}}&companyCategory={{companyCategory}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 项目管理</a>
+							 <a class="btn btn-info mt-5" href="/moongood/product/list?companyId={{id}}&companyCategory={{companyCategory}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 产品管理</a>
+							{{/equal}} -->
+						</td>
+					</tr>
+					{{/each}}
+					{{else}}
+					<tr class="text-c">
+						<td colspan='8'>暂时还没有数据哦</td>
+					</tr>
+				{{/if}}	
+			</tbody>
+		</table>
+		{{#if model}}
+		<div class="text-center">
+			<div id="splitPageDiv" class="pagination pagination-centered"></div>
+		</div>
+		{{/if}}
+	</div>
+  </section>
+	{% endraw %}
+	</script>
+	{% include "../layout/insidePage.html" %}
+
+	<script type="text/javascript">
+	function keysrt(key,desc) {  
+	  return function(a,b){  
+	    return desc ? ~~(a[key] < b[key]) : ~~(a[key] > b[key]);  
+	  }  
+	} 
+		var deleteItem = function(id){
+			// alert(id)
+			layer_confirm("确认删除?", "{{api}}mapi", {companyId: id,_api:'zj.company.update',_v: '1.0',status:-1});
+		};
+		var shangItem = function(id){
+			// alert(id)
+			layer_confirm("确认上架?", "{{api}}mapi", {companyId: id,_api:'zj.company.update',_v: '1.0',status:1});
+		};
+		var xiaItem = function(id){
+			// alert(id)
+			layer_confirm("确认下架?", "{{api}}mapi", {companyId: id,status:0,_api:'zj.company.update',_v: '1.0'});
+		};
+		var jinrong;
+		// var productCategory=[],productCategory1;
+		$(document).ready(function(){
+			request("{{api}}mapi",{_api: 'zj.company.category',_v: '2.0'}).done(function(response){
+
+					jinrong=response.model;
+			})
+			setTimeout(function(){
+				request({
+					url: "{{api}}mapi",
+					data: {_api:'zj.company.list',_v:'1.0',page: getQueryParam('pageIndex') || 1, status: getQueryParam('status') || undefined, companyCategory: getQueryParam('companyCategory') || undefined,companyName: getQueryParam('companyName') || undefined,pageSize:10},
+					// data: {_api:'zj.product.search',_v:'1.0',page: getQueryParam('pageIndex') || 1, pageSize:10},
+					type: "post",
+					dataType: "jsonp",
+            		jsonp: 'callback'
+				}).done(function(response){
+					console.log(response)
+					
+
+					//response.productCategory=productCategory1;
+					response.status= getQueryParam("status")||undefined;
+					response.companyName = getQueryParam("companyName")||undefined;
+					response.companyCategory = getQueryParam("companyCategory")||undefined;
+					response.jinrong=jinrong;
+					substitute("#list-template", response);
+					// getTimeList('.addTime');
+					// getStatusList("");
+					getList(".status option",response.status);
+					getList(".productCategoryId option",response.companyCategory);
+					// getList(".productCategoryId option",response.model.companyCategory);
+					// getStatusList(["基金公司","中小企业"]);				
+					// -1-删除 0-下架 1-上架
+					 // -1-删除 0-冻结 1-正常 
+					getStatus(["删除","冻结","正常"]);
+					getCount('.count');
+					initPage({
+						count: response.count,
+						pageIndex: parseInt(getQueryParam("pageIndex")) || 1
+					});
+				})
+			}, 500);
+		})
+	</script>
+{% endblock %}
+

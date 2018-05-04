@@ -1,0 +1,334 @@
+/*图片上传剪切*/
+/*section{
+  margin-top: 50px !important;
+}*/
+.secWrap,.secWrapCC{
+  border:1px solid #000;
+  padding-bottom: 10px;
+  margin-top: 10px;
+}
+.breadcrumb{
+  margin-top: 50px !important;
+}
+.none{
+  display: none;
+}
+@media (max-width: 767px){
+ .breadcrumb{
+    margin-top: 0 !important;
+  }
+}
+.photo-box {
+    position: relative;
+    width: 100px;
+    margin-right: 15px;
+    float: left;
+}
+.photo-table { margin-top: 15px;}
+.photo-table td{
+    position: relative;
+}
+.photo-table .photo-box{
+    width: auto;
+    margin-right: 0;
+    float: none;
+}
+.photo-table .photo-box img{
+    max-width: 95%; 
+    max-height: 95%;
+}
+.photo-img-box {
+    position: relative;
+    display: block;
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ccc;
+    line-height: 100px;
+    text-align: center;
+    cursor: hand;
+    font-size: 30px;
+    color: #666;
+    vertical-align:middle;
+}
+.photo-box img {
+  position: absolute;
+    display: block;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+}
+.photo-img-box:hover .file-delete{ display: block;}
+.file-delete {
+    display: none;
+    position: absolute;
+    top: 0; right: 0;
+    width: 25px; height: 25px;
+    background: rgba(0,0,0,0.5);
+    font-size: 18px;
+    line-height: 25px; text-align: center; color: #fff;
+    z-index: 100;
+    cursor: pointer;
+}
+.file-sort{
+    margin-top: 10px;
+}
+.file-cut{
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 21px;
+    font: 14px/21px "Microsoft yahei";
+    color: #fff;
+    text-align: center;
+    background: rgba(0,0,0,0.5);
+}
+.p-txt {
+  height: 50px;
+}
+.Hui-aside {
+  z-index: 999;
+}
+.Hui-article-box{
+  z-index: 2;
+}
+.dropDown-menu{
+  z-index: 99999!important;
+}
+/*分页*/
+.pagination{
+  text-align: center;
+  margin-top: 20px;
+}
+.pagination ul {
+  display: inline-block;
+}
+.pagination li {
+  float: left;
+  margin: 0 2px;
+  font-size:14px;
+  padding: 3px 8px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+.pagination li.active,.pagination li:hover{
+  border: 1px solid #5a98de;
+  background: #5a98de;
+}
+.pagination a {
+  display: block;
+  color: #666;
+  text-decoration: none;
+}
+.pagination li.active a,.pagination li:hover a{
+  color: #fff;
+}
+.select{
+  height: 30px;
+  border: solid 1px #ddd;
+  border-radius: 0;
+}
+input[readonly]{
+  background: #f8f8f8;
+}
+label.error {
+  position: relative;
+  margin-left: 18px;
+}
+.form-horizontal .form-label{
+  text-align: right;
+  padding-right: 0;
+}
+/*地图*/
+#mapContainer {
+  width:100%; 
+  height: 350px; 
+  position: relative;
+}  
+#tip {
+  background-color: #ddf;
+  color: #333;
+  border: 1px solid silver;
+  box-shadow: 3px 4px 3px 0px silver;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  line-height: 20px;
+}
+#tip input[type="text"] {
+  height: 25px;
+  border: 0;
+  padding-left: 5px;
+  width: 280px;
+  border-radius: 3px;
+  outline: none;
+}
+#setAddress{
+  margin: 370px 0 0 0;
+}
+.btn-search{
+  color: #5a98de;
+  cursor: pointer;
+}
+.btn-cancle{
+  cursor: pointer;
+  color: #999;
+  display: none;
+}
+/* 分组选择 */
+.Hui-tabNav,
+.Hui-tabNav-wp{
+  background: #e6e6e6;
+  height: 52px;
+}
+.Hui-article{
+  top: 52px;
+}
+.Hui-tabNav .acrossTab{
+  top: 10px;
+}
+.Hui-tabNav .acrossTab li{
+  background: #e6e6e6;
+  padding: 10px 5px 10px 15px;
+  border-top: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  font-size: 14px;
+  color: #666;
+}
+.Hui-tabNav .acrossTab li:hover{
+  background: #f0f0f0;
+}
+.Hui-tabNav .acrossTab li.no-close{
+  padding: 10px 15px;
+}
+.Hui-tabNav .acrossTab li em{
+  display: none;
+}
+.acrossTab li i{
+  position: relative;
+  top: 13%;
+  display: inline-block;
+  margin-left: 10px;
+  width: 18px;
+  height: 16px;
+  background-position: 0 3px;
+}
+.acrossTab li.active{
+  border-top: 1px solid #ff0000;
+  background: #fff;
+  color: #000;
+}
+.acrossTab li i:hover{
+  background-position: 0 -12px;
+}
+div.layui-layer-title{
+  background: #333;
+  color: #fff;
+}
+a.layui-layer-ico {
+  background: url(//qyb-img.kid06.cn/qybImage/static/upload/e5442d363e612afc8b6a826e3a2a84fb260d8a74.png) no-repeat;
+}
+.layui-layer-setwin a.layui-layer-min cite,
+.layui-layer-setwin a.layui-layer-min:hover cite{
+  background-color: #fff;
+}
+.switch-icon{
+  background: url(//qyb-img.kid06.cn/qybImage/static/upload/5f85ff5cb48720507976e30d5f0136ef61534578.png) no-repeat;
+  width: 24px;
+  height: 22px;
+  display: block;
+  margin: 135px auto 0 auto;
+}
+@media screen and (max-width: 767px){
+  .layui-layer{
+      width: auto!important;
+      left:25px!important;
+  }
+  #Hui-nav > ul > li{
+    width:13%!important;
+  }
+  .box-content{
+    min-height: 600px !important;
+  }
+}
+@media screen and (max-width: 500px){
+  .addBtn{
+    display: none;
+  }
+}
+#allGroup,
+#checkedGroup,
+#allRole,
+#checkedRole{
+  background: #ededed;
+  min-width: 190px;
+}
+#allGroup option,
+#checkedGroup option,
+#allRole option,
+#checkedRole option{
+  padding: 5px;
+}
+#allGroup option:hover,
+#checkedGroup option:hover,
+#allRole option:hover,
+#checkedRole option:hover{
+  background: #fff;
+}
+select[multiple] {
+    height: 200px;
+}
+/* 头部自定义样式 */
+.Hui-header,
+.navbar{
+  /*background: #609fe9;*/
+}
+.containBox{
+  position: relative!important;
+}
+@media (max-width: 767px){
+  .breadcrumb>.container {
+    padding:12px 0 0 12px;
+  }
+  .form-horizontal .form-label{
+    width: 36%;
+  }
+  .noneMore input{
+    width: 100% !important;
+  }
+}
+
+.breadcrumb{
+  border:none!important;
+}
+.Hui-logo{
+  background: url("//qyb-img.kid06.cn/qybImage/static/upload/2ed7f40cc3eb8ca47d81aa403d02c5588d4af989.png") no-repeat;
+  width: 195px;
+  height: 70px;
+  display: block;
+  margin: 10px 0 0 70px;
+}
+.Hui-userbar{
+  top: 25px;
+  font-size: 16px;
+}
+.Hui-userbar .dropDown-menu li a{
+  font-size: 14px;
+  padding: 10px 15px;
+}
+.Hui-aside .menu_dropdown dt{
+  /*color: #0b61c1;*/
+  font-size: 16px;
+  padding: 3px 0 3px 15px;
+}
+.Hui-aside .menu_dropdown dd li a{
+  font-size: 14px;
+  padding: 5px 0 5px 25px;
+}
+.file-cut{
+  display: none;
+}

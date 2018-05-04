@@ -1,0 +1,398 @@
+
+<style type="text/css">
+.swfupload{
+	width: 100%;
+	height: 31px;
+}
+.uploadify-button-test {
+	width: 100%;
+	height: 31px;
+	background:#6595e3;
+	border-radius: 0;
+	border: none;
+}
+.uploadify:hover .uploadify-button {
+	background:#6595e3;
+}
+.img-show{
+	margin-bottom: 10px;
+}
+
+.btn-upload{
+	width: 200px;
+	height: 100px;
+}
+img{
+	display: block;
+	width: 200px;
+	height: 100px;
+}
+.upload-url{
+	position: absolute;
+	width: 200px;
+	height: 100px;
+	left:20px;
+	display: none;
+	/*z-index: -9999;*/
+}
+</style>
+<script id="form-template" type="text/x-handlebars-template">
+{% raw %}
+<div class="box-content">
+	<div class="panel panel-default mt-20">
+		<div class="panel-body">
+			<form id="editForm" class="form form-horizontal">
+						<input type="hidden" value="{{userid}}" name="userid">
+						<input type="hidden" class="umbNo" value="{{model.certificateImg}}" name="certificateImg">
+						<input type="hidden" class="umbNo" value="{{model.idCardPositiveImg}}" name="idCardPositiveImg">
+						
+						{{#if update}}
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>真实姓名：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="text" class="input-text radius version" value="{{model.realname}}" placeholder="产品名称" name="realname" disabled="disabled" >
+						
+							</div>
+						</div>
+
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>身份证号码：</label>
+							<div class="formControls col-xs-6">
+								<input type="text" class="input-text radius surfaceNo"  value="{{model.idCard}}" placeholder="身份证号码" name="idCard" disabled="disabled" >
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>当前所在地：</label>
+							<div class="formControls col-xs-6">
+								<input type="text " class="input-text radius qrCode" value="{{model.provinceCode}}{{model.cityCode}}{{model.distinctCode}}" placeholder="" name="" disabled="disabled">
+							</div>
+						</div>
+					
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>证书类型：</label>
+							<div class="formControls col-xs-6">
+								<select class="select optionContent"  name="codeId" disabled="disabled">
+								{{#each model.certificate.optionContent}}
+									<option value="{{codeId}}" >{{codeName}}</option>
+									
+								{{/each}}
+									
+								
+								</select>
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>证书：</label>
+							<div class="formControls col-xs-6">
+								<img src="{{model.certificateImg}}" />
+							</div>
+						</div>
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>身份证正反面：</label>
+							<div class="formControls col-xs-6">
+								<img src="{{model.idCardPositiveImg}}">
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>理财师个人简介：</label>
+							<div class="formControls col-xs-6">
+								<textarea cols="" rows="" class="textarea radius" maxlength="120" name="personalProfile" placeholder="说点什么...最少输入10个字符">{{model.personalProfile}}</textarea>
+								
+							</div>
+						</div>
+						
+						<div class="row text-c ">
+						   <input class="btn btn-primary submit1" type="button"  value="审核通过">
+						   <input class="btn btn-primary submit2" type="button" value="不通过" >
+						</div>
+						{{else}}
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>真实姓名：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="text" class="input-text radius version" value="{{model.realname}}" placeholder="产品名称" name="realname" disabled="disabled">
+						
+							</div>
+						</div>
+
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>身份证号码：</label>
+							<div class="formControls col-xs-6">
+								<input type="text" class="input-text radius surfaceNo"  value="{{model.idCard}}" placeholder="身份证号码" name="idCard" disabled="disabled">
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>当前所在地：</label>
+							<div class="formControls col-xs-6">
+								<input type="text " class="input-text radius qrCode" value="{{model.provinceCode}}{{model.cityCode}}{{model.distinctCode}}" placeholder="" name="" disabled="disabled">
+							</div>
+						</div>
+					
+						
+						
+						<!-- <div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>证书类型：</label>
+							<div class="formControls col-xs-6">
+								<img src="{{model.certificateImg}}" />
+							</div>
+						</div> -->
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>证书类型：</label>
+							<div class="formControls col-xs-6">
+								<select class="select optionContent"  name="codeId" disabled="disabled">
+								{{#each model.certificate.optionContent}}
+									<option value="{{codeId}}" >{{codeName}}</option>
+									
+								{{/each}}
+									
+								
+								</select>
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>证书：</label>
+							<div class="formControls col-xs-6">
+								<img src="{{model.certificateImg}}" />
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>身份证正面：</label>
+							<div class="formControls col-xs-2" >
+								
+								<div class="text-c  btn-upload">
+									<img src="{{model.idCardPositiveImg}}">
+								</div>
+								<input class="upload-url" type="file" name="upfile" id="uploadfile2">
+								<input type="button" class="btn btn-success btnSum mt-30" value="上传身份证正面">
+								
+							</div>
+						</div>
+						<!-- <div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>身份证正面：</label>
+							<div class="formControls col-xs-6">
+								<img src="{{model.idCardPositiveImg}}">
+								
+							</div>
+						</div> -->
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>理财师个人简介：</label>
+							<div class="formControls col-xs-6">
+								<textarea cols="" rows="" class="textarea radius" maxlength="120" name="personalProfile" placeholder="说点什么...最少输入10个字符">{{model.personalProfile}}</textarea>
+								
+							</div>
+						</div>
+						<div class="row text-c ">
+						   <input class="btn btn-primary btnSum2"   value="提交">
+						</div>
+						{{/if}}
+					</form>
+						
+		</div>
+	</div>
+	
+	
+</div>
+
+{% endraw %}
+</script>
+<style type="text/css">
+	body{
+		overflow-x: hidden;
+	}
+
+</style>
+<script type="text/javascript">
+function replaceAll(str , replaceKey , replaceVal){
+  var reg = new RegExp(replaceKey , 'g');//g就是代表全部
+  return str.replace(reg , replaceVal || '');
+}
+function ajaxFileUpload(id) {
+	var biz;
+	if(id=="uploadfile1"){
+		biz="certificate"
+	}else if(id=="uploadfile2"){
+		biz="idcard"
+	}
+	var extras = {
+        _api: 'upload',
+        _v: '1.0',
+        biz:biz
+		};
+		
+	$.ajaxFileUpload({
+        url : '{{api}}upload?'+$._apiClient.buildData(extras),
+        secureuri: false,
+        fileElementId : id,
+        dataType : 'jsonp',
+        success : function(data, status) {
+        	// alert(data)
+        	if(data.success==true){
+        	
+        		var authUrl=replaceAll(data.model.authUrl , '&amp;' , '&');
+				
+        		$("#"+id).siblings(".btn-upload").children('img').attr('src',authUrl);
+        		console.log(authUrl)
+        		$('.upload-url').hide();
+        		$("#"+id).siblings(".btn-upload").show();
+        		if(id=="uploadfile1"){
+					$('input[name="idCardNagativeImg"]').val(data.model.filename)
+				}else if(id=="uploadfile2"){
+					$('input[name="idCardPositiveImg"]').val(data.model.filename)
+				}
+        		
+        	}else{
+        		data.msg = data.msgInfo || "服务器出错，请稍后再试";
+        		layer.alert(data.msg);
+        		
+        	}
+         console.log(status)
+        },
+        error : function(data, status, e) {
+            // alert('上传出错');
+            layer.alert("服务器出错，请稍后再试");
+        }
+    })
+}
+$(document).ready(function(){
+	
+	
+	{% if operation == 'edit' || operation == 'update'%}
+	request("{{api}}mapi",{userPlannerAuthId: getQueryParam('id'),_api:"zj.planner.auth.info",_v:"2.0"}).done(function(response){
+		response.userid = getQueryParam('id');
+		// response.model.certificateImg='http://bin.zhongjing-hz.com/'+response.model.certificateImg;
+		// response.model.idCardPositiveImg='http://bin.zhongjing-hz.com/'+response.model.idCardPositiveImg;
+		console.log(response.model.idCardPositiveImg)
+		if(getQueryParam('update')=='update'){
+			response.update=getQueryParam('update');
+		}else if(getQueryParam('update')=='edit'){
+			response.edit=getQueryParam('update')
+		}
+		// console.log(response.model.)
+		// alert(a)
+		// response.a=getQueryParam('update');
+		substitute("#form-template", response);
+		// substitute("#form-template", {});
+		// init();
+		getList(".optionContent option",response.model.certificate.optionDefault);
+	
+      $(".btnSum").click(function () {
+
+      	if($(this).siblings('.upload-url').val()!=""){
+      		var id=$(this).siblings('.upload-url').attr('id')
+      		alert(id)
+            ajaxFileUpload(id);	
+      	}
+      })
+		
+	
+
+	$(".btn-upload").click(function () {
+		$(this).siblings('.upload-url').click()
+		$(this).css("display","none").siblings('.upload-url').css({"display":"block","width":"300px ","height":"20px"})
+		
+            
+      	
+      })
+               
+   
+  	$(".btnSum2").click(function(){
+  		if($('textarea[name="personalProfile"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''){
+  			request("{{api}}mapi",{id: getQueryParam('id'),_api:"zj.planner.audit",_v:"1.0",personalProfile:$('textarea[name="personalProfile"]').val()}).done(function(response){
+				console.log(response)
+				if(response.success==true){
+					layer.msg('修改成功');
+			    	setTimeout(function(){
+			    		location.href='/moongood/financialPlanners/list'
+			    	}, 1000);
+					
+				}
+			})	
+  		}
+		
+			
+			
+   
+	})
+	
+	$(".submit1").click(function(){
+		if($('textarea[name="personalProfile"]').val().replace(/(^\s*)|(\s*$)/g, "")!=""){
+
+
+			request("{{api}}mapi",{id: getQueryParam('id'),status:5,_api:"zj.planner.audit",_v:"1.0",personalProfile:$('textarea[name="personalProfile"]').val()}).done(function(response){
+				console.log(response)
+				if(response.success==true){
+					layer.msg('审核通过');
+			    	setTimeout(function(){
+			    		 location.href='/moongood/financialPlanners/list'
+			    	}, 1000);
+					
+				}
+			})
+		}else{
+			layer.msg('请填写完个人简介');
+		}	
+			
+   
+	})
+	$('.submit2').click(function(){
+		
+
+		  // layer.close(index);
+		  layer.prompt({title: '不通过原因', formType: 2}, function(text, index){
+		  	console.log(text)
+		  	console.log(index)
+		  	request("{{api}}mapi",{id: getQueryParam('id'),status:4,_api:"zj.planner.audit",_v:"1.0",failReason:text}).done(function(response){
+				console.log(response)
+				if(response.success==true){
+					layer.close(index);
+					layer.msg('不通过原因上传成功');
+			    	setTimeout(function(){
+			    		location.href='/moongood/financialPlanners/list'
+			    	}, 1000);
+					
+				}
+			})
+		    // layer.close(index);
+		    
+		  });
+
+		// });
+	})
+})
+	{% else %}
+
+	
+		substitute("#form-template", {});
+		// init()
+		
+		
+
+	
+		
+		
+		
+		$(".submit").click(function(){
+		
+			
+			
+   
+		})
+
+		
+	
+		
+
+	
+	
+	
+	
+	{% endif %}
+		// alert(i)
+	
+})
+
+</script>

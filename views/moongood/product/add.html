@@ -1,0 +1,17 @@
+{% extends "../layout/default.html" %}
+
+{% block content %}
+<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/product/list" class="c-primary">产品列表</a>
+			<span class="c-gray en">&gt;</span>
+			<a href="javascript:location.replace(location.href);">新增产品</a>
+		</div>
+		
+</nav>
+
+{% set operation = "add" %}
+{% include "../layout/insidePage.html" %}
+{% include "form.html" with operation %}
+{% endblock %}

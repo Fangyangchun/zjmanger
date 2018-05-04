@@ -1,0 +1,1155 @@
+
+<style type="text/css">
+.swfupload{
+	width: 100%;
+	height: 31px;
+}
+.uploadify-button-test {
+	width: 100%;
+	height: 31px;
+	background:#6595e3;
+	border-radius: 0;
+	border: none;
+}
+.uploadify:hover .uploadify-button {
+	background:#6595e3;
+}
+.img-show{
+	margin-bottom: 10px;
+}
+.input-text[type="number"] {
+   width: 100%;
+}
+@media (max-width: 767px){
+	
+}
+
+
+.btn-upload{
+	/*display: inline-block;*/
+	width: 100px;
+	height: 100px;
+	background: url({{host}}static/h-ui/images/btn-photo.png) no-repeat center center;
+	background-size: contain;
+
+}
+
+.icon{
+	display: block;
+	width: 100px;
+}
+.upload-url{
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	left:20px;
+	display: none;
+	/*z-index: -9999;*/
+}
+
+
+	
+</style>
+<script id="form-template" type="text/x-handlebars-template">
+{% raw %}
+<div class="box-content">
+	<div class="panel panel-default mt-20">
+		<div class="panel-body">
+			<div id="HuiTab-demo1" class="HuiTab">
+				<div class="tabBar cl">
+					<span>步骤一</span>
+					<span >步骤二</span>
+					<span >步骤三</span>
+					<span >步骤四</span>
+				</div>
+				<div class="tabCon">
+					<div id="editForm" class="form form-horizontal">						
+						<input type="hidden" class="id" value="{{id}}" name="id">
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span> 企业类别：</label>
+							<div class="formControls col-xs-6">
+								<select class="select productCategoryId"  name="companyCategory" data-rel="chosen" data-rel="chosen">
+									
+									
+									{{#each jinrong}}
+								
+									<option value="{{id}}">{{categoryName}}</option>
+									
+							
+									{{/each}}
+									
+								</select>
+							</div>
+						</div>
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>企业全称：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="text" class="input-text radius version" value="{{model.companyFullName}}" placeholder="企业全称" name="companyFullName" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>企业简称：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="text" class="input-text radius version" value="{{model.companyName}}" placeholder="企业简称" name="companyName" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3" ><span class="c-red">*</span>省市名称：</label>
+							<div class="formControls col-xs-6 text-l">
+							
+							<select name="provinceCode" class="select provinceCode" style="width: 200px;">
+								<option value="">选择省市</option>
+								{{#each city}}
+									<option value="{{areaId}}">{{areaName}}</option>
+								{{/each}}
+							</select>
+							{{#if model.cityCodeStr}}
+								<select name="cityCode" class="select" style="width: 200px;" >
+									<option value="{{model.cityCode}}">{{model.cityCodeStr}}</option>
+								</select>
+							{{else}}
+							<select name="cityCode" class="select" style="width: 200px;display: none;"></select>
+							{{/if}}
+							{{#if model.distinctCodeStr}}
+								<select name="distinctCode" class="select" style="width: 200px;" >
+									<option value="{{model.distinctCode}}">{{model.distinctCodeStr}}</option>
+								</select>
+							{{else}}
+							<select name="distinctCode" class="select" style="width: 200px;display: none;"></select>
+							{{/if}}
+							
+							
+					
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>注册时间：</label>
+							<div class="formControls col-xs-6">
+						
+								 <input id='establish' class="laydate-icon pl-5 establishTime" name="registerTime" style="width:140px;height:29px;" value="" readonly="readonly" data-time='{{model.registerTime}}' placeholder="注册时间">
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>注册资金（万元）：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="number" class="input-text radius qrCode" value="{{model.registerAmt}}" placeholder="注册资金（万元）" onkeyup='this.value=this.value.replace(/\D/gi,"")' name="registerAmt" >
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>企业规模：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="number" class="input-text radius qrCode" value="{{model.registerTotalPeople}}" placeholder="企业规模" onkeyup='this.value=this.value.replace(/\D/gi,"")' name="registerTotalPeople" >
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>联系人：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="text" class="input-text radius version" value="{{model.contactPerson}}" placeholder="联系人" name="contactPerson" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>联系电话：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="number" class="input-text radius version" value="{{model.contactMobile}}" placeholder="联系电话" name="contactMobile" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>
+								
+							</div>
+						</div>
+						<!-- <div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>联系电话：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="text" class="input-text radius version" value="{{model.contactPhone}}" placeholder="联系电话" name="contactPhone" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>
+								
+							</div>
+						</div> -->
+						<div class="row cl">
+							<label class="form-label col-xs-3" ><span class="c-red">*</span>企业icon：</label>
+							<div class="formControls col-xs-6 text-c">
+								<div class="text-c btn-upload"></div>
+								<input class="upload-url" type="file" name="upfile" accept="image/*" id="uploadfile1">
+								<input type="button" class="btn btnSum mt-10 ml-10 radius"  value="上传图片">
+							</div>
+						</div>
+						<!-- <input type="hidden" class=" mt-10 "  value="{{model.serviceInfo}}" name="serviceInfo"> -->
+						<input type="hidden" class=" mt-10"  value="{{model.logoImg}}" name="logoImg">
+						
+						
+						
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>企业简介：</label>
+							<div class="formControls col-xs-6">
+								<textarea cols="" rows="" class="textarea radius" name="companySummary"  placeholder="说点什么...最少输入10个字符" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>{{model.companySummary}}</textarea>
+								<!-- <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p> -->
+							</div>
+							
+						</div>
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3" ><span class="c-red">*</span>企业标签（多个标签用<span class="c-red">半角的逗号</span>分隔）：</label>
+							<div class="formControls col-xs-6 text-c">
+								<input class="input-text radius" name="tag" value="{{model.tag}}" placeholder="如若有多个标签用（半角的逗号）分隔"  /><!-- <span class="c-red">如若多个标签用"（半角的逗号）"分隔</span> -->
+							</div>
+						</div>
+						
+							
+							
+						
+						<div class="row text-c ">
+						   <input class="btn btn-primary submit "  value="下一步">
+						</div>
+
+					</div>
+				</div>
+				<div class="tabCon">
+					
+					<form id="editForm1" class="form form-horizontal">
+						
+						<div class="secWrapWrap">
+						{{#each model.manageTeam}}
+							<div class="secWrap" id="con{{@index}}">
+								<div class="row cl">
+									<label class="form-label col-xs-3"><span class="c-red">*</span> 姓名：</label>
+									<div class="formControls col-xs-6">
+										<input type="text" class="input-text radius surfaceNo"  value="{{name}}" placeholder="姓名" name="name" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>
+									</div>
+								</div>
+								
+								<div class="row cl">
+									<label class="form-label col-xs-3"><span class="c-red">*</span>职务：</label>
+									<div class="formControls col-xs-6">
+										<input type="text" class="input-text radius surfaceNo"  value="{{job}}" placeholder="职务" maxlength="6" name="job" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>
+									</div>
+								</div>
+
+								<div class="row cl">
+									<label class="form-label col-xs-3" ><span class="c-red">*</span>是否是创始人：</label>
+									<div class="formControls col-xs-6 text-c">
+										<select class="select"  name="founder" >
+										{{#if founder }}
+											<option value=""  {{#equal founder '' }}selected="selected"{{/equal}}>否</option>
+											<option value="创始人" {{#equal founder '创始人' }}selected="selected"{{/equal}}>是</option>
+											
+										{{else}}
+											<option value="" >否</option>
+											<option value="创始人" >是</option>
+										{{/if}}
+										</select>
+									</div>
+								</div>
+								<div class="row cl">
+									<label class="form-label col-xs-3" ><span class="c-red">*</span>上传头像：</label>
+									<div class="formControls col-xs-6 text-c">
+										<div class="text-c btn-upload"></div>
+										<input class="upload-url" type="file" name="upfile" accept="image/*" id="uploadfile{{@index}}">
+										<input type="button" class="btn btnSum mt-10 ml-10 radius"  value="上传图片">
+									</div>
+								</div>
+								<input type="hidden" class=" mt-10"  value="{{iconImg}}" name="iconImg">
+								<div class="row cl">
+									<label class="form-label col-xs-3"><span class="c-red">*</span>简介：</label>
+									<div class="formControls col-xs-6">
+										<textarea cols="" rows="" class="textarea radius" name="synopsis"  placeholder="说点什么...最少输入10个字符" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>{{synopsis}}</textarea>
+									
+									</div>
+									
+								</div>
+								<div class="row cl">
+									<label class="form-label col-xs-3"></label>
+									<div class="formControls col-xs-6">
+										<a class="btn btn-danger mt-5" onclick="jian({{@index}})" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+									
+									</div>
+									
+								</div>
+							</div>
+							{{/each}}
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span> 添加企业人员</label>
+							<div class="formControls col-xs-6">
+								<span class="btn-success pl-10 pr-10 radius mb-5 add"  style="display:inline-block;height:29px;line-height: 29px;" ><i class="Hui-iconfont">&#xe600;</i></span>
+							</div>	
+						</div>
+
+						<div class="row text-c ">
+						   <input class="btn btn-primary submit"  value="下一步">
+						</div>
+
+					</form>
+				</div>
+				<div class="tabCon">
+					<form id="editForm2" class="form form-horizontal">
+						
+						<div class="secWrapWrapCC">
+							{{#each model.developPath}}
+						
+							<div class="secWrapCC" id="conCC{{@index}}">
+								<div class="row cl">
+									<label class="form-label col-xs-3"><span class="c-red">*</span> 时间：</label>
+									<div class="formControls col-xs-6">
+										<input id='establish{{@index}}' class="laydate-icon pl-5" name="time" style="width:140px;height:29px;" value="{{time}}" onclick="timeCl({{@index}})" readonly="readonly" data-time='{{time}}' placeholder="注册时间">
+									</div>
+								</div>
+								<div class="row cl">
+									<label class="form-label col-xs-3"><span class="c-red">*</span>事件：</label>
+									<div class="formControls col-xs-6">
+										<textarea cols="" rows="" class="textarea radius" name="event"  placeholder="说点什么...最少输入10个字符" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>{{event}}</textarea>
+									
+									</div>
+									
+								</div>
+								<div class="row cl">
+									<label class="form-label col-xs-3"></label>
+									<div class="formControls col-xs-6">
+										<a class="btn btn-danger mt-5" onclick="jiangroup({{@index}})" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+									
+									</div>
+									
+								</div>
+							</div>
+							{{/each}}
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span> 添加企业发展历程</label>
+							<div class="formControls col-xs-6">
+								<span class="btn-success pl-10 pr-10 radius mb-5 addgroup"  style="display:inline-block;height:29px;line-height: 29px;" ><i class="Hui-iconfont">&#xe600;</i></span>
+							</div>	
+						</div>
+						<div class="row text-c ">
+						   <input class="btn btn-primary submit"  value="下一步">
+						</div>
+
+					</form>
+				</div>
+				<div class="tabCon">
+					<form id="editForm3" class="form form-horizontal" >
+						<div class="row cl">
+							<label class="form-label col-xs-3">企业添加商品</label>
+							<div class="formControls col-xs-6">
+								<a class="btn btn-success mt-5" id="shopList" href=""> <i class="Hui-iconfont">&#xe600;</i>商品增加</a>
+							
+							</div>
+							
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3" >企业服务：</label>
+							<div class="formControls col-xs-6 text-c">
+								<script id="editor" type="text/plain" style="width:100%;height:400px; ">
+								      		
+
+								</script>
+							</div>
+						</div>
+						<input type="hidden" class=" mt-10 "  value="{{model.serviceInfo}}" name="content">
+
+						<div class="row text-c none">
+							
+							<input class="btn btn-primary  submit" value="确定">
+							
+						</div>
+
+					</form>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+</div>
+{% endraw %}
+</script>
+<style type="text/css">
+	body{
+		overflow-x: hidden;
+	}
+
+</style>
+<script type="text/javascript">
+var a=0, c=0,aa=0,cc=0,manageTeam,developPath,city,jinrong;
+var i;
+i=0 
+function jian(z){
+	if(a!=0){
+		a=a-1;
+		$("#con"+z).remove();
+	}
+	
+}
+function jiangroup(z){
+	// alert(z)
+	if(c!=0){
+		c=c-1;
+		$("#conCC"+z).remove();
+	}
+	
+}
+function uploadurl(z){
+
+	$("#con"+z).children().children().children('.upload-url').click();
+	$("#con"+z).children().children().children('.btn-upload').css("display","none").siblings('.upload-url').css({"position":"relative","width":"100%"}).show()
+	
+	
+}
+function btnSum(z){
+  	if($("#con"+z).children().children().children('.upload-url').val()!=""){
+        ajaxFileUpload('aa'+z);	
+  	}
+			
+}
+function toDecimal2(x) {    
+        var f = parseFloat(x);    
+        if (isNaN(f)) {    
+            return false;    
+        }    
+        var f = Math.round(x*100)/100;    
+        var s = f.toString();    
+        var rs = s.indexOf('.');    
+        if (rs < 0) {    
+            rs = s.length;    
+            s += '.';    
+        }    
+        while (s.length <= rs + 4) {    
+            s += '0';    
+        }    
+        return s;    
+}
+function toThousands(num) {
+    return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+} 
+function rmoney(s) { 
+	return parseFloat(s.replace(/[^\d\.-]/g, "")); 
+} 
+function insertHtml(value) {
+   
+    UE.getEditor('editor').execCommand('insertHtml', value)
+}
+function ajaxFileUpload(id) {
+	
+
+	var extras = {
+        _api: 'upimg',
+        _v: '1.0',
+        biz:"photo"
+		};
+		
+	$.ajaxFileUpload({
+        url : '{{api}}upimg?'+$._apiClient.buildData(extras),
+        secureuri: false,
+        fileElementId : id,
+        dataType : 'jsonp',
+        success : function(data, status) {
+        	// alert(data)
+        	// alert(i)
+        	if(data.success==true){
+        		if(i==0){
+        			$(".btn-upload").css({'background':'url('+data.model.url+data.model.filename+') no-repeat center center',"background-size":"contain"}).show();
+	        		$('.upload-url').hide();
+	        		$('input[name="logoImg"]').val(data.model.filename)
+        		}
+        		else if(i==1){
+        			$('#'+id).siblings(".btn-upload").css({'background':'url('+data.model.url+data.model.filename+') no-repeat center center',"background-size":"contain"}).show();
+	        		$('#'+id).hide();
+        			$('#'+id).parent().parent().siblings('input[name="iconImg"]').val(data.model.filename)
+        		}
+        	}else{
+        		data.msg = data.msgInfo || "服务器出错，请稍后再试";
+        		layer.alert(data.msg);
+        		
+        	}
+         console.log(status)
+        },
+        error : function(data, status, e) {
+            layer.alert("服务器出错，请稍后再试");
+        }
+    })
+}
+function timeCl(z){
+	var id=$("#conCC"+z).children().children().children('input[name="time"]').attr('id')
+	// alert(id)
+	var establish = {
+		  elem: '#'+id,
+		  format: 'YYYY-MM-DD',
+		  min: '', //设定最小日期为当前日期
+		  // max: laydate.now(), //最大日期 
+		  max:'',
+		  istime: true,
+		  istoday: false,
+		  
+		  
+		};
+	laydate(establish);
+}
+function city(){
+	$.ajax({
+		type: "GET",
+		url: "../../../hui-admin/static/js/city.json",
+		dataType:"jsonp",
+	    jsonp:'callback',
+		success: function(d){
+			city=d;
+			
+		}
+	});
+}
+$(document).ready(function(){
+	request("{{api}}mapi",{_api: 'zj.company.category',_v: '2.0'}).done(function(response){
+
+			jinrong=response.model;
+	})
+	// manageTeam
+	{% if operation == 'edit' %}
+	city();
+	setTimeout(function(){
+
+		request("{{api}}mapi",{_api: 'zj.company.info',_v: '1.0',companyId: getQueryParam('id')}).done(function(response){
+			response.id = getQueryParam('id');
+			response.model.registerAmt=response.model.registerAmt/10000;
+			response.city=city;
+			response.jinrong=jinrong;
+			response.model.manageTeam=JSON.parse(response.model.manageTeam);
+			response.model.developPath=JSON.parse(response.model.developPath);
+			if(response.model.serviceInfo==null){
+				response.model.serviceInfo=''
+			}else{
+				response.model.serviceInfo=response.model.serviceInfo
+			}
+			substitute("#form-template", response);
+			// alert(response.model.companyCategory)
+			getList(".productCategoryId option",response.model.companyCategory);
+			getTime2('.establishTime');
+			var ue = UE.getEditor('editor');
+			getList(".provinceCode option",response.model.provinceCode);
+			if(response.model.manageTeam){
+				a=response.model.manageTeam.length;
+				aa=response.model.manageTeam.length;
+			}
+			if(response.model.developPath){
+				c=response.model.developPath.length;
+				cc=response.model.developPath.length;
+			}
+			
+			// $(".jian").hide();
+			// alert(a)
+			setTimeout(function(){
+				
+				var value=decodeURIComponent(response.model.serviceInfo)
+				
+				
+				console.log(value)
+				insertHtml(value)
+
+			 }, 1000);
+			$(".btn-upload").css({'background':'url('+response.model.imgUrl+response.model.logoImg+') no-repeat center center',"background-size":"contain"});
+			
+			for (var j = 0; j < a; j++) {
+				var hh=$('.secWrap').eq(j).children('input[name="iconImg"]').val()
+					
+				$('.secWrap').eq(j).children().children().children('.btn-upload').css({'background':'url('+response.model.imgUrl+hh+') no-repeat center center',"background-size":"contain"});	
+						
+			}	
+			
+			
+			
+			//选项卡
+			
+			// getList('.select1 option',""+response.model.productCategoryId)
+			$("#HuiTab-demo1").Huitab({
+				index:0
+			});
+
+			$("#HuiTab-demo1").click(function(){
+				
+				$("#HuiTab-demo1").Huitab({
+					index:i
+				});
+				
+			})
+		
+			// alert($("#HuiTab-demo1").children('.tabBar').children('span').attr("class"))
+			
+				var establish = {
+				  elem: '#establish',
+				  format: 'YYYY-MM-DD hh:mm:ss',
+				  min: '', //设定最小日期为当前日期
+				  max: '2099-06-16', //最大日期
+				  istime: true,
+				  istoday: false,
+				 
+				  
+				};
+				laydate(establish);
+				$(".btnSum").click(function () {
+
+			      	if($(this).siblings('.upload-url').val()!=""){
+			      		var id=$(this).siblings('.upload-url').attr('id')
+			      		// alert(id)
+			            ajaxFileUpload(id);	
+			      	}
+			    })
+				$(".btn-upload").click(function () {
+					
+			       $(this).siblings('.upload-url').click()
+					$(this).css("display","none").siblings('.upload-url').css({"position":"relative","width":"100%"}).show()
+					     
+			      	
+			    })
+			    $('select[name="provinceCode"]').change(function(){
+					var provinceCode=$('select[name="provinceCode"]').val();
+					for (var i = 0; i <city.length; i++) {
+						if(city[i].areaId==provinceCode){
+							aa=i;
+							$('select[name="cityCode"]').show().children('option').remove();
+							// $('select[name="distinctCode"]').hide();
+							$('select[name="cityCode"]').append('<option value="">选择市</option>')
+							for (var a = 0; a <city[i].cities.length; a++) {
+								$('select[name="cityCode"]').append('<option value="'+city[i].cities[a].areaId+'">'+city[i].cities[a].areaName+'</option');
+							}
+							
+						}
+					}
+				});
+				$('select[name="provinceCode"]').blur(function(){
+					var provinceCode=$('select[name="provinceCode"]').val();
+					for (var i = 0; i <city.length; i++) {
+						if(city[i].areaId==provinceCode){
+							aaa=i;
+							$('select[name="cityCode"]').show().children('option').remove();
+							$('select[name="distinctCode"]').hide();
+							$('select[name="cityCode"]').append('<option value="">选择市</option>')
+							for (var a = 0; a <city[i].cities.length; a++) {
+								$('select[name="cityCode"]').append('<option value="'+city[i].cities[a].areaId+'">'+city[i].cities[a].areaName+'</option');
+							}
+							
+						}
+					}
+				});
+				$('select[name="cityCode"]').change(function(){
+					// alert(aa)
+					var cityCode=$('select[name="cityCode"]').val();
+					for (var i = 0; i <city[aaa].cities.length; i++) {
+						if(city[aaa].cities[i].areaId==cityCode){
+							$('select[name="distinctCode"]').show().children('option').remove();
+							$('select[name="distinctCode"]').append('<option value="">选择区</option>')
+							for (var a = 0; a <city[aaa].cities[i].counties.length; a++) {
+								$('select[name="distinctCode"]').append('<option value="'+city[aaa].cities[i].counties[a].areaId+'">'+city[aaa].cities[i].counties[a].areaName+'</option');
+							}
+							
+						}
+					}
+				});
+				$(".add").click(function(){
+					a=a+1;
+					
+					// alert(aa)
+					var con='<div class="secWrap" id="con'+aa+'"><div class="row cl"><label class="form-label col-xs-3"><span class="c-red">*</span> 姓名：</label><div class="formControls col-xs-6"><input type="text" class="input-text radius surfaceNo"  value=""  placeholder="姓名" name="name" ></div></div><div class="row cl"><label class="form-label col-xs-3"><span class="c-red">*</span>职务：</label><div class="formControls col-xs-6"><input type="text" class="input-text radius surfaceNo"  value=""  placeholder="职务" name="job" ></div></div><div class="row cl"><label class="form-label col-xs-3" ><span class="c-red">*</span>是否是创始人：</label><div class="formControls col-xs-6 text-c"><select class="select"  name="founder" ><option value="" >否</option><option value="创始人" >是</option></select></div></div><div class="row cl"><label class="form-label col-xs-3" ><span class="c-red">*</span>上传头像：</label><div class="formControls col-xs-6 text-c"><div class="text-c btn-upload" onclick="uploadurl('+aa+')"></div><input class="upload-url"   type="file" name="upfile" accept="image/*" id="aa'+aa+'"><input type="button" class="btn btnSum mt-10 ml-10 radius" onclick="btnSum('+aa+')" value="上传图片"></div></div><input type="hidden" class=" mt-10"  value="" name="iconImg"><div class="row cl"><label class="form-label col-xs-3"><span class="c-red">*</span>简介：</label><div class="formControls col-xs-6"><textarea cols="" rows="" class="textarea radius" name="synopsis"  placeholder="说点什么...最少输入10个字符"></textarea></div></div><div class="row cl"><label class="form-label col-xs-3"></label><div class="formControls col-xs-6"><a class="btn btn-danger mt-5" onclick="jian('+aa+')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a></div></div></div>';
+					
+					aa=aa+1
+					$(this).parent().parent().siblings('.secWrapWrap').append(con);
+					
+					
+				})
+				$(".addgroup").click(function(){
+					c=c+1;
+					
+					// alert(aa)
+					var con='<div class="secWrapCC" id="conCC'+cc+'"><div class="row cl"><label class="form-label col-xs-3"><span class="c-red">*</span> 时间：</label><div class="formControls col-xs-6"><input id="establish'+cc+'" class="laydate-icon pl-5" name="time" style="width:140px;height:29px;" value="" readonly="readonly" onclick="timeCl('+cc+')" data-time="{{model.registerTime}}" placeholder="时间"></div></div><div class="row cl"><label class="form-label col-xs-3"><span class="c-red">*</span>事件：</label><div class="formControls col-xs-6"><textarea cols="" rows="" class="textarea radius" name="event"  placeholder="说点什么...最少输入10个字符">{{model.riskControlDesc.synopsis}}</textarea></div></div><div class="row cl"><label class="form-label col-xs-3"></label><div class="formControls col-xs-6"><a class="btn btn-danger mt-5" onclick="jiangroup('+cc+')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a></div></div></div>';
+					
+					cc=cc+1
+					$(this).parent().parent().siblings('.secWrapWrapCC').append(con);
+					
+					
+				})
+				$(".submit").click(function(){
+					if(i==0){
+						// alert($('select[name="companyCategory"]').val())
+							
+						if($('select[name="companyCategory"]').val()!=''&&$('input[name="companyFullName"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="companyName"]').val()!=''&&$('select[name="provinceCode"]').val()!=''&&$('select[name="cityCode"]').val()!=''&&$('select[name="distinctCode"]').val()!=''&&$('input[name="registerTime"]').val()!=''&&$('input[name="registerAmt"]').val()!=''&&$('input[name="registerTotalPeople"]').val()!=''&&$('input[name="contactPerson"]').val()!=''&&$('input[name="contactMobile"]').val()!=''&&$('input[name="tag"]').val()!=''&&$('textarea[name="companySummary"]').val()!='' &&$('input[name="logoImg"]').val()!=''){
+							json={
+								_api: 'zj.company.update',
+								_v: '1.0',
+								companyCategory:$('select[name="companyCategory"]').val(),
+							    companyFullName:$('input[name="companyFullName"]').val(),
+							    companyName:$('input[name="companyName"]').val(),
+								provinceCode:$('select[name="provinceCode"]').val(),
+							    cityCode:$('select[name="cityCode"]').val(),
+							    distinctCode:$('select[name="distinctCode"]').val(),
+							    registerTime:$('input[name="registerTime"]').val(),
+							    registerAmt:$('input[name="registerAmt"]').val()*10000,
+							    registerTotalPeople:$('input[name="registerTotalPeople"]').val(),
+							    contactPerson:$('input[name="contactPerson"]').val(),
+							    contactMobile:$('input[name="contactMobile"]').val(),
+								companyId:$('input[name="id"]').val(),
+							    tag:$('input[name="tag"]').val().replace(/，/ig,','),
+							    companySummary:$('textarea[name="companySummary"]').val(),
+							    logoImg:$('input[name="logoImg"]').val()
+							    // serviceInfo:$('input[name="serviceInfo"]').val()
+
+							}
+						}else{
+							
+							json="";
+							layer.msg('请填写完信息');
+							// return;
+						}
+							
+						
+						
+					}else if(i==1){
+						manageTeam=[];
+						for (var j = 0; j < a; j++) {
+							// alert(j)
+							// alert(a)
+							if($('.secWrap').eq(j).children().children().children('input[name="name"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('.secWrap').eq(j).children().children().children('input[name="job"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('.secWrap').eq(j).children('input[name="iconImg"]').val()!=''&&$('.secWrap').eq(j).children().children().children('textarea[name="synopsis"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''){
+								var josnData={
+									name:$('.secWrap').eq(j).children().children().children('input[name="name"]').val(),
+									job:$('.secWrap').eq(j).children().children().children('input[name="job"]').val(),
+									founder:$('.secWrap').eq(j).children().children().children('select[name="founder"]').val(),
+									iconImg:$('.secWrap').eq(j).children('input[name="iconImg"]').val(),
+									synopsis:$('.secWrap').eq(j).children().children().children('textarea[name="synopsis"]').val()
+								}
+								manageTeam.push(josnData)
+							}else{
+								layer.msg('请填写完信息');
+								return;
+							}
+							
+						}
+						if(manageTeam.length>0){
+
+							json={
+								_api: 'zj.company.update',
+								_v: '1.0',
+								companyId:$('input[name="id"]').val(),
+								manageTeam:JSON.stringify(manageTeam)
+								
+
+							}
+						}else{
+							json="";
+							layer.msg('请填写完信息');
+							// return;
+						}
+						
+						// alert($('input[name="id"]').val())
+							
+						
+					}else if(i==2){
+						developPath=[];
+						for (var j = 0; j < c; j++) {
+							// alert(j)
+							// alert(a)
+							if($('.secWrapCC').eq(j).children().children().children('input[name="time"]').val()!=''&&$('.secWrapCC').eq(j).children().children().children('textarea[name="event"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''){
+								var josnData={
+									time:$('.secWrapCC').eq(j).children().children().children('input[name="time"]').val(),
+									event:$('.secWrapCC').eq(j).children().children().children('textarea[name="event"]').val()
+								}
+								developPath.push(josnData)
+							}else{
+								layer.msg('请填写完信息');
+								return;
+							}
+							
+						}
+						console.log(developPath)
+						if(developPath.length>0){
+							json={
+								_api: 'zj.company.update',
+								_v: '1.0',
+								companyId:$('input[name="id"]').val(),
+								developPath:JSON.stringify(developPath)
+								
+								
+
+							}
+						}else{
+							json="";
+							layer.msg('请填写完信息');
+						}
+					}else if(i==3){
+						// $('input[name="content"]').val(UE.getEditor('editor').getContent())
+						// if(UE.getEditor('editor').getContent()!=''){
+						// 	$('input[name="content"]').val(UE.getEditor('editor').getContent())
+						// }else{
+							// $('input[name="content"]').val(UE.getEditor('editor').getContent())
+						// }
+						if(UE.getEditor('editor').getContent()!=''){
+							$('input[name="content"]').val('<style>img{display:block;width:100%;}p{color:#7d828a!important;line-height:26px;font-size:15px;padding-top:5px;}</style>'+UE.getEditor('editor').getContent())
+						}else{
+							$('input[name="content"]').val(UE.getEditor('editor').getContent())
+						}
+						// alert(UE.getEditor('editor').getContent())
+						// if($('input[name="serviceInfo"]').val()!=''){
+							json={
+								_api: 'zj.company.update',
+								_v: '1.0',
+								companyId:$('input[name="id"]').val(),
+								content:encodeURIComponent($('input[name="content"]').val())	
+
+							}
+						// }else{
+						// 	json="";
+						// 	layer.msg('请填写完信息');
+						// }
+					}
+
+					// 
+						// console.log(json.amtRateInfo)
+					if(json!=""){
+					
+						
+						request("{{api}}mapi",json).done(function(response){
+							console.log(response.model)
+							// alert(i)
+							if(response.success==true){
+								i=i+1;
+								$("#HuiTab-demo1").Huitab({
+									index:i
+								});
+								if(i==1){
+									$('input[name="id"]').val(response.model);
+									$('#shopList').attr("href","/moongood/company/shopList?id="+response.model);
+									
+									// $('input[name="id"]').val(7)
+									// $('#shopList').attr("href","/moongood/company/shopList?id=7")
+									
+								}else if(i==3){
+									$('.none').show();
+									
+								}else if(i==4){
+									$('.none').hide();
+									layer.msg('提交成功');
+							    	setTimeout(function(){
+							    		 location.href='/moongood/company/list'
+							    	}, 1000);
+									
+								}
+
+							}else if(i==1&&response.success==false){
+								manageTeam=[];
+							}else if(i==2&&response.success==false){
+								developPath=[];
+							}
+							
+							
+							
+						})
+					}
+						
+					
+					
+					
+
+				})
+
+			
+		})	
+
+	  }, 500);
+	{% else %}
+
+	
+		city();
+		setTimeout(function(){
+		    	var res={};
+				res.city=city;
+				res.jinrong=jinrong;
+				console.log(res)
+				substitute("#form-template",res);
+				var ue = UE.getEditor('editor');
+				
+				
+				$("#HuiTab-demo1").Huitab({
+					index:0
+				});
+
+				$("#HuiTab-demo1").click(function(){
+					
+					$("#HuiTab-demo1").Huitab({
+						index:i
+					});
+					
+				})
+
+				
+				var establish = {
+					  elem: '#establish',
+					  format: 'YYYY-MM-DD hh:mm:ss',
+					  min: '', //设定最小日期为当前日期
+					  max: laydate.now(), //最大日期
+					  istime: true,
+					  istoday: false,
+					  
+					  
+					};
+				laydate(establish);
+				$(".btnSum").click(function () {
+
+			      	if($(this).siblings('.upload-url').val()!=""){
+			      		var id=$(this).siblings('.upload-url').attr('id')
+			      		// alert(id)
+			            ajaxFileUpload(id);	
+			      	}
+			    })
+				$(".btn-upload").click(function () {
+					
+			       $(this).siblings('.upload-url').click()
+					$(this).css("display","none").siblings('.upload-url').css({"position":"relative","width":"100%"}).show()
+					     
+			      	
+			    })
+				$('select[name="provinceCode"]').change(function(){
+					var provinceCode=$('select[name="provinceCode"]').val();
+					for (var i = 0; i <city.length; i++) {
+						if(city[i].areaId==provinceCode){
+							aaa=i;
+							$('select[name="cityCode"]').show().children('option').remove();
+							// $('select[name="distinctCode"]').hide();
+							$('select[name="cityCode"]').append('<option value="">选择市</option>')
+							for (var a = 0; a <city[i].cities.length; a++) {
+								$('select[name="cityCode"]').append('<option value="'+city[i].cities[a].areaId+'">'+city[i].cities[a].areaName+'</option');
+							}
+							
+						}
+					}
+				});
+				
+				$('select[name="cityCode"]').change(function(){
+					// alert(aa)
+					var cityCode=$('select[name="cityCode"]').val();
+					for (var i = 0; i <city[aaa].cities.length; i++) {
+						if(city[aaa].cities[i].areaId==cityCode){
+							$('select[name="distinctCode"]').show().children('option').remove();
+							$('select[name="distinctCode"]').append('<option value="">选择区</option>')
+							for (var a = 0; a <city[aaa].cities[i].counties.length; a++) {
+								$('select[name="distinctCode"]').append('<option value="'+city[aaa].cities[i].counties[a].areaId+'">'+city[aaa].cities[i].counties[a].areaName+'</option');
+							}
+							
+						}
+					}
+				});
+				$(".add").click(function(){
+					a=a+1;
+					
+					// alert(aa)
+					var con='<div class="secWrap" id="con'+aa+'"><div class="row cl"><label class="form-label col-xs-3"><span class="c-red">*</span> 姓名：</label><div class="formControls col-xs-6"><input type="text" class="input-text radius surfaceNo"  value="" placeholder="姓名" name="name"  ></div></div><div class="row cl"><label class="form-label col-xs-3"><span class="c-red">*</span>职务：</label><div class="formControls col-xs-6"><input type="text" class="input-text radius surfaceNo"  value="" placeholder="职务" name="job" ></div></div><div class="row cl"><label class="form-label col-xs-3" ><span class="c-red">*</span>是否是创始人：</label><div class="formControls col-xs-6 text-c"><select class="select"  name="founder" ><option value="" >否</option><option value="创始人" >是</option></select></div></div><div class="row cl"><label class="form-label col-xs-3" ><span class="c-red">*</span>上传头像：</label><div class="formControls col-xs-6 text-c"><div class="text-c btn-upload" onclick="uploadurl('+aa+')"></div><input class="upload-url"   type="file" name="upfile" accept="image/*" id="aa'+aa+'"><input type="button" class="btn btnSum mt-10 ml-10 radius" onclick="btnSum('+aa+')" value="上传图片"></div></div><input type="hidden" class=" mt-10"  value="" name="iconImg"><div class="row cl"><label class="form-label col-xs-3"><span class="c-red">*</span>简介：</label><div class="formControls col-xs-6"><textarea cols="" rows="" class="textarea radius" name="synopsis"  placeholder="说点什么...最少输入10个字符"></textarea></div></div><div class="row cl"><label class="form-label col-xs-3"></label><div class="formControls col-xs-6"><a class="btn btn-danger mt-5" onclick="jian('+aa+')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a></div></div></div>';
+					
+					aa=aa+1
+					$(this).parent().parent().siblings('.secWrapWrap').append(con);
+					
+					
+				})
+				$(".addgroup").click(function(){
+					c=c+1;
+					
+					// alert(aa)
+					var con='<div class="secWrapCC" id="conCC'+cc+'"><div class="row cl"><label class="form-label col-xs-3"><span class="c-red">*</span> 时间：</label><div class="formControls col-xs-6"><input id="establish'+cc+'" class="laydate-icon pl-5 establishTime" name="time" style="width:140px;height:29px;" value="" readonly="readonly" onclick="timeCl('+cc+')" data-time="{{model.registerTime}}" placeholder="时间"></div></div><div class="row cl"><label class="form-label col-xs-3"><span class="c-red">*</span>事件：</label><div class="formControls col-xs-6"><textarea cols="" rows=""  class="textarea radius" name="event"  placeholder="说点什么...最少输入10个字符">{{model.riskControlDesc.synopsis}}</textarea></div></div><div class="row cl"><label class="form-label col-xs-3"></label><div class="formControls col-xs-6"><a class="btn btn-danger mt-5" onclick="jiangroup('+cc+')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a></div></div></div>';
+					
+					cc=cc+1
+					$(this).parent().parent().siblings('.secWrapWrapCC').append(con);
+					
+					
+				})
+				$(".submit").click(function(){
+					if(i==0){
+						
+							
+						if($('select[name="companyCategory"]').val()!=''&&$('input[name="companyFullName"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="companyName"]').val()!=''&&$('select[name="provinceCode"]').val()!=''&&$('select[name="cityCode"]').val()!=''&&$('select[name="distinctCode"]').val()!=''&&$('input[name="registerTime"]').val()!=''&&$('input[name="registerAmt"]').val()!=''&&$('input[name="registerTotalPeople"]').val()!=''&&$('input[name="contactPerson"]').val()!=''&&$('input[name="contactMobile"]').val()!=''&&$('input[name="tag"]').val()!=''&&$('textarea[name="companySummary"]').val()!='' &&$('input[name="logoImg"]').val()!=''){
+							json={
+								_api: 'zj.company.update',
+								_v: '1.0',
+								companyCategory:$('select[name="companyCategory"]').val(),
+							    companyFullName:$('input[name="companyFullName"]').val(),
+							    companyName:$('input[name="companyName"]').val(),
+								provinceCode:$('select[name="provinceCode"]').val(),
+							    cityCode:$('select[name="cityCode"]').val(),
+							    distinctCode:$('select[name="distinctCode"]').val(),
+							    registerTime:$('input[name="registerTime"]').val(),
+							    registerAmt:$('input[name="registerAmt"]').val()*10000,
+							    registerTotalPeople:$('input[name="registerTotalPeople"]').val(),
+							    contactPerson:$('input[name="contactPerson"]').val(),
+							    contactMobile:$('input[name="contactMobile"]').val(),
+						
+							    tag:$('input[name="tag"]').val().replace(/，/ig,','),
+							    companySummary:$('textarea[name="companySummary"]').val(),
+							    logoImg:$('input[name="logoImg"]').val()
+							    // serviceInfo:$('input[name="serviceInfo"]').val()
+
+							}
+						}else{
+							
+							json="";
+							layer.msg('请填写完信息');
+							// return;
+						}
+							
+						
+						
+					}else if(i==1){
+						manageTeam=[];
+						for (var j = 0; j < a; j++) {
+							// alert(j)
+							// alert(a)
+							if($('.secWrap').eq(j).children().children().children('input[name="name"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('.secWrap').eq(j).children().children().children('input[name="job"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('.secWrap').eq(j).children('input[name="iconImg"]').val()!=''&&$('.secWrap').eq(j).children().children().children('textarea[name="synopsis"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''){
+								var josnData={
+									name:$('.secWrap').eq(j).children().children().children('input[name="name"]').val(),
+									job:$('.secWrap').eq(j).children().children().children('input[name="job"]').val(),
+									founder:$('.secWrap').eq(j).children().children().children('select[name="founder"]').val(),
+									iconImg:$('.secWrap').eq(j).children('input[name="iconImg"]').val(),
+									synopsis:$('.secWrap').eq(j).children().children().children('textarea[name="synopsis"]').val()
+								}
+							}else{
+								layer.msg('请填写完信息');
+								return;
+							}
+							
+							
+							manageTeam.push(josnData)
+						}
+						if(manageTeam.length>0){
+							json={
+								_api: 'zj.company.update',
+								_v: '1.0',
+								companyId:$('input[name="id"]').val(),
+								manageTeam:JSON.stringify(manageTeam)
+								
+
+							}
+						}else{
+							json="";
+							layer.msg('请填写完信息');
+							// return;
+						}
+						
+						// alert($('input[name="id"]').val())
+							
+						
+					}else if(i==2){
+						developPath=[];
+						for (var j = 0; j < c; j++) {
+							// alert(j)
+							// alert(a
+							if($('.secWrapCC').eq(j).children().children().children('input[name="time"]').val()!=''&&$('.secWrapCC').eq(j).children().children().children('textarea[name="event"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''){
+								var josnData={
+									time:$('.secWrapCC').eq(j).children().children().children('input[name="time"]').val(),
+									event:$('.secWrapCC').eq(j).children().children().children('textarea[name="event"]').val()
+								}
+							}else{
+								// json="";
+								layer.msg('请填写完信息');
+								return;
+							}
+							
+							developPath.push(josnData)
+						}
+						console.log(developPath)
+						if(developPath.length>0){
+							json={
+								_api: 'zj.company.update',
+								_v: '1.0',
+								companyId:$('input[name="id"]').val(),
+								developPath:JSON.stringify(developPath)
+								
+								
+
+							}
+						}else{
+							json="";
+							layer.msg('请填写完信息');
+						}
+					}else if(i==3){
+						if(UE.getEditor('editor').getContent()!=''){
+							$('input[name="content"]').val('<style>img{display:block;width:100%;}p{color:#7d828a!important;line-height:26px;font-size:15px;padding-top:5px;}</style>'+UE.getEditor('editor').getContent())
+						}else{
+							$('input[name="content"]').val(UE.getEditor('editor').getContent())
+						}
+						// alert(UE.getEditor('editor').getContent())
+						// if($('input[name="serviceInfo"]').val()!=''){
+							json={
+								_api: 'zj.company.update',
+								_v: '1.0',
+								companyId:$('input[name="id"]').val(),
+								content:encodeURIComponent($('input[name="content"]').val())	
+
+							}
+						// }else{
+						// 	json="";
+						// 	layer.msg('请填写完信息');
+						// }
+					}
+
+					// 
+						// console.log(json.amtRateInfo)
+					if(json!=""){
+					
+						
+						request("{{api}}mapi",json).done(function(response){
+							console.log(response.model)
+							// alert(i)
+							if(response.success==true){
+								i=i+1;
+								$("#HuiTab-demo1").Huitab({
+									index:i
+								});
+								if(i==1){
+									$('input[name="id"]').val(response.model);
+									$('#shopList').attr("href","/moongood/company/shopList?id="+response.model);
+									// $('input[name="id"]').val(7)
+									// $('#shopList').attr("href","/moongood/company/shopList?id=7")
+									
+								}else if(i==3){
+									$('.none').show();
+									
+								}else if(i==4){
+									$('.none').hide();
+									layer.msg('提交成功');
+							    	setTimeout(function(){
+							    		location.href='/moongood/company/list'
+							    	}, 1000);
+									
+								}
+
+							}else if(i==1&&response.success==false){
+								manageTeam=[];
+							}else if(i==2&&response.success==false){
+								developPath=[];
+							}
+							
+							
+							
+						})
+					}
+						
+					
+					
+					
+
+				})
+
+				//0-下架 1-上架
+				
+			
+		  }, 500);
+		
+     
+	
+	
+	{% endif %}
+		
+	
+})
+
+</script>

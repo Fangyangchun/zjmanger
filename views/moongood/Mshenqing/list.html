@@ -1,0 +1,188 @@
+
+{% extends "../layout/default.html" %} 
+{% block content %}
+	<script id="list-template" type="text/x-handlebars-template">
+	{% raw %}
+	<section class="Hui-article-box">
+	<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/Mshenqing/list" class="c-primary">M端申请提现订单</a>
+		</div>
+		
+	</nav>
+	<div class="row ml-20 mt-20 mr-20 clearfix">
+		
+		<div class="text-r f-r">
+			<form id="splitPage" action="/moongood/Mshenqing/list">
+				<input placeholder="申请编号" style="width:20%" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")' class="input-text mb-5 radius" type="text" name="withdrawNumber" value='{{withdrawNumber}}' maxlength="50" >
+				<input  placeholder="客户电话" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")' style="width:20%" class="input-text mb-5 radius" type="text" name="mobile" value='{{mobile}}' maxlength="50" >
+				<!-- <input  placeholder="客户姓名" style="width:20%" class="input-text mb-5 radius" type="text" name="realname" value='{{realname}}' maxlength="50" > -->
+				<span class="select-box radius" style="width:20%">
+					<select class="select status" name="status" value="{{status}}" size="1" style="height:22px;">
+						<option value="">订单状态</option>
+						<!-- <option value="-1">申请失效</option> -->
+						<!-- <option value="0">申请冻结</option> -->
+						<option value="1">用户已申请</option>
+						<!-- <option value="2">用户已撤销</option> -->
+					<!-- 	<option value="3">管理员已确认</option> -->
+						<option value="4">提现失败</option>
+						<option value="5">提现成功</option>
+						<!-- <option value="6">合同失败</option>
+						<option value="7">合同成立</option>
+						<option value="8">合同失效</option> -->
+					</select>
+				</span>
+				
+				
+				<button name="" id="" class="btn btn-success radius" type="submit">
+					<i class="Hui-iconfont">&#xe709;</i>
+					查询
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="box-content pd-20">
+		<table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
+			<thead>
+				<tr class="text-c">
+					<th>申请编号</th>
+			<!-- 		<th>产品名称</th> -->
+					<th>客户姓名</th>
+					<th>客户电话</th>
+					<!-- <th>预订金额(万元)</th>
+					<th>打款金额(万元)</th> -->
+					<th>客户银行卡号</th>
+					<th>客户开户银行</th>
+					<th>客户开户银行支行</th>
+					<th>申请金额</th>
+					<th>申请时间</th>
+					<th>审核状态</th>
+					<th>审核原因</th>
+					<!-- <th>是否上架</th> -->
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>	
+				{{#if success}}
+					{{#if model}}
+					{{#each model}}
+					<tr class="text-c">
+						<td>{{withdrawNumber}}</td>
+					<!-- 	<td>{{openBank}}</td> -->
+						<td>{{accountName}}</td>
+						<td>{{mobile}}</td>
+						
+						<td style="width: 200px;">{{bankCardNumber}}</td>
+						<td>{{bankName}}</td>
+						<td>{{bankBranchName}}</td>
+						<td>{{amtWithdrawApply}}</td>
+						<td class="addTime" data-time='{{timeApply}}'></td>
+						<td class="status" data-status="{{status}}"></td>
+						<td>{{withdrawFailReason}}</td>
+						<!-- <td>上架中</td> -->
+						<td>
+							{{#equal status '1' }}
+							<a class="btn btn-info mt-5" onclick="tongItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 审核通过</a>
+							<a class="btn btn-danger mt-5" onclick="noItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i>不通过 </a>
+							
+							{{/equal}}
+							
+						
+						</td>
+					</tr>
+					{{/each}}
+					{{else}}
+					<tr class="text-c">
+						<td colspan='7'>暂时还没有数据哦</td>
+					</tr>
+					{{/if}}
+					{{else}}
+					<tr class="text-c">
+						<td colspan='7'>{{msgInfo}}</td>
+					</tr>
+					{{/if}}
+			</tbody>
+		</table>
+		{{#if success}}
+			{{#if model}}
+		<div class="text-center">
+			<div id="splitPageDiv" class="pagination pagination-centered"></div>
+		</div>
+			{{/if}}
+		{{/if}}
+	</div>
+  </section>
+	{% endraw %}
+	</script>
+	{% include "../layout/insidePage.html" %}
+
+	<script type="text/javascript">
+		// var deleteItem = function(id){
+		// 	layer_confirm("确认删除?", "{{api}}user/permission/element/delete", {id: id});
+		// };
+		var tongItem = function(id){
+			// alert(id)
+			layer_confirm("确认通过?", "{{api}}mapi", {withdrawLogId: id,_api:'zj.acct.withdraw.audit',_v: '1.0',status:5});
+		};
+		var noItem = function(id){
+			// alert(id)
+			layer.prompt({title: '不通过原因', formType: 2}, function(text, index){
+				  	console.log(text)
+				  	console.log(index)
+				  	
+					 if(text!=''){
+					 	request("{{api}}mapi",{withdrawFailReason:text,withdrawLogId: id,_api:'zj.acct.withdraw.audit',_v: '1.0',status:4}).done(function(response){
+							console.log(response)
+							if(response.success==true){
+								layer.close(index);
+								layer.msg('不通过原因上传成功');
+						    	setTimeout(function(){
+						    		location.href='/moongood/Mshenqing/list'
+						    	}, 1000);
+								
+							}
+						})
+					 }else{
+					 	layer.msg('请输入不通过原因');
+					 }
+					  	
+				
+					    
+				  });
+		};
+				
+				  // layer.close(index);
+				  
+				// });
+	
+		$(document).ready(function(){
+			request({
+				url: "{{api}}mapi",
+				data: {page: getQueryParam('pageIndex') || 1, pageSize:10,_api:'zj.acct.withdraw.list',_v:'1.0',withdrawNumber:getQueryParam("withdrawNumber")||undefined,mobile:getQueryParam("mobile")||undefined,status:getQueryParam("status")||undefined},
+				type: "post",
+				dataType: "jsonp",
+				jsonp: 'callback'
+			}).done(function(response){
+				console.log(response)
+				// response.data.auth = auth;
+				response.contractNumber = getQueryParam("withdrawNumber")||undefined;
+				// response.realname = getQueryParam("realname")||undefined;
+				response.status = getQueryParam("status")||undefined;
+				response.mobile = getQueryParam("mobile")||undefined;
+				substitute("#list-template", response);
+				getList(".status option",response.status);
+				getTimeList('.addTime');
+				//合同状态  -1-申请失效 0-申请冻结 1-用户已申请 2-用户已撤销 3-管理员已确认 4-提现失败 5-提现成功
+				getStatus(["申请失效", "申请冻结","用户已申请","用户已撤销","管理员已确认","提现失败","提现成功"]);
+				// getCount('.amtPay');
+				// getCount('.amtReservation');
+				initPage({
+					count: response.count,
+					pageIndex: parseInt(getQueryParam("pageIndex")) || 1
+				});
+			})
+		})
+	</script>
+{% endblock %}
+

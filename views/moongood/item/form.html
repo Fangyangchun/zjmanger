@@ -1,0 +1,410 @@
+
+<style type="text/css">
+.swfupload{
+	width: 100%;
+	height: 31px;
+}
+.uploadify-button-test {
+	width: 100%;
+	height: 31px;
+	background:#6595e3;
+	border-radius: 0;
+	border: none;
+}
+.uploadify:hover .uploadify-button {
+	background:#6595e3;
+}
+.img-show{
+	margin-bottom: 10px;
+}
+
+.btn-upload{
+	/*display: inline-block;*/
+	width: 100px;
+	height: 100px;
+	background: url({{host}}static/h-ui/images/btn-photo.png) no-repeat center center;
+	background-size: contain;
+
+}
+
+.icon{
+	display: block;
+	width: 100px;
+}
+.upload-url{
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	left:20px;
+	display: none;
+	/*z-index: -9999;*/
+}
+
+@media screen and (max-width: 768px){
+    #edui51_body{
+        width: 50%!important;
+    }
+    
+}
+
+</style>
+<script id="form-template" type="text/x-handlebars-template">
+{% raw %}
+<div class="box-content">
+	<div class="panel panel-default mt-20">
+		<div class="panel-body">
+			
+			<form id="editForm" class="form form-horizontal">
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>项目icon：</label>
+					<div class="formControls col-xs-6 text-c">
+						<div class="text-c btn-upload"></div>
+						<input class="upload-url" type="file" name="upfile" accept="image/*" id="uploadfile1">
+						<input type="button" class="btn btnSum mt-10 ml-10 radius"  value="上传图片">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>项目名称：</label>
+					<div class="formControls col-xs-6 text-c">
+						<input class="input-text radius" name="projectName" value="{{model.projectName}}" placeholder=""  />
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>所属行业：</label>
+					<div class="formControls col-xs-6 text-l" >
+						<!-- <input class="input-text radius" name="projectIndustry" maxlength="20" value="{{model.projectIndustry}}" placeholder="所属行业" /> -->
+						<select name="projectIndustry" class="select projectIndustry" style="width: 100%;">
+							<option value="">选择行业</option>
+							<option value="农、林、牧、渔业" {{#equal model.projectIndustry '农、林、牧、渔业' }}selected="selected"{{/equal}}>农、林、牧、渔业</option>
+							<option value="采矿和采石" {{#equal model.projectIndustry '采矿和采石' }}selected="selected"{{/equal}}>采矿和采石</option>
+							<option value="制造业" {{#equal model.projectIndustry '制造业' }}selected="selected"{{/equal}}>制造业</option>
+							<option value="电力、热力、燃气及水生产和供应业" {{#equal model.projectIndustry '电力、热力、燃气及水生产和供应业' }}selected="selected"{{/equal}}>电力、热力、燃气及水生产和供应业</option>
+							<option value="建筑业" {{#equal model.projectIndustry '建筑业' }}selected="selected"{{/equal}}>建筑业</option>
+							<option value="交通运输、仓储和邮政业" {{#equal model.projectIndustry '交通运输、仓储和邮政业' }}selected="selected"{{/equal}}>交通运输、仓储和邮政业</option>
+							<option value="住宿和餐饮业" {{#equal model.projectIndustry '住宿和餐饮业' }}selected="selected"{{/equal}}>住宿和餐饮业</option>
+							<option value="信息传输、软件和信息技术服务业" {{#equal model.projectIndustry '信息传输、软件和信息技术服务业' }}selected="selected"{{/equal}}>信息传输、软件和信息技术服务业</option>
+							<option value="金融业" {{#equal model.projectIndustry '金融业' }}selected="selected"{{/equal}}>金融业</option>
+							<option value="房地产" {{#equal model.projectIndustry '房地产' }}selected="selected"{{/equal}}>房地产</option>
+							<option value="租赁和商务服务业" {{#equal model.projectIndustry '租赁和商务服务业' }}selected="selected"{{/equal}}>租赁和商务服务业</option>
+							<option value="科学研究和技术服务业" {{#equal model.projectIndustry '科学研究和技术服务业' }}selected="selected"{{/equal}}>科学研究和技术服务业</option>
+							<option value="水利、环境和公共设施管理业" {{#equal model.projectIndustry '水利、环境和公共设施管理业' }}selected="selected"{{/equal}}>水利、环境和公共设施管理业</option>
+							<option value="居民服务、修理和其他服务业" {{#equal model.projectIndustry '居民服务、修理和其他服务业' }}selected="selected"{{/equal}}>居民服务、修理和其他服务业</option>
+							<option value="教育" {{#equal model.projectIndustry '教育' }}selected="selected"{{/equal}}>教育</option>
+							<option value="卫生和社会工作" {{#equal model.projectIndustry '卫生和社会工作' }}selected="selected"{{/equal}}>卫生和社会工作</option>
+							<option value="文化、体育和娱乐业" {{#equal model.projectIndustry '文化、体育和娱乐业' }}selected="selected"{{/equal}}>文化、体育和娱乐业</option>
+							<option value="公共管理、社会保障和社会组织" {{#equal model.projectIndustry '公共管理、社会保障和社会组织' }}selected="selected"{{/equal}}>公共管理、社会保障和社会组织</option>
+							<option value="国际组织" {{#equal model.projectIndustry '国际组织' }}selected="selected"{{/equal}}>国际组织</option>
+							<option value="多种行业" {{#equal model.projectIndustry '多种行业' }}selected="selected"{{/equal}}>多种行业</option>
+						</select>
+						
+					</div>
+				</div>
+				
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>投资亮点（30个汉字）：</label>
+					<div class="formControls col-xs-6 text-c">
+						<textarea cols="" rows="" class="textarea radius" maxlength="30" name="projectPoint" id="beizhu" placeholder="项目简介（30个汉字）">{{model.projectPoint}}</textarea>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>项目简介（30个汉字）：</label>
+					<div class="formControls col-xs-6 text-c">
+						<textarea cols="" rows="" class="textarea radius" maxlength="30" name="projectSummary" id="beizhu" placeholder="项目简介（30个汉字）">{{model.projectSummary}}</textarea>
+					</div>
+				</div>
+				
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>项目标签（多个标签用<span class="c-red">半角的逗号</span>分隔）：</label>
+					<div class="formControls col-xs-6 text-c">
+						<input class="input-text radius" name="tag" value="{{model.tag}}" placeholder="如若有多个标签用（半角的逗号）分隔"  /><!-- <span class="c-red">如若多个标签用"（半角的逗号）"分隔</span> -->
+					</div>
+				</div>
+
+				<input type="hidden" class=" mt-10"  value="{{model.iconImg}}" name="iconImg">
+				
+				
+				
+				
+
+				
+				{{#if update }}
+		
+				<div class="row text-c row1 ">
+				   <input class="btn btn-primary submit1" type="button"  value="审核通过">
+				   <input class="btn btn-primary submit2" type="button" value="不通过" >
+				</div>
+				
+				{{else}}
+				
+				<div class="row text-c row2">
+				   <input class="btn btn-primary submit mt-10 btnSum2" value="确认">
+				</div>
+				{{/if}}
+			</form>
+			
+		
+			
+		  
+		</div>
+	</div>
+
+
+</div>
+{% endraw %}
+</script>
+
+<style type="text/css">
+	body{
+		overflow-x: hidden;
+	}
+
+</style>
+
+<script type="text/javascript">
+ function ajaxFileUpload(id) {
+	var extras = {
+        _api: 'upimg',
+        _v: '1.0',
+        biz:"photo"
+		};
+		
+	$.ajaxFileUpload({
+        url : '{{api}}upimg?'+$._apiClient.buildData(extras),
+        secureuri: false,
+        fileElementId : id,
+        dataType : 'jsonp',
+        success : function(data, status) {
+        	// alert(data)
+        	if(data.success==true){
+        		
+        		$(".btn-upload").css({'background':'url('+data.model.url+data.model.filename+') no-repeat center center',"background-size":"contain"}).show();
+        		$('.upload-url').hide();
+        		$('input[name="iconImg"]').val(data.model.filename)
+        	}else{
+        		data.msg = data.msgInfo || "服务器出错，请稍后再试";
+        		layer.alert(data.msg);
+        		
+        	}
+         console.log(status)
+        },
+        error : function(data, status, e) {
+            layer.alert("服务器出错，请稍后再试");
+        }
+    })
+}
+
+
+$(document).ready(function(){
+	
+	
+	{% if operation == 'edit' || operation == 'update'%}
+		request("{{api}}mapi",{_api: 'zj.project.info',_v: '1.0',projectId: getQueryParam('id')}).done(function(response){
+			// request({
+			// 	url: "{{api}}mapi",
+			// 	data: {_api: 'zj.economics.detail',_v: '1.0',economicsId: getQueryParam('id')},
+			// 	type: "get"
+			// }).done(function(response){
+			response.projectId = getQueryParam('id');
+			
+			if(getQueryParam('update')=='update'){
+				
+				response.update=true;
+			}else {
+				
+				response.update=false;
+			}
+			substitute("#form-template",  response);
+			$(".btn-upload").css({'background':'url(http://img1.zhongjing-hz.com/'+response.model.iconImg+') no-repeat center center',"background-size":"contain"});
+			
+			
+			$(".btnSum").click(function () {
+
+		      	if($(this).siblings('.upload-url').val()!=""){
+		      		var id=$(this).siblings('.upload-url').attr('id')
+		      		// alert(id)
+		            ajaxFileUpload(id);	
+		      	}
+		      })
+			$(".btn-upload").click(function () {
+				$(this).siblings('.upload-url').click()
+				$(this).css("display","none").siblings('.upload-url').css({"position":"relative","width":"100%"}).show()
+				
+		            
+		      	
+		      })
+			$(".btnSum2").click(function () {
+		
+				if($('input[name="iconImg"]').val()!=""&&$('textarea[name="projectSummary"]').val()!=""&&$('input[name="tag"]').val()!=''&&$('input[name="projectName"]').val()!=''&&$('input[name="projectIndustry"]').val()!=""){
+					var json={
+						_api: 'zj.project.update',
+				        _v: '1.0',
+				        iconImg:$('input[name="iconImg"]').val(),
+				        companyId:getQueryParam('companyId'),
+				        projectId:getQueryParam('id'),
+				       	projectName:$('input[name="projectName"]').val(),
+				       	projectIndustry:$('select[name="projectIndustry"]').val(),
+				       	projectSummary:$('textarea[name="projectSummary"]').val(),
+				        projectPoint:$('textarea[name="projectPoint"]').val(),
+						// isRecommend:$('select[name="isRecommend"]').val(),
+				        tag:$('input[name="tag"]').val().replace(/，/ig,',')
+
+				        
+					}
+
+
+					request("{{api}}mapi",json).done(function(response,option){
+					    		// console.log(option.data);
+					    if(response.success==true)	{
+					    	layer.msg('提交成功');
+					    	setTimeout(function(){
+					    		location.href='/moongood/item/list?id='+getQueryParam('companyId')+'&companyCategory='+getQueryParam('companyCategory')
+					    	}, 1000);
+					    	
+					    }	
+					    		
+					})
+				}else{
+					layer.msg('请填写完信息');
+				}
+				
+					
+		      
+		      })
+			// $(".submit1").click(function(){
+			// 	request("{{api}}mapi",{economicsId: getQueryParam('id'),status:3,_api:"zj.economics.update",_v:"1.0"}).done(function(response){
+			// 		console.log(response)
+			// 		if(response.success==true){
+			// 			layer.msg('审核通过');
+			// 	    	setTimeout(function(){
+			// 	    		location.href='/moongood/finance/list'
+			// 	    	}, 1000);
+						
+			// 		}
+			// 	})
+					
+					
+
+			// })
+			// $('.submit2').click(function(){
+				
+			// 	  // layer.close(index);
+			// 	  layer.prompt({title: '不通过原因', formType: 2}, function(text, index){
+			// 	  	console.log(text)
+			// 	  	console.log(index)
+			// 	  	request("{{api}}mapi",{economicsId: getQueryParam('id'),status:2,_api:"zj.economics.update",_v:"1.0",auditFailReason:text}).done(function(response){
+			// 			console.log(response)
+			// 			if(response.success==true){
+			// 				layer.close(index);
+			// 				layer.msg('不通过原因上传成功');
+			// 		    	setTimeout(function(){
+			// 		    		location.href='/moongood/finance/list'
+			// 		    	}, 1000);
+							
+			// 			}
+			// 		})
+			// 	    // layer.close(index);
+				    
+			// 	  });
+			// 	// });
+			// })
+				  
+		
+		
+	
+		
+		})
+	{% else %}
+		
+		response={};
+		response.companyId = getQueryParam('id');
+		response.update=false;
+		substitute("#form-template", response);
+		
+		
+		
+
+		
+      $(".btnSum").click(function () {
+
+      	if($(this).siblings('.upload-url').val()!=""){
+      		var id=$(this).siblings('.upload-url').attr('id')
+      		// alert(id)
+            ajaxFileUpload(id);	
+      	}
+      })
+	
+	$(".btnSum2").click(function () {
+		
+
+		// var str=$('textarea[name="title"]').val();
+				
+			
+				
+				
+		if($('input[name="iconImg"]').val()!=""&&$('textarea[name="projectSummary"]').val()!=""&&$('input[name="tag"]').val()!=''&&$('input[name="projectName"]').val()!=''&&$('input[name="projectIndustry"]').val()!=""){
+			var json={
+				_api: 'zj.project.update',
+		        _v: '1.0',
+		        iconImg:$('input[name="iconImg"]').val(),
+		        companyId:getQueryParam('id'),
+		       	projectName:$('input[name="projectName"]').val(),
+		       	projectIndustry:$('select[name="projectIndustry"]').val(),
+		       	projectSummary:$('textarea[name="projectSummary"]').val(),
+		        projectPoint:$('textarea[name="projectPoint"]').val(),
+				// isRecommend:$('select[name="isRecommend"]').val(),
+		        tag:$('input[name="tag"]').val().replace(/，/ig,',')
+
+		        
+			}
+
+
+			request("{{api}}mapi",json).done(function(response,option){
+			    		// console.log(option.data);
+			    if(response.success==true)	{
+			    	layer.msg('提交成功');
+			    	setTimeout(function(){
+			    		location.href='/moongood/item/list?id='+getQueryParam('id')+'&companyCategory='+getQueryParam('companyCategory')
+			    	}, 1000);
+			    	
+			    }	
+			    		
+			})
+		}else{
+			layer.msg('请填写完信息');
+		}
+		
+			
+      
+      })
+
+	$(".btn-upload").click(function () {
+		$(this).siblings('.upload-url').click()
+		$(this).css("display","none").siblings('.upload-url').css({"position":"relative","width":"100%"}).show()
+		
+            
+      	
+      })
+
+		// alert($("#HuiTab-demo1").children('.tabBar').children('span').attr("class"))
+		
+		
+	
+		
+
+	
+	
+	
+	
+	{% endif %}
+		// alert(i)
+	
+})
+
+    function setContent(isAppendTo) {
+        var arr = [];
+        arr.push("使用editor.setContent('欢迎使用ueditor')方法可以设置编辑器的内容");
+        UE.getEditor('editor').setContent('欢迎使用ueditor', isAppendTo);
+        alert(arr.join("\n"));
+    }
+
+</script>

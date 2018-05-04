@@ -1,0 +1,61 @@
+{% extends "../layout/insidePage.html" %}
+
+{% block content %}
+<script id="list-template" type="text/x-handlebars-template">
+{% raw %}
+<div class="box-content pd-20">
+	<table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
+		<thead>
+			<tr class="text-c">
+				<th>选择</th>
+				<th>模块编号</th>
+				<th>模块名称</th>
+			</tr>
+		</thead>
+		<tbody>	
+				
+				{{#each moduleList}}
+				<tr class="text-c">
+					<td><input type="radio" name="moduleId" value="{{id}}" {{#if isChecked}}checked="true"{{/if}}></td>
+					<td>{{moduleNo}}</td>
+					<td class="moduleName">{{moduleName}}</td>
+				</tr>
+				{{/each}}
+		</tbody>
+	</table>
+	<div class="row text-c mt-20">
+		<button class="btn btn-primary btn-submit" type="button">提交</button>
+	</div>
+</div>
+{% endraw %}
+</script>
+<script type="text/javascript">
+	function submit(){
+		$(".btn-submit").on("click", function(){
+			window.parent.document.getElementById("moduleId").value = $('input[name="moduleId"]:checked').val();
+			window.parent.document.getElementById("moduleName").value = $('input[name="moduleId"]:checked').parent().parent().children('.moduleName').text();
+			parent.$("#moduleId",parent.doucment).trigger('change');
+			layer_close();
+		})
+	}
+	$(document).ready(function(){
+		request({
+			url: "{{api}}user/permission/module/list",
+			type: "get",
+			dataType: "jsonp",
+			jsonp: 'callback'
+		}).done(function(response){
+			for(var i=0;i<response.data.moduleList.length;i++){
+				if(response.data.moduleList[i].id == getQueryParam("moduleId")){
+					response.data.moduleList[i].isChecked = true;
+					break;
+				}
+			}
+			substitute("#list-template", response.data);
+			submit();
+		})
+
+
+	})
+</script>
+{% endblock %}

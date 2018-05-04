@@ -1,0 +1,170 @@
+
+{% extends "../layout/default.html" %} 
+{% block content %}
+	<script id="list-template" type="text/x-handlebars-template">
+	{% raw %}
+	<section class="Hui-article-box">
+	<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/push/list" class="c-primary">推送列表</a>
+			
+		</div>
+		
+	</nav>
+	<div class="row ml-20 mt-20 mr-20 clearfix">
+		
+		<a class="btn  btn-success f-l mr-10 addBtn" style="font-size: 14px;" href="/moongood/push/add">
+			<i class="Hui-iconfont">&#xe600;</i>
+			新增推送
+		</a>
+		
+	
+		<div class="text-r f-r">
+			<form id="splitPage" action="/moongood/push/list">
+				<input placeholder="推送标题" style="width:120px" class="input-text mb-5 radius" type="text" name="msgTitle" value='{{msgTitle}}' maxlength="50" >
+				<!-- <span class="select-box radius" style="width:120px;">
+					<select class="select productCategoryId " name="targetType"  style="height:22px;">
+						<option value="" selected="">推送类型</option>
+						
+						<option value="{{targetType}}">{{productCategoryName}}</option>
+						
+					</select>
+				</span> -->
+				<span class="select-box radius" style="width:120px;">
+					<select class="select status " name="status"  style="height:22px;">
+						<option value="" selected="">推送状态</option>
+						
+						<!-- <option value="-1">删除</option> -->
+						<option value="0">未发送</option>
+						<option value="1">已发送</option>
+						
+					</select>
+				</span>
+				
+				<button name="" id="" class="btn btn-success radius" type="submit">
+					<i class="Hui-iconfont">&#xe709;</i>
+					查询
+				</button>
+			</form>
+		</div>
+	</div>
+
+	<div class="box-content pd-20">
+		<table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
+			<thead>
+				<tr class="text-c">
+					<th>推送标题</th>
+					<th>推送内容</th>
+					<th>推送类型</th>
+					<th>推送发送人群</th>
+					<!-- <th></th> -->
+					<th>创建时间</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>	
+				{{#if model}}
+
+					{{#each model}}
+					<tr class="text-c">
+						<td>{{msgTitle}}</td>
+						<td>{{msgContent}}</td>
+						<td class="status1" data-status="{{targetType}}"></td>
+						<td class="status2" data-status="{{msgRange}}"></td>
+						<!-- <td class="count" data-count='{{amtInvestmentMin}}'></td> -->
+						<!-- <td>{{ratePerformBaseComparison}}%</td> -->
+						
+						<td class="addTime" data-time='{{createdTime}}'></td>
+						<td class="status" data-status="{{status}}"></td>
+						<td>
+							
+							
+							{{#equal status '0' }}
+							<a class="btn btn-info mt-5" href="/moongood/push/edit?id={{id}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							<a class="btn btn-info mt-5" onclick="shangItem('{{id}}')"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 发送</a>
+							<a class="btn btn-danger mt-5" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+							{{/equal}}
+							
+							
+						</td>
+					</tr>
+					{{/each}}
+					{{else}}
+					<tr class="text-c">
+						<td colspan='8'>暂时还没有数据哦</td>
+					</tr>
+				{{/if}}	
+			</tbody>
+		</table>
+		{{#if model}}
+		<div class="text-center">
+			<div id="splitPageDiv" class="pagination pagination-centered"></div>
+		</div>
+		{{/if}}
+	</div>
+  </section>
+	{% endraw %}
+	</script>
+	{% include "../layout/insidePage.html" %}
+
+	<script type="text/javascript">
+	function keysrt(key,desc) {  
+	  return function(a,b){  
+	    return desc ? ~~(a[key] < b[key]) : ~~(a[key] > b[key]);  
+	  }  
+	} 
+		var deleteItem = function(id){
+			// alert(id)
+			layer_confirm("确认删除?", "{{api}}mapi", {msgId: id,_api:'zj.msg.update',_v: '1.0',status:-1});
+		};
+		var shangItem = function(id){
+			// alert(id)
+			layer_confirm("确定发送?", "{{api}}mapi", {msgId: id,_api:'zj.msg.push',_v: '1.0'});
+		};
+		// var xiaItem = function(id){
+		// 	// alert(id)
+		// 	layer_confirm("确认下架?", "{{api}}mapi", {productId: id,status:0,_api:'zj.product.update',_v: '1.0'});
+		// };
+		var productCategory=[],productCategory1;
+		$(document).ready(function(){
+			
+			setTimeout(function(){
+				request({
+					url: "{{api}}mapi",
+					data: {_api:'zj.msg.list',_v:'1.0',page: getQueryParam('pageIndex') || 1, status: getQueryParam('status') || undefined, msgTitle: getQueryParam('msgTitle') || undefined,pageSize:10},
+					// data: {_api:'zj.product.search',_v:'1.0',page: getQueryParam('pageIndex') || 1, pageSize:10},
+					type: "post",
+					dataType: "jsonp",
+            		jsonp: 'callback'
+				}).done(function(response){
+					console.log(response)
+					
+
+					response.msgTitle=getQueryParam('msgTitle') || undefined;
+					response.status= getQueryParam("status")||undefined;
+					// response.productName = getQueryParam("productName")||undefined;
+					// response.productCategoryId = getQueryParam("productCategoryId")||undefined;
+					substitute("#list-template", response);
+					getTimeList2('.addTime');
+					// getStatusList(productCategory);
+					getList(".status option",response.status);
+					getList(".productCategoryId option",response.productCategoryId);
+					// 1-所有用户 2-普通用户 3-省级代理 4-市级代理 5-区级代理 6-理财师
+					  // 0-不跳转 1-产品详情  2-静态H5页  3-财经文章详情
+					getStatusList1(["不跳转","产品详情","静态H5页","财经文章详情"]);	
+					getStatusList2(["所有用户","普通用户","省级代理","市级代理","区级代理","理财师"])			
+					 // -1-删除 0-未发送 1-已发送
+					getStatus(["删除", "未发送","已发送"]);
+					getCount('.count');
+					initPage({
+						count: response.count,
+						pageIndex: parseInt(getQueryParam("pageIndex")) || 1
+					});
+				})
+			}, 500);
+		})
+	</script>
+{% endblock %}
+

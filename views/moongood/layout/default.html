@@ -1,0 +1,408 @@
+{% include "param.html" %}
+<!DOCTYPE HTML>
+<html>
+{% include "header.html" %}
+
+<body {% if pageName %}data-page="{{ pageName }}" {% endif %} ontouchstart style="height: auto;">
+    <div class="sideBox">
+        <ul class="nav navbar-nav pt-20" style="background-color: #303135;">
+            <li>
+                <a href="#" class="dropDown_A">{{user.name}}你好</a>
+            </li>
+            <li>
+                <a href="/">首页</a>
+            </li>
+            <!-- <li>
+            <a href="/moongood/product/list">产品<i class="Hui-iconfont">&gt;</i>列表</a>
+            <a href="/moongood/product/add">产品<i class="Hui-iconfont">&gt;</i>新增</a>
+        </li> -->
+            <!-- <li>
+            <a href="/moongood/item/list">项目<i class="Hui-iconfont">&gt;</i>列表</a>
+            <a href="/moongood/item/add">项目<i class="Hui-iconfont">&gt;</i>新增</a>
+        </li> -->
+            <li>
+                <a href="/moongood/company/list">企业
+                    <i class="Hui-iconfont">&gt;</i>列表</a>
+                <a href="/moongood/company/add">企业
+                    <i class="Hui-iconfont">&gt;</i>新增</a>
+            </li>
+            <li>
+                <a href="/moongood/finance/list">财经
+                    <i class="Hui-iconfont">&gt;</i>列表</a>
+                <a href="/moongood/finance/add">财经
+                    <i class="Hui-iconfont">&gt;</i>新增</a>
+            </li>
+            <li>
+                <a href="/moongood/orderForm/list">合同
+                    <i class="Hui-iconfont">&gt;</i>列表</a>
+            </li>
+            <li>
+                <a href="/moongood/financialPlanners/list">理财师
+                    <i class="Hui-iconfont">&gt;</i>列表</a>
+            </li>
+            <li>
+                <a href="/moongood/agent/list">代理商
+                    <i class="Hui-iconfont">&gt;</i>列表</a>
+                <a href="/moongood/agent/add">代理商
+                    <i class="Hui-iconfont">&gt;</i>新增</a>
+            </li>
+            <li>
+                <a href="/moongood/activity/list">活动
+                    <i class="Hui-iconfont">&gt;</i>列表</a>
+                <a href="/moongood/activity/add">活动
+                    <i class="Hui-iconfont">&gt;</i>发布活动</a>
+            </li>
+            <li>
+                <a href="/moongood/manager/list">客户经理
+                    <i class="Hui-iconfont">&gt;</i>列表</a>
+                <a href="/moongood/manager/add">客户经理
+                    <i class="Hui-iconfont">&gt;</i>发布活动</a>
+            </li>
+            <li>
+                <a href="/moongood/grade/list">区域等级
+                    <i class="Hui-iconfont">&gt;</i>列表</a>
+            </li>
+            <li>
+                <a onclick="logOut()" href="javascript:void(0)">退出登录</a>
+            </li>
+        </ul>
+    </div>
+    <div class="containBox">
+        <div class="containBox-bg"></div>
+        <header class="navbar-wrapper">
+            <div class="navbar navbar-black navbar-fixed-top">
+                <div class="container cl">
+                    <a class="logo navbar-logo hidden-xs" href="/">中经汇金</a>
+                    <a class="logo navbar-logo-m visible-xs" href="/">中经汇金</a>
+                    <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs JS-nav-toggle" href="javascript:;">&#xe667;</a>
+                    <nav class="nav navbar-nav nav-collapse" role="navigation" id="Hui-navbar" style="width: 90%;margin: 0 auto;">
+                        <ul class="cl">
+                            <li class="current">
+                                <a href="/">首页</a>
+                            </li>
+                            <li class="dropDown dropDown_hover" style="float: right;">
+                                <a href="#" class="dropDown_A">{{user.name}}你好
+                                    <i class="Hui-iconfont">&#xe6d5;</i>
+                                </a>
+                                <ul class="dropDown-menu menu radius box-shadow">
+                                    <!-- <li><a onclick="logOut()" href="javascript:void(0)">修改密码</a></li> -->
+                                    <!-- <li><a onclick="logOut()" href="javascript:void(0)"> 管理员设置</a></li> -->
+                                    <li>
+                                        <a onclick="logOut()" href="javascript:void(0)">退出登录</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- <li class="dropDown dropDown_hover" data-href="product" >
+                            <a href="javascript:void(0)" class="dropDown_A" >产品<i class="Hui-iconfont">&#xe6d5;</i></a>
+                            <ul class="dropDown-menu menu radius box-shadow" >
+                                <li>
+                                    <a  href="/moongood/product/list">列表</a>
+                                    <a href="/moongood/product/add">新增</a>
+                                </li>
+                                
+                               
+                            </ul>
+                        </li> -->
+                            <!-- <li class="dropDown dropDown_hover" data-href="item" >
+                            <a href="javascript:void(0)" class="dropDown_A" >项目<i class="Hui-iconfont">&#xe6d5;</i></a>
+                            <ul class="dropDown-menu menu radius box-shadow" >
+                                <li>
+                                    <a  href="/moongood/item/list">列表</a>
+                                    <a href="/moongood/item/add">新增</a>
+                                </li>
+                                
+                               
+                            </ul>
+                        </li> -->
+                            <li class="dropDown dropDown_hover" data-href="company" data-href1="item" data-href2="product">
+                                <a href="javascript:void(0)" class="dropDown_A">企业
+                                    <i class="Hui-iconfont">&#xe6d5;</i>
+                                </a>
+                                <ul class="dropDown-menu menu radius box-shadow">
+                                    <li>
+                                        <a href="/moongood/company/list">列表</a>
+                                        <a href="/moongood/company/add">新增</a>
+                                    </li>
+
+
+                                </ul>
+                            </li>
+                            <li class="dropDown dropDown_hover" data-href="finance">
+                                <a href="javascript:void(0)" class="dropDown_A">财经
+                                    <i class="Hui-iconfont">&#xe6d5;</i>
+                                </a>
+                                <ul class="dropDown-menu menu radius box-shadow">
+                                    <li>
+                                        <a href="/moongood/finance/list">列表</a>
+                                        <a href="/moongood/finance/add">新增</a>
+                                    </li>
+
+
+                                </ul>
+                            </li>
+                            <li class="dropDown dropDown_hover" data-href="orderForm">
+                                <a href="javascript:void(0)" class="dropDown_A">合同
+                                    <i class="Hui-iconfont">&#xe6d5;</i>
+                                </a>
+                                <ul class="dropDown-menu menu radius box-shadow">
+                                    <li>
+                                        <a href="/moongood/orderForm/list">列表</a>
+                                    </li>
+
+
+                                </ul>
+                            </li>
+                            <li class="dropDown dropDown_hover" data-href="agent">
+                                <a href="javascript:void(0)" class="dropDown_A">代理商
+                                    <i class="Hui-iconfont">&#xe6d5;</i>
+                                </a>
+                                <ul class="dropDown-menu menu radius box-shadow">
+                                    <li>
+                                        <a href="/moongood/agent/list">列表</a>
+                                        <a href="/moongood/agent/add">新增</a>
+                                    </li>
+
+
+                                </ul>
+                            </li>
+
+
+                            <!-- <li class="dropDown dropDown_hover" >
+                            <a href="javascript:;" class="dropDown_A">工具 <i class="Hui-iconfont">&#xe6d5;</i></a>
+                            <ul class="dropDown-menu menu radius box-shadow">
+                                <li>
+                                    <a href="http://www.h-ui.net/bug.shtml" target="_blank">Bug兼容性汇总</a>
+                                </li>
+                                <li>
+                                    <a href="http://www.h-ui.net/websafecolors.shtml" target="_blank">web安全色</a>
+                                </li>
+                                <li>
+                                    <a href="http://www.h-ui.net/Hui-3.7-Hui-iconfont.shtml" target="_blank">Hui-iconfont</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">web工具箱<i class="arrow Hui-iconfont">&#xe6d7;</i></a>
+                                    <ul class="menu">
+                                        <li>
+                                            <a href="http://www.h-ui.net/tools/jsformat.shtml" target="_blank">JS/HTML格式化工具</a>
+                                        <li>
+                                            <a href="http://www.h-ui.net/tools/HTMLtoJS.shtml" target="_blank">HTML/JS转换工具</a>
+                                        <li>
+                                            <a href="http://www.h-ui.net/tools/cssformat.shtml" target="_blank">CSS代码格式化工具</a>
+                                        <li>
+                                            <a href="http://www.h-ui.net/tools/daxiaoxie.shtml" target="_blank">字母大小写转换工具</a>
+                                        <li>
+                                            <a href="http://www.h-ui.net/tools/fantizhuanhuan.shtml" target="_blank">繁体字、火星文转换</a>
+                                        <li>
+                                            <a href="javascript:;">三级菜单<i class="arrow Hui-iconfont">&#xe6d7;</i></a>
+                                            <ul class="menu">
+                                                <li>
+                                                    <a href="javascript:;">四级菜单</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;">四级菜单</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;">四级菜单</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#">三级导航</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">二级导航</a>
+                                </li>
+                                <li class="disabled">
+                                    <a href="javascript:;">二级菜单</a>
+                                </li>
+                            </ul>
+                        </li> -->
+                            <li class="dropDown dropDown_hover" data-href="financialPlanners">
+                                <a href="javascript:void(0)" class="dropDown_A">理财师
+                                    <i class="Hui-iconfont">&#xe6d5;</i>
+                                </a>
+                                <ul class="dropDown-menu menu radius box-shadow">
+                                    <li>
+                                        <a href="/moongood/financialPlanners/list">列表</a>
+                                    </li>
+
+
+                                </ul>
+                            </li>
+                            <li class="dropDown dropDown_hover" data-href="activity">
+                                <a href="javascript:void(0)" class="dropDown_A"> 活动
+                                    <i class="Hui-iconfont">&#xe6d5;</i>
+                                </a>
+                                <ul class="dropDown-menu menu radius box-shadow">
+                                    <li>
+                                        <a href="/moongood/activity/list">列表</a>
+                                        <a href="/moongood/activity/add">发布活动</a>
+                                    </li>
+
+
+                                </ul>
+                            </li>
+                            <li class="dropDown dropDown_hover" data-href="manager">
+                                <a href="javascript:void(0)" class="dropDown_A"> 客户经理
+                                    <i class="Hui-iconfont">&#xe6d5;</i>
+                                </a>
+                                <ul class="dropDown-menu menu radius box-shadow">
+                                    <li>
+                                        <a href="/moongood/manager/list">列表</a>
+                                        <a href="/moongood/manager/add">新增</a>
+                                    </li>
+
+
+                                </ul>
+                            </li>
+                            <li class="dropDown dropDown_hover" data-href="statistics">
+                                <a href="javascript:void(0)" class="dropDown_A"> 统计
+                                    <i class="Hui-iconfont">&#xe6d5;</i>
+                                </a>
+                                <ul class="dropDown-menu menu radius box-shadow">
+                                    <li>
+                                        <a href="/moongood/manager/list">签到统计列表</a>
+
+                                    </li>
+
+
+                                </ul>
+                            </li>
+                            <li class="dropDown dropDown_hover" data-href="push">
+                                <a href="javascript:void(0)" class="dropDown_A"> 推送
+                                    <i class="Hui-iconfont">&#xe6d5;</i>
+                                </a>
+                                <ul class="dropDown-menu menu radius box-shadow">
+                                    <li>
+                                        <a href="/moongood/push/list">列表</a>
+                                        <a href="/moongood/push/add">新增</a>
+
+                                    </li>
+
+
+                                </ul>
+                            </li>
+
+                            <li class="dropDown dropDown_hover" data-href="grade">
+                                <a href="javascript:void(0)" class="dropDown_A">区域等级
+                                    <i class="Hui-iconfont">&#xe6d5;</i>
+                                </a>
+                                <ul class="dropDown-menu menu radius box-shadow">
+                                    <li>
+                                        <a href="/moongood/grade/list">列表</a>
+                                    </li>
+
+
+                                </ul>
+                            </li>
+                            <li class="dropDown dropDown_hover" data-href="Mshenqing">
+                                <a href="javascript:void(0)" class="dropDown_A">M端申请提现
+                                    <i class="Hui-iconfont">&#xe6d5;</i>
+                                </a>
+                                <ul class="dropDown-menu menu radius box-shadow">
+                                    <li>
+                                        <a href="/moongood/Mshenqing/list">列表</a>
+
+                                    </li>
+
+
+                                </ul>
+                            </li>
+                            <!-- <li class="dropDown dropDown_hover" data-href="module">
+                            <a href="javascript:void(0)"  class="dropDown_A" >模块<i class="Hui-iconfont">&#xe6d5;</i></a>
+                            <ul class="dropDown-menu menu radius box-shadow" >
+                                <li>
+                                    <a href="/moongood/module/list">列表</a>
+                                    <a href="/moongood/module/add">新增</a>
+                                </li>
+                                
+                               
+                            </ul>
+                        </li> -->
+
+                        </ul>
+
+                    </nav>
+
+                    <nav class="navbar-userbar hidden-xs cl">
+
+                    </nav>
+
+                </div>
+            </div>
+        </header>
+        {% block content %}{% endblock %}
+    </div>
+
+    {% include "footer.html" %}
+    <script type="text/javascript">
+        function getCookie(name) {
+            var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+            if (arr = document.cookie.match(reg))
+                return unescape(arr[2]);
+            else
+                return null;
+        }
+
+        function logOut() {
+
+            location.href = "/login";
+        }
+        $(function () {
+
+
+
+
+            var _bodyHeight = $(window).height();
+            var _doch = $(document).height();
+            // $(".containBox").height(_bodyHeight);
+
+            /*左右滑动菜单*/
+            $(".JS-nav-toggle").click(function () {
+                $("body").addClass('sideBox-open');
+                // $(".containBox-bg").show();
+                $(".containBox").height("auto");
+                $(".containBox-bg").height("auto").show();
+
+            });
+            $(".containBox-bg").click(function () {
+                $(this).hide();
+                $("body").removeClass('sideBox-open');
+                $(".containBox").height("auto");
+
+            });
+
+            var href = window.location.href.split("/")[4];
+
+            if (href == undefined) {
+                $("#Hui-navbar>.cl>li").eq(0).addClass('current').siblings().removeClass('current');
+            } else {
+                for (var i = 0; i < $("#Hui-navbar>.cl>li").length; i++) {
+                    if (href == $("#Hui-navbar>.cl>li").eq(i).attr('data-href')) {
+                        $("#Hui-navbar>.cl>li").eq(i).addClass('current').siblings().removeClass('current');
+                    } else if (href == $("#Hui-navbar>.cl>li").eq(i).attr('data-href1')) {
+                        $("#Hui-navbar>.cl>li").eq(i).addClass('current').siblings().removeClass('current');
+                    } else if (href == $("#Hui-navbar>.cl>li").eq(i).attr('data-href2')) {
+                        $("#Hui-navbar>.cl>li").eq(i).addClass('current').siblings().removeClass('current');
+                    }
+                }
+            }
+            request("{{api}}mapi", {
+                _api: 'zj.vendor.info',
+                _v: '2.0',
+                vendorId:1
+            }).done(function (response) {
+                console.log(response)
+                $('.logo').html(response.model.vendorName);
+                document.title = response.model.vendorName + '内部管理系统'
+
+            })
+
+        });
+    </script>
+
+</body>
+
+</html>

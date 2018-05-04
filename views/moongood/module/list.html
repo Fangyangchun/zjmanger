@@ -1,0 +1,87 @@
+﻿{% extends "../layout/default.html" %}
+
+{% block content %}
+	<script id="list-template" type="text/x-handlebars-template">
+	{% raw %}
+	<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/orderForm/list" class="c-primary">模块列表</a>
+		</div>
+		
+	</nav>
+	<div class="row ml-20 mt-20 mr-20 clearfix">
+	
+		<a class="btn  btn-success f-l addBtn" onclick="layer_open('新建模块', '/moongood/module/add', 1000)" href="javascript:void(0)">
+			<i class="Hui-iconfont">&#xe600;</i>
+			新建模块
+		</a>
+		
+		<div class="text-r f-r">
+			<form id="splitPage" action="/moongood/module/list">
+				<input placeholder="搜索模块" style="width:250px" class="input-text" type="text" name="phone" value='{{phone}}' maxlength="50" >
+				<button name="" id="" class="btn btn-success" type="submit">
+					<i class="Hui-iconfont">&#xe709;</i>
+					查询
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="box-content pd-20">
+		<table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
+			<thead>
+				<tr class="text-c">
+					<th>模块编号</th>
+					<th>模块名称</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>	
+					
+					{{#each moduleList}}
+					<tr class="text-c">
+						<td>{{moduleNo}}</td>
+						<td>{{moduleName}}</td>
+						<td>
+							{{#if ../auth.module.edit}}
+							<a class="btn btn-success my-btn" onclick="layer_open('编辑模块', '/moongood/module/update?id={{id}}', 1000)" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							{{/if}}
+							{{#if ../auth.module.delete}}
+							<a class="btn btn-danger" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+							{{/if}}
+						</td>
+					</tr>
+					{{/each}}
+			</tbody>
+		</table>
+		<!-- <div class="text-center">
+			<div id="splitPageDiv" class="pagination pagination-centered"></div>
+		</div> -->
+	</div>
+	{% endraw %}
+	</script>
+	{% include "../layout/insidePage.html" %}
+	<script type="text/javascript">
+		// console.log(auth);
+		var deleteItem = function(id){
+			layer_confirm("确认删除?", "{{api}}user/permission/module/delete", {id: id});
+		};
+		$(document).ready(function(){
+			// request({
+			// 	url: "{{api}}mapi",
+			// 	data: {_v:'1.0', phone: getQueryParam('phone') || ""},
+			// 	type: "get"
+			// }).done(function(response){
+				// response.data.auth = auth;
+				// response.phone = getQueryParam('phone') || "";
+				substitute("#list-template", {});
+				// substitute("#list-template", response);
+			// 	initPage({
+			// 		count: response.data.total,
+			// 		pageIndex: parseInt(getQueryParam("pageIndex")) || 1
+			// 	});
+			// })
+		})
+	</script>
+{% endblock %}
+

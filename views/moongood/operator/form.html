@@ -1,0 +1,84 @@
+<script id="form-template" type="text/x-handlebars-template">
+{% raw %}
+<div class="box-content">
+	<form id="editForm" class="form form-horizontal pd-20">
+		<input type="hidden" name="id" value="{{id}}">
+		<div class="row cl">
+			<label class="form-label col-xs-1"><span class="c-red">*</span>所属模块	`：</label>
+			<div class="formControls col-xs-5">
+				<input type="hidden" id="moduleId" value="{{moduleId}}" name="moduleId">
+				<input type="text" id="moduleName" class="input-text col-xs-10" placeholder="请选择" value="{{moduleName}}" placeholder="" name="moduleName" readonly>
+			</div>
+			<label class="form-label col-xs-1"><span class="c-red">*</span>名称：</label>
+			<div class="formControls col-xs-5">
+				<input type="text" class="input-text" value="{{eleName}}" placeholder="" name="eleName">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-1">返回url：</label>
+			<div class="formControls col-xs-5">
+				<input type="text" class="input-text" value="{{elePath}}" placeholder="" name="elePath">
+			</div>
+		</div>
+		<div class="row text-c">
+			<button class="btn btn-primary" type="submit">提交</button>
+		</div>
+	</form>
+</div>
+{% endraw %}
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+	function init(){
+		$("#editForm").validate({
+			rules: {
+				"moduleName": {
+					required: true
+				},
+				"eleName": {
+					required: true
+				},
+				"elePath": {
+					required: true
+				}
+			},
+		    submitHandler:function(form){ 
+		    	request("{{api}}user/permission/element/{% if operation == 'edit' %}update{% else %}add{% endif %}", $(form).serialize()).done(function(response,option){
+		    		console.log(option.data);
+		    		location.href = "/moongood/operator/list";
+				})
+		    }
+		})
+	}
+
+	function radio(moduleId){
+		url = '/moongood/module/radio?moduleId='+moduleId;
+		$("#moduleId").on("change", function(){
+			url = '/moongood/module/radio?moduleId='+$(this).val();
+			$("#moduleName").unbind("click").on("click", function(){
+				layer_open('模块单选', url);
+			})
+		})
+		$("#moduleId").trigger("change");
+	}
+
+	
+	{% if operation == 'edit' %}
+	request({
+		url: "{{api}}user/permission/element/info",
+		data: {id: getQueryParam('id')},
+		type: "get",
+		dataType: "jsonp",
+		jsonp: 'callback'
+	}).done(function(response){
+		substitute("#form-template", response.data.info);
+		init();
+		radio(response.data.info.moduleId);
+	})
+	{% else %}
+	substitute("#form-template", {});
+	init();
+	radio("");
+	{% endif %}
+})
+</script>

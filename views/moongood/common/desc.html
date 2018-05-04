@@ -1,0 +1,75 @@
+
+
+{% block content %}
+
+
+<div class="box-content">
+	<div class=" panel-default mt-20">
+
+			<p class="text-c mt-20">不通过原因</p>
+			<form id="editForm" class="form form-horizontal">
+						
+						
+						<div class="row cl pl-20">
+							<textarea class="radius pl-10 pr-10" style="display:block;width: 80%;margin:0 auto;height: 200px;box-sizing: border-box;  resize:none;" name="auditFailReason"></textarea>
+						</div>
+
+						<input type="hidden" name="_v" value="1.0"></input>
+						<input type="hidden" name="_api" value="zj.planner.audit"></input>
+						<input type="hidden" name="plannerUserId" value=""></input>
+						
+						<div class="row text-c ">
+						   <input class="btn btn-primary submit"  type="submit" value="提交">
+						</div>
+						
+					</form>
+						
+		
+	</div>
+	
+	
+</div>
+
+
+
+{% include "../layout/insidePage.html" %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		function init(){
+			$("#editForm").validate({
+				rules: {
+					"auditFailReason": {
+						required: true
+					}
+				},
+			    submitHandler:function(form){ 
+			    	request("{{api}}mapi", {plannerUserId: getQueryParam('id'),_api:"zj.planner.audit",_v:"1.0",auditFailReason:$("textarea[name='auditFailReason']").val()}).done(function(response,option){
+			    		console.log(option.data);
+			    		alert('aa')
+			    		if(response.success=true){
+			    			// location.reload();
+			    		}
+			    		
+					})
+				}	
+			})
+		}
+		init()
+		var res={};
+		// if(getQueryParam('type')=='financialPlanners'){
+		// 	res.api="zj.planner.audit";
+		// 	res.v='1.0';
+		// 	res.auditFailReason=
+		// }
+		// res.id=getQueryParam('id');
+		
+	
+		// request("{{api}}mapi",{plannerUserId: getQueryParam('id'),sign:0,_api:"zj.planner.audit",_v:"1.0",auditFailReason:$("textarea[name='auditFailReason']").val()}).done(function(response){
+		// 	console.log(response)
+		// 	if(response.success==true){
+		// 		location.href='/moongood/financialPlanners/list'
+		// 	}
+		// })    
+	})
+</script>
+{% endblock %}

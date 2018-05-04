@@ -1,0 +1,18 @@
+{% extends "../layout/default.html" %}
+
+{% block content %}
+<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/agent/list" class="c-primary">代理商列表</a>
+			<span class="c-gray en">&gt;</span>
+			<a href="/moongood/agent/add">代理商新增</a>
+		</div>
+		
+</nav>
+
+{% set operation = "add" %}
+{% include "../layout/insidePage.html" %}
+{% include "form.html" with operation %}
+
+{% endblock %}

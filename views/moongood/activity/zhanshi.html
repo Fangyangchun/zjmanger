@@ -1,0 +1,80 @@
+
+{% extends "../layout/insidePage.html" %} 
+{% block content %}
+
+<style type="text/css">
+
+input[type="checkbox"]{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-top: 3px;
+
+}
+
+
+</style>
+	<script id="list-template" type="text/x-handlebars-template">
+	{% raw %}
+	<section class="Hui-article-box">
+	<h3 class="row cl ml-20 mt-20 mr-20 clearfix text-l">您在<span class="c-red">{{province}}{{city}}{{district}}{{address}}</span>所选的客户经理 </h3>
+	
+	<div class="row cl ml-20 mt-20 mr-20 clearfix text-l"> 
+	{{#each manager}}
+		<div class="col-xs-3 ">
+		{{realname}}
+		</div>
+	{{/each}}
+		
+	</div>
+	<div class="ml-20 mt-20 mr-20 clearfix text-r " style="border-top:1px solid #ccc;"> 
+		<input class="btn btn-info submit mt-10 btnSum1"  value="取消">
+		<input class="btn btn-primary submit mt-10 btnSum2"  value="确认">
+	</div>
+	
+  </section>
+	{% endraw %}
+	</script>
+
+	<script type="text/javascript">
+		
+		
+		$(document).ready(function(){
+			// city()
+			// setTimeout(function(){
+				
+					var response={};
+					var manager=JSON.parse(getCookie("manager"));
+
+					console.log(manager)
+					// console.log(getCookie("managerName"))
+					response.province=getCookie("province")||undefined;
+					response.city=getCookie("city")||undefined;
+					response.district=getCookie("district")||undefined;
+					response.address = getCookie("address")||undefined;
+					
+					response.manager=manager;
+					
+				
+					substitute("#list-template", response);
+					
+					$(".btnSum1").click(function(){
+						
+				      	location.href='/moongood/activity/search'
+
+						
+					})
+					$(".btnSum2").click(function(){
+						
+				      	layer_close();
+
+						
+					})	
+				// })
+				
+				
+			// }, 500);	
+		})
+	</script>
+{% endblock %}
+

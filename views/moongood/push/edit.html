@@ -1,0 +1,17 @@
+{% extends "../layout/default.html" %}
+
+{% block content %}
+
+<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/push/list" class="c-primary">推送列表</a>
+			<span class="c-gray en">&gt;</span>
+			<a href="javascript:location.replace(location.href);">编辑推送内容</a>
+		</div>
+		
+</nav>
+{% set operation = "edit" %}
+{% include "../layout/insidePage.html" %}
+{% include "form.html" with operation %}
+{% endblock %}

@@ -1,0 +1,2181 @@
+
+<style type="text/css">
+.swfupload{
+	width: 100%;
+	height: 31px;
+}
+.uploadify-button-test {
+	width: 100%;
+	height: 31px;
+	background:#6595e3;
+	border-radius: 0;
+	border: none;
+}
+.uploadify:hover .uploadify-button {
+	background:#6595e3;
+}
+.img-show{
+	margin-bottom: 10px;
+}
+.input-text[type="number"] {
+   width: 100%;
+}
+@media (max-width: 767px){
+	.upload-url {
+    	display: block!important;
+	}
+	.btn-upload{
+		margin-bottom: 10px;
+	}
+}
+.input-file{
+	/*width: 100%;*/
+	height: 40px;
+}
+
+
+	
+</style>
+<script id="form-template" type="text/x-handlebars-template">
+{% raw %}
+<div class="box-content">
+	<div class="panel panel-default mt-20">
+		<div class="panel-body">
+			<div id="HuiTab-demo1" class="HuiTab">
+				<div class="tabBar cl">
+					<span>步骤一</span>
+					<span >步骤二</span>
+					<span >步骤三</span>
+					<span >步骤四</span>
+				</div>
+				<div class="tabCon">
+					<div id="editForm" class="form form-horizontal">						
+						<input type="hidden" class="id" value="{{id}}" name="id">
+						{{#if companyCategory}}
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span> 企业类别：</label>
+							<div class="formControls col-xs-6">
+								<select class="select element-item companyType"  name="companyType" data-rel="chosen" data-rel="chosen" disabled="disabled">
+									<option value="">请选择企业类别</option>
+									{{#each jinrong}}
+								
+									<option value="{{id}}">{{categoryName}}</option>
+									
+							
+									{{/each}}
+								</select>
+							</div>
+						</div>
+						
+						{{/if}}
+						
+						
+						
+						{{#equal companyId '0' }}
+						<div class="row cl" >
+							<label class="form-label col-xs-3" ><span class="c-red">*</span>企业名称：</label>
+							
+							<div class="formControls col-xs-6">
+								<select class="select companyId"  name="companyId" data-rel="chosen" data-rel="chosen" >
+										<option value="">请选择企业名称</option>
+									{{#each company}}
+										<option value="{{id}}">{{companyName}}</option>
+										
+									{{/each}}
+								</select>
+							</div>
+								
+							<!-- </div> -->
+								
+								
+							<div class="col-xs-3 noneMan" style="display: none;">
+								<a href="/moongood/company/add">没有要找的企业？</a>
+							
+							</div>
+								
+							
+							
+						</div>
+						{{else}}
+						{{#if company}}
+						<div class="row cl" >
+							<label class="form-label col-xs-3" ><span class="c-red">*</span>企业名称：</label>
+							
+							<div class="formControls col-xs-6">
+								<select class="select companyId"  name="companyId" data-rel="chosen" data-rel="chosen" disabled="disabled">
+										<option value="">请选择企业名称</option>
+									{{#each company}}
+										<option value="{{id}}">{{companyName}}</option>
+										
+									{{/each}}
+								</select>
+							</div>
+								
+							<!-- </div> -->
+								
+								
+							<div class="col-xs-3 noneMan" style="display: none;">
+								<a href="/moongood/company/add">没有要找的企业？</a>
+							
+							</div>
+								
+							
+							
+						</div>
+						{{else}}
+						<div class="row cl" style="display: none;">
+							<label class="form-label col-xs-3" ><span class="c-red">*</span>企业名称：</label>
+							
+							<div class="formControls col-xs-6">
+								<select class="select companyId"  name="companyId" data-rel="chosen" data-rel="chosen" disabled="disabled">
+									
+								</select>
+							</div>
+								
+							<!-- </div> -->
+								
+								
+							<div class="col-xs-3 noneMan" style="display: none;">
+								<a href="/moongood/company/add">没有要找的企业？</a>
+							
+							</div>
+								
+							
+							
+						</div>
+						{{/if}}
+						{{/equal}}	
+						<!-- <div class="row cl">
+							<label class="form-label col-xs-3" ><span class="c-red">*</span>项目名称：</label>
+							<div class="formControls col-xs-6 text-l cl">
+								<div class="col-xs-3">
+									<input class="role-item" type="checkbox" name="projectId" value="{{projectId}}" {{#if isChecked}}checked="true"{{/if}}>
+								客户经理
+								</div>
+								
+								<div class="col-xs-3 noneMan">
+									<a href="/moongood/item/add">没有要找的项目？</a>
+								
+								</div>
+								
+							</div>
+							
+						</div> -->
+
+
+						{{#equal companyCategory '88' }}
+						<div class="row cl" style="display: none;">
+							<label class="form-label col-xs-3" ><span class="c-red">*</span>项目名称：</label>
+							
+							<div class="formControls col-xs-6">
+								<select class="select projectId"  name="projectId" data-rel="chosen" data-rel="chosen">
+									
+								</select>
+							</div>
+								
+		
+								
+								
+							<div class="col-xs-3 noneMan1" style="display: none;">
+								<a href="/moongood/item/add?id={{companyId}}">没有要找的项目？</a>
+							
+							</div>
+								
+							
+							
+						</div>
+						{{else}}
+						
+						{{#if project}}
+						
+						<div class="row cl" >
+							<label class="form-label col-xs-3" ><span class="c-red">*</span>项目名称：</label>
+							
+							<div class="formControls col-xs-6">
+								<select class="select projectId"  name="projectId" data-rel="chosen" data-rel="chosen" disabled="disabled">
+										<option value="">请选择项目名称</option>
+									{{#each project}}
+										<option value="{{id}}">{{projectName}}</option>
+										
+									{{/each}}
+								</select>
+							</div>
+								
+							<!-- </div> -->
+								
+								
+							<div class="col-xs-3 noneMan" style="display: none;">
+								<a href="/moongood/company/add">没有要找的企业？</a>
+							
+							</div>
+								
+							
+							
+						</div>
+						
+						{{else}}
+						<div class="row cl" style="display: none;">
+							<label class="form-label col-xs-3" ><span class="c-red">*</span>项目名称：</label>
+							
+							<div class="formControls col-xs-6">
+								<select class="select projectId"  name="projectId" data-rel="chosen" data-rel="chosen">
+									
+								</select>
+							</div>
+								
+							<!-- </div> -->
+								
+								
+							<div class="col-xs-3 noneMan1" style="display: none;">
+								<a href="/moongood/item/add?id={{companyId}}">没有要找的项目？</a>
+							
+							</div>
+								
+							
+							
+						</div>
+						{{/if}}
+						{{/equal}}	
+							
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span> 产品分类：</label>
+							<div class="formControls col-xs-6">
+								<select class="select select1 productCategoryId"  name="productCategoryId" data-rel="chosen" data-rel="chosen">
+								{{#each category}}
+								
+									<option value="{{productCategoryId}}" >{{productCategoryName}}</option>
+									
+							
+								{{/each}}
+								</select>
+
+							</div>
+						</div>
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>产品名称：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="text" class="input-text radius version" value="{{model.productName}}" placeholder="产品名称" name="productName" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>
+								
+							</div>
+						</div>
+						{{#equal companyCategory '88' }}
+						{{else}}
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>股权债权标识：</label>
+							<div class="formControls col-xs-6">
+								<select class="select element-item"  name="rightSign" data-rel="chosen" data-rel="chosen">
+									
+									<option value="1" {{#equal model.rightSign '1' }}selected="selected"{{/equal}}>股权</option>
+									<option value="2" {{#equal model.rightSign '2' }}selected="selected"{{/equal}}>债权</option>
+								</select>
+							</div>
+						</div>
+							
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>股权债权出让值（%）：</label>
+							<div class="formControls col-xs-6">
+
+							
+							
+								<input type="number" class="input-text radius surfaceNo" value="{{model.rightValue}}"  name="rightValue"  / >
+								
+							</div>
+						</div>
+						
+						{{/equal}}
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>募集规模(万元)：</label>
+							<div class="formControls col-xs-6">
+
+							
+							
+								<input type="number" class="input-text radius surfaceNo" onkeyup='this.value=this.value.replace(/\D/gi,"")' value="{{model.amtTotal}}"  name="amtTotal"/ >
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>起投金额(万元)：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="number" class="input-text radius qrCode" value="{{model.amtInvestmentMin}}" placeholder="起投金额(万元)" onkeyup='this.value=this.value.replace(/\D/gi,"")' name="amtInvestmentMin" >
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3" ><span class="c-red">*</span>是否推荐：</label>
+							<div class="formControls col-xs-6 text-c">
+								<select class="select"  name="isRecommend" >
+								{{#if model.isRecommend }}
+									<option value="0"  {{#equal model.isRecommend '0' }}selected="selected"{{/equal}}>否</option>
+									<option value="1" {{#equal model.isRecommend '1' }}selected="selected"{{/equal}}>是</option>
+									
+								{{else}}
+									<option value="0" >否</option>
+									<option value="1" >是</option>
+								{{/if}}
+								</select>
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3" ><span class="c-red">*</span>是否新手专享：</label>
+							<div class="formControls col-xs-6 text-c">
+								<select class="select"  name="isNewUser" >
+								{{#if model.isNewUser }}
+									<option value="0"  {{#equal model.isNewUser '0' }}selected="selected"{{/equal}}>否</option>
+									<option value="1" {{#equal model.isNewUser '1' }}selected="selected"{{/equal}}>是</option>
+									
+								{{else}}
+									<option value="0" >否</option>
+									<option value="1" >是</option>
+								{{/if}}
+								</select>
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span> 投资人条件：</label>
+							<div class="formControls col-xs-6">
+								<select class="select"  name="riskLevel" data-rel="chosen" data-rel="chosen">
+									<option value="1" {{#equal model.riskLevel '1' }}selected="selected"{{/equal}}>保守型</option>
+									<option value="2" {{#equal model.riskLevel '2' }}selected="selected"{{/equal}}>稳健型</option>
+									<option value="3" {{#equal model.riskLevel '3' }}selected="selected"{{/equal}}>平衡型</option>
+									<option value="4" {{#equal model.riskLevel '4' }}selected="selected"{{/equal}}>成长型</option>
+									<option value="5" {{#equal model.riskLevel '5' }}selected="selected"{{/equal}}>进取型</option>
+								</select>
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span> 大小配比：</label>
+							<div class="formControls col-xs-6">
+								<select class="select"  name="wayAmtRatio">
+									<option value="1" {{#equal model.wayAmtRatio '1' }}selected="selected"{{/equal}}>小额畅打</option>
+									<option value="2" {{#equal model.wayAmtRatio '2' }}selected="selected"{{/equal}}>已配出小额</option>
+									<option value="3" {{#equal model.wayAmtRatio '3' }}selected="selected"{{/equal}}>严格配比</option>
+									<option value="4" {{#equal model.wayAmtRatio '4' }}selected="selected"{{/equal}}>全大额</option>
+								</select>
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3">付息方式：</label>
+							<div class="formControls col-xs-6">
+								<select class="select"  name="wayInterest" >
+									<option value="" >选择付息方式</option>
+									<option value="1" {{#equal model.wayInterest '1' }}selected="selected"{{/equal}}>按季付息</option>
+									<option value="2" {{#equal model.wayInterest '2' }}selected="selected"{{/equal}}>半年付息</option>
+									<option value="3" {{#equal model.wayInterest '3' }}selected="selected"{{/equal}}>按年付息</option>
+									<option value="4" {{#equal model.wayInterest '4' }}selected="selected"{{/equal}}>到期付息</option>
+								</select>
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3">基金经理</label>
+							<div class="formControls col-xs-6">
+								<input type="text " class="input-text radius qrCode" value="{{model.fundManager}}" placeholder="" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")' name="fundManager" >
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>产品类型：</label>
+							<div class="formControls col-xs-6">
+								<input type="text " class="input-text radius qrCode" value="{{model.subtype}}" placeholder="" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")' name="subtype" >
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>成立日期：</label>
+							<div class="formControls col-xs-6">
+						
+								 <input id='establish' class="laydate-icon pl-5 establishTime" name="establishTime" style="width:140px;height:29px;" value="" readonly="readonly" data-time='{{model.establishTime}}' placeholder="成立日期">
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>   产品期限：</label>
+							<div class="formControls col-xs-6">
+								{{#if model.productTrem}}
+								 <input id='term' class="input-text radius"  style="width:140px;height:29px;" value="{{model.productTrem}}" data-time='{{model.productTrem}}'  name="productTrem" placeholder="如24个月"><span class="c-red">请把单位写上，否则app展示会有问题 如XX个月或XX个年</span>
+								 {{else}}
+								 <input id='term' class="input-text radius"  style="width:140px;height:29px;" value="" data-time='{{model.productTrem}}' name='productTrem'  placeholder="如24个月"><span class="c-red">请把单位写上，否则app展示会有问题 如XX个月或XX个年</span>
+								{{/if}}
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span> 投资期限：</label>
+							<div class="formControls col-xs-6">
+								{{#if model.investmentTerm}}
+								 <input id='term' class="input-text radius"  style="width:140px;height:29px;" value="{{model.investmentTerm}}" data-time='{{model.investmentTerm}}'  name="investmentTerm" placeholder="如24个月"><span class="c-red">请把单位写上，否则app展示会有问题 如XX个月或XX个年</span>
+								 {{else}}
+								 <input id='term' class="input-text radius"  style="width:140px;height:29px;" value="" data-time='{{model.investmentTerm}}' name='investmentTerm'  placeholder="如24个月"><span class="c-red">请把单位写上，否则app展示会有问题 如XX个月或XX个年</span>
+								{{/if}}
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>  募集时间：</label>
+							<div class="formControls col-xs-6">
+						
+								 <input id='start' class="laydate-icon pl-5 raiseStartTime mr-5 mb-5"  style="width:140px;height:29px;" value="" data-time='{{model.raiseStartTime}}' readonly="readonly" name="raiseStartTime" placeholder="开始时间" /> --
+								 <input id='end' class="laydate-icon pl-5 raiseEndTime" readonly="readonly" name="raiseEndTime" style="width:140px;height:29px;" value="" data-time='{{model.raiseEndTime}}' placeholder="结束时间" />
+							</div>
+
+						</div>
+	
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>  业绩基准：</label>
+
+							<div class="formControls col-xs-6 cl">
+							{{#if model.amtRateInfo}}
+							{{#each model.amtRateInfo}}
+								<div class=" noneMore " id='con{{@index}}'>
+								
+									
+									 <input  class="pl-5  mr-5 input-text radius mb-5" type="number" style="width:140px;height:29px;" value="{{this.minamtRateInfo}}" onkeyup='this.value=this.value.replace(/\D/gi,"")' name="minamtRateInfo" placeholder="最小投资金额(万元)"> 
+									 <input  class="pl-5  mr-5 input-text radius mb-5" type="number" style="width:140px;height:29px;" value="{{this.maxamtRateInfo}}" onkeyup='this.value=this.value.replace(/\D/gi,"")' name="maxamtRateInfo" placeholder="最大投资金额(万元)"> 
+									 <input  class="pl-5  mr-5 input-text radius mb-5"   type="number" style="width:100px;height:29px;" value="{{this.managerInfo}}" onkeyup="this.value=this.value.replace(/^(\-)*(\d+)\.(\d\d\d\d).*$/,'$1$2.$3')" name="managerInfo" placeholder="业绩基准(%)" /> 
+									 <input  class="pl-5  input-text radius mb-5" name="riskControlDesc" type="number" style="width:100px;height:29px;" onkeyup="this.value=this.value.replace(/^(\-)*(\d+)\.(\d\d\d\d).*$/,'$1$2.$3')" value="{{this.riskControlDesc}}" placeholder="佣金比例(%)" />
+								 	<span class="btn-danger  pl-10 pr-10 radius mb-5 jian" onclick="jian({{@index}})" style="display:inline-block;height:29px;line-height: 29px;vertical-align: top;" ><i class="Hui-iconfont">&#xe6a1;</i></span>
+								</div>
+								{{/each}}
+								{{else}}
+								<div class=" noneMore " id='con0'>
+								
+									
+									 <input  class="pl-5  mr-5 input-text radius mb-5" onkeyup='this.value=this.value.replace(/\D/gi,"")' type="number" style="width:140px;height:29px;" value="" name="minamtRateInfo" placeholder="最小投资金额(万元)"> 
+									 <input  class="pl-5  mr-5 input-text radius mb-5" onkeyup='this.value=this.value.replace(/\D/gi,"")' type="number" style="width:140px;height:29px;" value="" name="maxamtRateInfo" placeholder="最大投资金额(万元)"> 
+									 <input  class="pl-5  mr-5 input-text radius mb-5" onkeyup="this.value=this.value.replace(/^(\-)*(\d+)\.(\d\d\d\d).*$/,'$1$2.$3')" type="number" style="width:100px;height:29px;" value="" name="managerInfo" placeholder="业绩基准(%)" />
+									 <input  class="pl-5  input-text radius mb-5" onkeyup="this.value=this.value.replace(/^(\-)*(\d+)\.(\d\d\d\d).*$/,'$1$2.$3')" name="riskControlDesc" type="number" style="width:100px;height:29px;" value="" placeholder="佣金比例(%)" />
+								 	<span class="btn-danger  pl-10 pr-10 radius mb-5 jian" onclick="jian(0)" style="display:inline-block;height:29px;line-height: 29px;vertical-align: top;" ><i class="Hui-iconfont">&#xe6a1;</i></span>
+								</div>
+								{{/if}}
+							</div>
+							<div class="formControls col-xs-1 ">
+								
+
+								<span class="btn-success pl-10 pr-10 radius mb-5 add"  style="display:inline-block;height:29px;line-height: 29px;" ><i class="Hui-iconfont">&#xe600;</i></span>
+								
+								
+								
+								
+								
+							</div>
+							<!-- <div class="formControls col-xs-1 ">
+								业绩基准范围要连续
+							</div> -->
+						</div>
+			
+						<!-- <div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>最大范围业绩基准：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="number" class="input-text radius version mr-5" value="{{model.yejijizhun}}" placeholder="最大范围业绩基准" name="yejijizhun" onkeyup="this.value=this.value.replace(/^(\-)*(\d+)\.(\d\d\d\d).*$/,'$1$2.$3')" style="width: 100px;">%
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>最大范围佣金比例：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="number" class="input-text radius version mr-5" value="{{model.yongjinbili}}" placeholder="最大范围佣金比例" name="yongjinbili" onkeyup="this.value=this.value.replace(/^(\-)*(\d+)\.(\d\d\d\d).*$/,'$1$2.$3')" style="width: 100px;">%
+								
+							</div>
+						</div> -->
+						<div class="row cl">
+							<label class="form-label col-xs-3">管理费：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="number" class="input-text radius version mr-5" value="{{model.rateFeeManager}}" placeholder="管理费" name="rateFeeManager" onkeyup="this.value=this.value.replace(/^(\-)*(\d+)\.(\d\d\d\d).*$/,'$1$2.$3')" style="width: 100px;">%
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3">托管费：</label>
+							<div class="formControls col-xs-6">
+							
+								<input type="number" class="input-text radius version mr-5" value="{{model.rateFeeManaged}}" placeholder="托管费" name="rateFeeManaged" onkeyup="this.value=this.value.replace(/^(\-)*(\d+)\.(\d\d\d\d).*$/,'$1$2.$3')" style="width: 100px;">%
+								
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3">业绩报酬：</label>
+							<div class="formControls col-xs-6">
+								<textarea cols="" rows="" class="textarea radius" name="performanceCompensation"  placeholder="说点什么...最少输入10个字符" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")' maxlength="10000">{{model.performanceCompensation}}</textarea>
+							</div>
+							
+						</div>
+						<div class="row text-c ">
+						   <input class="btn btn-primary submit "  value="下一步">
+						</div>
+
+					</div>
+				</div>
+				<div class="tabCon">
+					<form id="editForm1" class="form form-horizontal">
+						
+						
+						{{#equal companyCategory '88' }}
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>  发行方：</label>
+							<div class="formControls col-xs-6">
+								<input type="text" class="input-text radius surfaceNo"  value="{{model.managerInfo.issuer}}" placeholder="发行方" name="issuer" >
+							</div>
+						</div>
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>托管方：</label>
+							<div class="formControls col-xs-6">
+								<input type="text" class="input-text radius surfaceNo"  value="{{model.managerInfo.hosted}}" placeholder="托管方" name="hosted" >
+							</div>
+						</div>
+
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span> 管理方：</label>
+							<div class="formControls col-xs-6">
+								<input type="text" class="input-text radius surfaceNo"  value="{{model.managerInfo.management}}" placeholder="管理方" name="management" >
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>风险控制：</label>
+							<div class="formControls col-xs-6">
+								<textarea cols="" rows="" class="textarea radius" name="riskControl"  placeholder="说点什么...最少输入10个字符">{{model.riskControlDesc.riskControl}}</textarea>
+								<!-- <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p> -->
+							</div>
+							
+						</div>
+						{{else}}
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>预期回报：</label>
+							<div class="formControls col-xs-6">
+								<textarea cols="" rows="" class="textarea radius" name="expectedReturn"  placeholder="说点什么...最少输入10个字符" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")' maxlength="10000">{{model.riskControlDesc.expectedReturn}}</textarea>
+							</div>
+							
+						</div>
+						{{/equal}}
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>资金用途：</label>
+							<div class="formControls col-xs-6">
+								<textarea cols="" rows="" class="textarea radius" name="capitalUse"  placeholder="说点什么...最少输入10个字符">{{model.riskControlDesc.capitalUse}}</textarea>
+								<!-- <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p> -->
+							</div>
+						</div>
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span> 退出方式：</label>
+							<div class="formControls col-xs-6">
+								<textarea cols="" rows="" class="textarea radius" name="repaymentSource"  placeholder="说点什么...最少输入10个字符">{{model.riskControlDesc.repaymentSource}}</textarea>
+								<!-- <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p> -->
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>项目亮点：</label>
+							<div class="formControls col-xs-6">
+								<textarea cols="" rows="" class="textarea radius" name="projectPoint" placeholder="说点什么...最少输入10个字符">{{model.riskControlDesc.projectPoint}}</textarea>
+								<!-- <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p> -->
+							</div>
+						</div>
+						
+
+
+						<div class="row text-c ">
+						   <input class="btn btn-primary submit"  value="下一步">
+						</div>
+
+					</form>
+				</div>
+				<div class="tabCon">
+					<form id="editForm2" class="form form-horizontal">
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>  银行名称：</label>
+							<div class="formControls col-xs-6">
+								<input type="text" class="input-text radius surfaceNo"  value="{{model.raiseAcctOrganization}}" placeholder="银行名称" maxlength="50" name="raiseAcctOrganization" >
+							</div>
+						</div>
+						
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span>支行名称：</label>
+							<div class="formControls col-xs-6">
+								<input type="text" class="input-text radius surfaceNo"  value="{{model.raiseAcctOrganBranch}}" placeholder="支行名称" maxlength="50" name="raiseAcctOrganBranch" >
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span> 账户名称：</label>
+							<div class="formControls col-xs-6">
+								<input type="text" class="input-text radius surfaceNo" maxlength="20" value="{{model.raiseAcctName}}" placeholder="账户名称" name="raiseAcctName" >
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span> 募集帐号：</label>
+							<div class="formControls col-xs-6">
+								<input type="number" class="input-text radius surfaceNo" maxlength="20" value="{{model.raiseAcctNumber}}" placeholder="募集帐号" name="raiseAcctNumber" >
+							</div>
+						</div>
+						<div class="row text-c ">
+						   <input class="btn btn-primary submit"  value="下一步">
+						</div>
+
+					</form>
+				</div>
+				<div class="tabCon">
+					<form id="editForm3" class="form form-horizontal" >
+						<!-- <input type="hidden" name="projectInfo" value="{{projectInfo}}"> -->
+						<!-- <div class="row cl">
+							<label class="form-label col-xs-3"><span class="c-red">*</span> 募集帐号：</label>
+							<div class="formControls col-xs-6">
+								
+							</div>
+						</div> -->
+						
+						<!-- <div class="row cl"> -->
+							<!-- <input type="hidden" name="categoryPicture" value="{{categoryPicture}}"> -->
+							<!-- <label class="form-label col-xs-3">项目文件</label>
+							<div class="formControls col-xs-6 "> -->
+								<div class="wrap shopWrapWrap">
+
+								{{#if model.projectInfo}}
+								{{#each model.projectInfo}}
+									<div class="wrapCon secWrap" id='wrap{{@index}}'>
+										<div class="row cl">
+											<label class="form-label col-xs-3" >项目文件标题</label>
+											<div class="formControls col-xs-6 text-c">
+												<input type="text" class="input-text radius surfaceNo mb-10"  value="{{this.title}}" placeholder="项目文件标题" name="title" >
+											</div>
+										</div>
+										<div class="row cl">
+											<label class="form-label col-xs-3" >项目文件</label>
+											<div class="formControls col-xs-6 text-l" style="width:400px">
+												<input class="input-text upload-url" type="text" placeholder="请选择文件"  readonly style="width:400px" value="http://img1.zhongjing-hz.com/{{fileUrl}}">
+												<input type="file" multiple name="upfile"  accept="application/pdf" class="input-file" id="uploadfile{{@index}}" value='{{fileUrl}}'>
+												
+												
+											</div>
+											<div class="formControls col-xs-2 text-l">
+												
+												<a href="javascript:void(0);" class="btn btn-primary upload-btn" onclick="btnSum({{@index}})"><i class="Hui-iconfont">&#xe642;</i> 上传（文件）</a>
+												
+											</div>
+										</div>
+										<div class="row cl">
+											<label class="form-label col-xs-3"></label>
+											<div class="formControls col-xs-6 text-l">
+												<a class="btn btn-danger mt-5 " onclick="picJian({{@index}})" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+											
+											</div>
+											
+										</div>
+										<input type="hidden" name="projectInfo" value="{{fileUrl}}">
+										
+										
+									</div>
+									
+								{{/each}}
+								{{else}}
+									<div class="wrapCon secWrap" id='wrap0'>
+										<div class="row cl">
+											<label class="form-label col-xs-3" >项目文件标题</label>
+											<div class="formControls col-xs-6 text-c">
+												<input type="text" class="input-text radius surfaceNo mb-10"  value="{{this.title}}" placeholder="项目文件标题" name="title" >
+											</div>
+										</div>
+										<div class="row cl">
+											<label class="form-label col-xs-3" >项目文件</label>
+											<div class="formControls col-xs-6 text-l" style="width:400px">
+												<input class="input-text upload-url" type="text" placeholder="请选择文件"  readonly style="width:400px" value="">
+												<input type="file" multiple name="upfile" id="uploadfile0" accept="application/pdf" class="input-file" value=''>
+												
+												
+											</div>
+											<div class="formControls col-xs-2 text-l">
+												
+												<a href="javascript:void(0);" class="btn btn-primary upload-btn" onclick="btnSum('0')"><i class="Hui-iconfont">&#xe642;</i> 上传（文件）</a>
+												
+											</div>
+										</div>
+										<div class="row cl">
+											<label class="form-label col-xs-3"></label>
+											<div class="formControls col-xs-6 text-l">
+												<a class="btn btn-danger mt-5 " onclick="picJian({{@index}})" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+											
+											</div>
+											
+										</div>
+										<input type="hidden" name="projectInfo" value="{{fileUrl}}">
+										
+										
+									</div>
+								{{/if}}
+								</div>
+								
+								<div class="row cl">
+									<label class="form-label col-xs-3" ></label>
+									<div class="formControls col-xs-6 text-l">
+										<span style="display: block; " class="mt-10 picAdd ">
+							
+											<span class="btn-success pl-10 pr-10 radius mb-5 " style="display:inline-block;height:31px;line-height: 31px;vertical-align: top;" ><i class="Hui-iconfont">&#xe600;</i></span>	
+										
+										</span>
+									</div>
+								</div>
+								
+								 
+							<!-- </div>  -->
+							
+							
+						<!-- </div> -->
+						
+						<div class="row text-c">
+							
+							<input class="btn btn-primary submitBtnY" value="保存并上架">
+							<input class="btn btn-primary submitBtnN" value="保存不上架">
+						<!-- 	<input class="btn btn-primary submitBtnNo" value="不修改"> -->
+						</div>
+
+					</form>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+</div>
+{% endraw %}
+</script>
+<style type="text/css">
+	body{
+		overflow-x: hidden;
+	}
+
+</style>
+<script type="text/javascript">
+var a=0, c=0,aa=0,cc=0,projectDescFiles=[],anrry=[],file=[],managerInfoArry=[],any1=[],any2=[],yes,company,project,jinrong;
+function jian(z){
+	// alert(a)
+	// alert(a)
+	if(a!=0){
+		a=a-1;
+		$("#con"+z).remove();
+	}
+	
+}
+function picJian(z){
+	if(c!=0){
+		c=c-1;
+		// alert(z)
+		$("#wrap"+z).remove();
+	}
+	
+}
+function toDecimal2(x) {    
+        var f = parseFloat(x);    
+        if (isNaN(f)) {    
+            return false;    
+        }    
+        var f = Math.round(x*100)/100;    
+        var s = f.toString();    
+        var rs = s.indexOf('.');    
+        if (rs < 0) {    
+            rs = s.length;    
+            s += '.';    
+        }    
+        while (s.length <= rs + 4) {    
+            s += '0';    
+        }    
+        return s;    
+}
+function toThousands(num) {
+    return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+} 
+function rmoney(s) { 
+	return parseFloat(s.replace(/[^\d\.-]/g, "")); 
+} 
+function company(){
+	$(".element-item").on("change", function(){
+		if($(this).val()!=''){
+			request("{{api}}mapi",{_api: 'zj.company.params',_v: '1.0',companyCategory:$(this).val()}).done(function(response){
+				// console.log(response)
+				$('select[name="companyId"]').parent().parent().show();
+				$('select[name="companyId"]').children('option').remove();
+				
+				$('select[name="companyId"]').append('<option value="">选择企业</option>');
+				if(response.model.length==0){
+					$('.noneMan').show();
+				}else{
+					for (var a = 0; a <response.model.length; a++) {
+						$('select[name="companyId"]').append('<option value="'+response.model[a].id+'">'+response.model[a].companyName+'</option');
+					}
+				}
+				
+				
+			})
+		}
+		
+	})
+}
+function company1(z){
+	// $(".element-item").on("change", function(){
+		request("{{api}}mapi",{_api: 'zj.company.params',_v: '1.0',companyCategory:z,pageSize:9900,page:1}).done(function(response){
+			// console.log(response)
+			company=response.model
+			
+			
+			
+		})
+	// })
+}
+function project1(z){
+	// $(".companyId").on("change", function(){
+		// alert('22')
+		request("{{api}}mapi",{_api: 'zj.project.params',_v: '1.0',companyId:z}).done(function(response){
+			// console.log(response)
+			project=response.model
+			
+			
+			
+		})
+	// })
+}
+function project(){
+	$(".companyId").on("change", function(){
+		if($(this).val()!=''){
+			request("{{api}}mapi",{_api: 'zj.project.params',_v: '1.0',companyId:$(this).val()}).done(function(response){
+				console.log(response)
+				$('select[name="projectId"]').parent().parent().show();
+				$('select[name="project"]').children('option').remove();
+				
+				$('select[name="projectId"]').append('<option value="">选择项目</option>');
+				if(response.model.length==0){
+					$('.noneMan1').show();
+				}else{
+					for (var a = 0; a <response.model.length; a++) {
+						$('select[name="projectId"]').append('<option value="'+response.model[a].id+'">'+response.model[a].projectName+'</option');
+					}
+				}
+				
+				
+			})
+		}
+	})
+}
+function ajaxFileUpload(id) {
+	
+
+	var extras = {
+        _api: 'upimg',
+        _v: '1.0',
+        biz:"productDoc"
+		};
+	var index =layer.load(2, {time: 300000})	
+	$.ajaxFileUpload({
+        url : '{{api}}upimg?'+$._apiClient.buildData(extras),
+        secureuri: false,
+        fileElementId : id,
+        dataType : 'jsonp',
+        success : function(data, status) {
+        	// alert(data)
+        	// alert(i)
+        	layer.close(index);
+        	if(data.success==true){
+        		
+        			// $('#'+id).siblings(".btn-upload").;
+	        		$('#'+id).siblings(".upload-url").val(data.model.url+data.model.filename);
+        			$('#'+id).parent().parent().siblings('input[name="projectInfo"]').val(data.model.filename)
+        			layer.msg("上传成功");
+        		
+        	}else{
+        		data.msg = data.msgInfo || "服务器出错，请稍后再试";
+        		layer.alert(data.msg);
+        		
+        	}
+         console.log(status)
+        },
+        error : function(data, status, e) {
+            layer.alert("服务器出错，请稍后再试");
+        }
+    })
+}
+function uploadurl(z){
+
+	$("#con"+z).children().children().children('.upload-url').click();
+	// $("#con"+z).children().children().children('.btn-upload').css("display","none").siblings('.upload-url').css({"position":"relative","width":"100%"}).show()
+	
+	
+}
+function btnSum(z){
+	// alert($("#con"+z).children().children().children('.input-file').val())
+  	if($("#con"+z).children().children().children('.input-url').val()!=""){
+        ajaxFileUpload('uploadfile'+z);	
+  	}
+			
+}
+$(document).ready(function(){
+	var category;
+	if(getQueryParam("companyCategory")){
+		if(getQueryParam("companyId")!=''){
+			// alert('aa')
+			project1(getQueryParam("companyId"));
+		}
+		company1(getQueryParam("companyCategory"));
+		
+	}
+// Array.prototype.max = function(){ 
+// 	return Math.max.apply({},this) 
+// } 
+	request("{{api}}mapi",{_api: 'zj.company.category',_v: '2.0'}).done(function(response){
+
+			jinrong=response.model;
+	})
+	request("{{api}}mapi",{_api: 'zj.product.category',_v: '3.0',parentId:getQueryParam("companyCategory")}).done(function(response){
+
+			category=response.model;
+	})
+
+
+	
+	var i;
+	i=0
+	
+	
+	{% if operation == 'edit' %}
+	
+setTimeout(function(){
+
+	 request("{{api}}mapi",{_api: 'zj.product.update.info',_v: '1.0',productId: getQueryParam('id')}).done(function(response){
+	 	console.log(response)
+		response.id = getQueryParam('id');
+		response.model.amtTotal=response.model.amtTotal/10000;
+		response.model.amtInvestmentMin=response.model.amtInvestmentMin/10000;
+		response.category=category;
+		response.jinrong=jinrong;
+		
+		// alert(len)
+		response.companyId=getQueryParam("companyId")||undefined;
+    	response.companyCategory=getQueryParam("companyCategory")||undefined;
+    	if(getQueryParam("companyCategory")){
+    		console.log(project)
+    		response.company=company;
+    		response.project=project;
+    		// if(getQueryParam("companyCategory")=="1"){
+    		// 	alert('aa')
+    		// }
+    	}
+		
+		response.model.managerInfo=JSON.parse(response.model.managerInfo);
+		response.model.riskControlDesc=JSON.parse(response.model.riskControlDesc);
+		
+
+		
+
+		if(response.model.projectInfo){
+			response.model.projectInfo=JSON.parse(response.model.projectInfo);
+			c=response.model.projectInfo.length-1
+			cc=response.model.projectInfo.length-1
+			
+		}
+		// if(getQueryParam("companyCategory")=="88"){
+			var len=JSON.parse(response.model.amtRateInfo).length-1
+			response.model.amtRateInfo=JSON.parse(response.model.amtRateInfo).splice(1,len);
+			a=response.model.amtRateInfo.length-1
+			aa=response.model.amtRateInfo.length-1
+			for (var s = 0; s < response.model.amtRateInfo.length; s++) {
+					var am=response.model.amtRateInfo[s];
+					// console.log(JSON.stringify(am).split("[")[1].split("]")[0].split('"')[1].split(",")[0].split('<'))
+					// var aml=JSON.stringify(am).split("[")[1].split("]")[0].split('"')[1].split(",");
+					var amll=am[0].split('≤');
+					console.log(amll)
+					var all;
+					if(amll.length==1){
+						all=amll[0].split('<');
+						response.model.amtRateInfo[s].minamtRateInfo=rmoney(all[0])/10000;
+					}else{
+
+						all=amll[1].split('<');
+						response.model.amtRateInfo[s].minamtRateInfo=rmoney(amll[0])/10000;
+					}
+					// var all=amll[1].split('<');
+					// var all=amll[1].split('≤');
+					// console.log(all)
+					if(all[1]==undefined){
+						response.model.amtRateInfo[s].maxamtRateInfo='';
+					}else{
+						response.model.amtRateInfo[s].maxamtRateInfo=rmoney(all[1])/10000;
+					}
+					response.model.amtRateInfo[s].managerInfo=am[1];
+					response.model.amtRateInfo[s].riskControlDesc=am[2];
+					// response.model.amtRateInfo[s].minamtRateInfo=rmoney(amll[0])/10000;
+					
+					// console.log(response.model.amtRateInfo[s].maxamtRateInfo)
+				}
+		// }
+// console.log(response.model.amtRateInfo)
+// console.log(response)
+		substitute("#form-template", response);
+		if(getQueryParam("companyCategory")){
+			if(getQueryParam("companyId")==''){
+				if(getQueryParam("companyCategory")!='1'){
+					project()	
+				}
+				
+			}else{
+				$('.companyId').attr('disabled',"disabled")
+			}
+			
+		}else{
+			// alert('aa')
+			company();
+			project()
+			
+			
+			
+		}
+		getList(".companyType option",getQueryParam("companyCategory"));
+		getList(".productCategoryId option",response.model.productCategoryId);
+		getTime2('.establishTime');
+		// getTime2('.productTrem');
+		getTime2('.raiseEndTime');
+		getTime2('.raiseStartTime');
+		getList(".element-item option",getQueryParam("companyCategory"));
+		getList(".companyId option",getQueryParam("companyId"));
+		getList(".projectId option",getQueryParam("projectId"));
+
+		// $(".jian").hide();
+		$(".add").click(function(){
+			a=a+1;
+			aa=aa+1
+			// alert(aa)
+			var con='<div class=" noneMore " id="con'+aa+'"><input  class="pl-5  mr-5 input-text radius mb-5" type="text" style="width:140px;height:29px;" value="" name="minamtRateInfo" placeholder="最小投资金额(万元)"><input  class="pl-5  mr-5 input-text radius mb-5" type="text" style="width:140px;height:29px;" value="" name="maxamtRateInfo" placeholder="最大投资金额(万元)"><input  class="pl-5  mr-5 input-text radius mb-5" type="text" style="width:100px;height:29px;" value=""  name="managerInfo" placeholder="业绩基准(%)"><input  class="pl-5 mr-5  input-text radius mb-5" name="riskControlDesc" type="text" style="width:100px;height:29px;" value=""  placeholder="佣金比例(%)"><span class="btn-danger ml-5  pl-10 pr-10 radius mb-5 jian" onclick="jian('+aa+')" style="display:inline-block;height:29px;line-height: 29px;vertical-align: top;" ><i class="Hui-iconfont">&#xe6a1;</i></span></div>';
+			
+			$(this).parent().siblings('.col-xs-6').append(con);
+			
+			$('.jian').show();
+		})
+		$(".picAdd").click(function(){
+			// alert('aa')
+			c=c+1;
+			cc=cc+1;
+			// var con='<div class="wrapCon" id="wrap'+cc+'"><input type="text" class="input-text radius surfaceNo mb-10"  value="{{title}}" placeholder="项目文件标题" name="title" ><span class="btn-upload form-group "><input class="input-text upload-url" type="text" placeholder="请选择文件"  readonly style="width:200px"><a href="javascript:void();" class="btn btn-primary upload-btn"><i class="Hui-iconfont">&#xe642;</i> 浏览文件</a><input type="file" multiple name="upfile"  accept="application/pdf" class="input-file"></span><span class="btn-danger ml-10 pl-10 pr-10 radius mb-5 jian" onclick="picJian('+cc+')" style="display:inline-block;height:29px;line-height: 29px;vertical-align: top;" ><i class="Hui-iconfont">&#xe6a1;</i></span></div>';
+			var con='<div class="wrapCon secWrap" id="wrap'+cc+'"><div class="row cl"><label class="form-label col-xs-3" >项目文件标题</label><div class="formControls col-xs-6 text-c"><input type="text" class="input-text radius surfaceNo mb-10"  value="" placeholder="项目文件标题" name="title" ></div></div><div class="row cl"><label class="form-label col-xs-3" >项目文件</label><div class="formControls col-xs-6 text-l" style="width:400px"><input class="input-text upload-url" type="text" placeholder="请选择文件"  readonly style="width:400px" value=""><input type="file" multiple name="upfile"  accept="application/pdf" class="input-file" id="uploadfile'+cc+'" value=""></div><div class="formControls col-xs-2 text-l"><a href="javascript:void(0);" class="btn btn-primary upload-btn" onclick="btnSum('+cc+')"><i class="Hui-iconfont">&#xe642;</i> 上传（文件）</a></div></div><div class="row cl"><label class="form-label col-xs-3"></label><div class="formControls col-xs-6 text-l"><a class="btn btn-danger mt-5 " onclick="picJian('+cc+')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a></div></div><input type="hidden" name="projectInfo" value="{{fileUrl}}"></div>'
+			
+			$(this).parent().parent().siblings('.wrap').append(con);
+			$('.jian').show();
+		})
+		//选项卡
+		
+		// getList('.select1 option',""+response.model.productCategoryId)
+		$("#HuiTab-demo1").Huitab({
+			index:0
+		});
+
+		$("#HuiTab-demo1").click(function(){
+			
+			$("#HuiTab-demo1").Huitab({
+				index:i
+			});
+			
+		})
+	
+		// alert($("#HuiTab-demo1").children('.tabBar').children('span').attr("class"))
+		
+		var establish = {
+			  elem: '#establish',
+			  format: 'YYYY-MM-DD hh:mm:ss',
+			  min: '', //设定最小日期为当前日期
+			  max: '2099-06-16', //最大日期
+			  istime: true,
+			  istoday: false,
+			  // choose: function(datas){
+			  //    end.min = datas; //开始日选好后，重置结束日的最小日期
+			  //    end.start = datas //将结束日的初始值设定为开始日
+			  // }
+			  
+			};
+		laydate(establish);
+				
+		var start = {
+		  elem: '#start',
+		  format: 'YYYY-MM-DD hh:mm:ss',
+		  min: '', //设定最小日期为当前日期
+		  max: '2099-06-16', //最大日期
+		  istime: true,
+		  istoday: false,
+		  choose: function(datas){
+		     end.min = datas; //开始日选好后，重置结束日的最小日期
+		     end.start = datas //将结束日的初始值设定为开始日
+		  }
+		};
+		var end = {
+		  elem: '#end',
+		  format: 'YYYY-MM-DD hh:mm:ss',
+		  min: '',
+		  max: '2099-06-16',
+		  istime: true,
+		  istoday: false,
+		  choose: function(datas){
+		    start.max = datas; //结束日选好后，重置开始日的最大日期
+		  }
+		};
+		laydate(start);
+		laydate(end);
+		$(".submit").click(function(){
+			
+			var json;
+			var arr;
+			
+				var amtRateInfo=[
+					["认购金额", "业绩基准", "返佣比例"],
+				]
+
+			
+			
+				any1=[];
+		 		any2=[];
+	 		
+			   for (var j = 0; j < a+1; j++) {
+				// ≤ ≥ > <
+	 				var amtRateInfo1
+	 				var managerInfo=toDecimal2($(".noneMore").eq(j).children('input[name="managerInfo"]').val());
+	 				var riskControlDesc=toDecimal2($(".noneMore").eq(j).children('input[name="riskControlDesc"]').val());
+	 				// amtRateInfo1=amtRateInfo
+	 				// alert($(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val())
+	 				
+	 				// arr=[amtRateInfo1+","+managerInfo+","+riskControlDesc]
+	 				// alert($(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val())
+	 				if($(".noneMore").eq(j).children('input[name="maxamtRateInfo"]').val()==''&&j==a){
+	 					// amtRateInfo1=toThousands($(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val()*10000)+'< x ';
+	 					amtRateInfo1=$(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val()*10000+'≤ x ';
+	 				}else{
+	 					// amtRateInfo1=toThousands($(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val()*10000)+'< x ≤'+toThousands($(".noneMore").eq(j).children('input[name="maxamtRateInfo"]').val()*10000);
+	 					amtRateInfo1=$(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val()*10000+'≤ x <'+$(".noneMore").eq(j).children('input[name="maxamtRateInfo"]').val()*10000;
+	 				}
+	 				
+	 				any1.push($(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val());
+	 				any2.push($(".noneMore").eq(j).children('input[name="maxamtRateInfo"]').val());
+	 				if(parseInt($(".noneMore").eq(j).children('input[name="managerInfo"]').val())>100){
+	 					// alert('aa')
+	 					layer.msg('业绩基准利率不对');
+	 					return;
+	 				}else if($(".noneMore").eq(j).children('input[name="managerInfo"]').val()==''){
+	 					layer.msg('业绩基准利率不对');
+	 					return;
+	 				}
+	 				if(parseInt($(".noneMore").eq(j).children('input[name="riskControlDesc"]').val())>100){
+	 					// alert('aa2')
+	 					layer.msg('佣金比例不对');
+	 					return;
+	 				}else if($(".noneMore").eq(j).children('input[name="riskControlDesc"]').val()==''){
+	 					layer.msg('佣金比例不对');
+	 					return;
+	 				}
+	 				if(parseInt($(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val())>parseInt($(".noneMore").eq(j).children('input[name="maxamtRateInfo"]').val())){
+	 					
+	 					layer.msg('业绩基准金额不对');
+						return;
+						
+					}
+					
+					managerInfoArry.push(managerInfo)
+ 					arr=[];
+					arr[0]=amtRateInfo1;
+					arr[1]=managerInfo;
+					arr[2]=riskControlDesc;
+					console.log(managerInfo)
+					// console.log(arr)
+					amtRateInfo.push(arr)
+					
+				}
+				if(any2.length==1){
+					yes=true;
+				}
+				for (var j = 0; j < any2.length; j++) {
+					var jj=j+1;
+					if(any2[j]==any1[jj]&&any2.length!=jj){
+						
+						yes=true;
+						
+					}
+				}
+				// console.log(any2)
+				// console.log(any1)
+				// console.log(managerInfoArry)
+				
+		
+				var max=Math.max.apply(null, managerInfoArry)// => 3 
+				if(parseInt($('input[name="rateFeeManager"]').val())>100){
+	 					// alert('aa')
+	 					layer.msg('管理费利率不对');
+	 					return;
+				}
+				if(parseInt($('input[name="rateFeeManaged"]').val())>100){
+					// alert('aa2')
+					layer.msg('托管费利率不对');
+					return;
+				}
+			// if(getQueryParam("companyCategory")=="88"){
+				if(parseInt($(".noneMore").eq(0).children('input[name="minamtRateInfo"]').val())!=parseInt($('input[name="amtInvestmentMin"]').val())){
+				// alert("aa")
+					layer.msg('业绩基准第一条最小金额必须等于起投金额');
+					return;
+				}	
+			// }
+			
+			if(i==0){
+				if(yes==true&&getQueryParam("companyCategory")=="88"){
+					// alert("aa")
+					if(parseInt($('input[name="amtTotal"]').val())>=parseInt($('input[name="amtInvestmentMin"]').val())){
+					// alert($('input[name="amtTotal"]').val()+','+$('input[name="amtInvestmentMin"]').val())
+						if($('select[name="companyType"]').val()!=''&&$('select[name="companyId"]').val()!=''&&$('select[name="productCategoryId"]').val()!=''&&$('select[name="productCategoryId"]').val()!=''&&$('input[name="productName"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="amtTotal"]').val()!=''&&$('input[name="amtInvestmentMin"]').val()!=''&&$('select[name="riskLevel"]').val()!=''&&$('input[name="investmentTerm"]').val()!=''&&$('input[name="subtype"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="establishTime"]').val()!=''&&$('input[name="productTrem"]').val()!=''&&$('input[name="raiseStartTime"]').val()!=''&&$('input[name="raiseEndTime"]').val()!=''&&arr.length!=0){
+							json={
+								_api: 'zj.product.update',
+								_v: '1.0',
+								productId:$('input[name="id"]').val(),
+								companyType:$('select[name="companyType"]').val(),
+								companyId:$('select[name="companyId"]').val(),
+								projectId:$('select[name="projectId"]').val(),
+								productCategoryId:$('select[name="productCategoryId"]').val(),
+								productCategoryId:$('select[name="productCategoryId"]').val(),
+							    productName:$('input[name="productName"]').val(),
+							    amtTotal:$('input[name="amtTotal"]').val()*10000,
+								amtInvestmentMin:$('input[name="amtInvestmentMin"]').val()*10000,
+							    riskLevel:$('select[name="riskLevel"]').val(),
+							    isNewUser:$('select[name="isNewUser"]').val(),
+							    // rightSign:$('select[name="rightSign"]').val(),
+							    // rightValue:$('input[name="rightValue"]').val(),
+							    isRecommend:$('select[name="isRecommend"]').val(),
+							    wayInterest:$('select[name="wayInterest"]').val(),
+							    wayAmtRatio:$('select[name="wayAmtRatio"]').val(),
+							    fundManager:$('input[name="fundManager"]').val(),
+							    subtype:$('input[name="subtype"]').val(),
+							    establishTime:$('input[name="establishTime"]').val(),
+							    investmentTerm:$('input[name="investmentTerm"]').val(),
+							    productTrem:$('input[name="productTrem"]').val(),
+							    raiseStartTime:$('input[name="raiseStartTime"]').val(),
+							    raiseEndTime:$('input[name="raiseEndTime"]').val(),
+							    ratePerformBaseComparison:max,
+							    amtRateInfo:JSON.stringify(amtRateInfo),
+							    rateFeeManager:$('input[name="rateFeeManager"]').val(),
+							    rateFeeManaged:$('input[name="rateFeeManaged"]').val(),
+							    companyType:$('select[name="companyType"]').val(),
+							    performanceCompensation:$('textarea[name="performanceCompensation"]').val()
+
+							}
+						}else{
+							json="";
+							layer.msg('请填写完信息');
+							return;
+						}
+					 
+					}else{
+						json="";
+						layer.msg('起投金额要比募集金额小哦');
+						return;
+					} 
+				}else if(yes==true&&getQueryParam("companyCategory")!="88"){
+					// alert('aa')
+					if(parseInt($('input[name="amtTotal"]').val())>=parseInt($('input[name="amtInvestmentMin"]').val())){
+					// alert($('input[name="amtTotal"]').val()+','+$('input[name="amtInvestmentMin"]').val())
+						if($('select[name="companyType"]').val()!=''&&$('select[name="companyId"]').val()!=''&&$('select[name="productCategoryId"]').val()!=''&&$('select[name="productCategoryId"]').val()!=''&&$('input[name="productName"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="amtTotal"]').val()!=''&&$('input[name="amtInvestmentMin"]').val()!=''&&$('select[name="riskLevel"]').val()!=''&&$('input[name="investmentTerm"]').val()!=''&&$('input[name="subtype"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="establishTime"]').val()!=''&&$('input[name="productTrem"]').val()!=''&&$('input[name="raiseStartTime"]').val()!=''&&$('input[name="raiseEndTime"]').val()!=''&&arr.length!=0){
+							json={
+								_api: 'zj.product.update',
+								_v: '1.0',
+								productId:$('input[name="id"]').val(),
+								companyType:$('select[name="companyType"]').val(),
+								companyId:$('select[name="companyId"]').val(),
+								projectId:$('select[name="projectId"]').val(),
+								productCategoryId:$('select[name="productCategoryId"]').val(),
+								productCategoryId:$('select[name="productCategoryId"]').val(),
+							    productName:$('input[name="productName"]').val(),
+							    amtTotal:$('input[name="amtTotal"]').val()*10000,
+								amtInvestmentMin:$('input[name="amtInvestmentMin"]').val()*10000,
+							    riskLevel:$('select[name="riskLevel"]').val(),
+							    isNewUser:$('select[name="isNewUser"]').val(),
+							    rightSign:$('select[name="rightSign"]').val(),
+							    rightValue:$('input[name="rightValue"]').val(),
+							    isRecommend:$('select[name="isRecommend"]').val(),
+							    wayInterest:$('select[name="wayInterest"]').val(),
+							    wayAmtRatio:$('select[name="wayAmtRatio"]').val(),
+							    fundManager:$('input[name="fundManager"]').val(),
+							    subtype:$('input[name="subtype"]').val(),
+							    establishTime:$('input[name="establishTime"]').val(),
+							    investmentTerm:$('input[name="investmentTerm"]').val(),
+							    productTrem:$('input[name="productTrem"]').val(),
+							    raiseStartTime:$('input[name="raiseStartTime"]').val(),
+							    raiseEndTime:$('input[name="raiseEndTime"]').val(),
+							    ratePerformBaseComparison:max,
+							    amtRateInfo:JSON.stringify(amtRateInfo),
+							    rateFeeManager:$('input[name="rateFeeManager"]').val(),
+							    rateFeeManaged:$('input[name="rateFeeManaged"]').val(),
+							    companyType:$('select[name="companyType"]').val(),
+							    performanceCompensation:$('textarea[name="performanceCompensation"]').val()
+
+							}
+						}else{
+							json="";
+							layer.msg('请填写完信息');
+							return;
+						}
+					 
+					}else{
+						json="";
+						layer.msg('起投金额要比募集金额小哦');
+						return;
+					}
+				}else{
+						json="";
+						layer.msg('利率信息中的金额范围不连续!');
+						return;
+
+				}
+				
+				
+			}else if(i==1){
+			 if(getQueryParam("companyCategory")=="88"){
+				if($('input[name="issuer"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="hosted"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="management"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="riskControl"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="capitalUse"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="repaymentSource"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="projectPoint"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''){
+					json={
+						_api: 'zj.product.update',
+						_v: '1.0',
+						productId:$('input[name="id"]').val(),
+						managerInfo:JSON.stringify({
+							issuer:$('input[name="issuer"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+							hosted:$('input[name="hosted"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+							management:$('input[name="management"]').val().replace(/(^\s*)|(\s*$)/g, "")
+						}),
+						riskControlDesc:JSON.stringify({
+							riskControl:$('textarea[name="riskControl"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+							capitalUse:$('textarea[name="capitalUse"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+							repaymentSource:$('textarea[name="repaymentSource"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+							projectPoint:$('textarea[name="projectPoint"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+							expectedReturn:$('textarea[name="expectedReturn"]').val()
+
+						})
+
+					}
+				}else{
+					json="";
+					layer.msg('请填写完信息');
+				}
+			 }else{
+			 	if($('textarea[name="expectedReturn"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="capitalUse"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="repaymentSource"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="projectPoint"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''){
+					json={
+						_api: 'zj.product.update',
+						_v: '1.0',
+						productId:$('input[name="id"]').val(),
+						
+						riskControlDesc:JSON.stringify({
+							// riskControl:$('textarea[name="riskControl"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+							capitalUse:$('textarea[name="capitalUse"]').val(),
+							repaymentSource:$('textarea[name="repaymentSource"]').val(),
+							projectPoint:$('textarea[name="projectPoint"]').val(),
+							expectedReturn:$('textarea[name="expectedReturn"]').val()
+
+						})
+
+					}
+				}else{
+					json="";
+					layer.msg('请填写完信息');
+				}
+			 }
+			}else if(i==2){
+				if($('input[name="raiseAcctOrganization"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="raiseAcctOrganBranch"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="raiseAcctNumber"]').val()!=''&&$('input[name="raiseAcctName"]').val()!=''){
+					json={
+						_api: 'zj.product.update',
+						_v: '1.0',
+						productId:$('input[name="id"]').val(),
+						raiseAcctOrganization:$('input[name="raiseAcctOrganization"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+						raiseAcctOrganBranch:$('input[name="raiseAcctOrganBranch"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+						raiseAcctNumber:$('input[name="raiseAcctNumber"]').val(),
+						raiseAcctName:$('input[name="raiseAcctName"]').val().replace(/(^\s*)|(\s*$)/g, "")
+						
+						
+
+					}
+				}else{
+					json="";
+					layer.msg('请填写完信息');
+				}
+			}else if(i==3){
+				if($('input[name="projectInfo"]').val()!=''){
+					json={
+						_api: 'zj.product.update',
+						_v: '1.0',
+						productId:$('input[name="id"]').val(),
+						projectInfo:$('input[name="projectInfo"]').val()	
+
+					}
+				}else{
+					json="";
+					layer.msg('请填写完信息');
+				}
+			}
+
+			// 
+				// console.log(json.amtRateInfo)
+			if(json!=""){
+			
+				
+				request("{{api}}mapi",json).done(function(response){
+					// console.log(response.model)
+					
+					if(response.success==true){
+						i=i+1;
+						// alert(i)
+						$("#HuiTab-demo1").Huitab({
+							index:i
+						});
+						if(i==1){
+							$('input[name="id"]').val(response.model)
+						}
+						
+
+					}
+					
+					
+					
+				})
+			}
+				
+			
+		
+			
+			
+   
+		})
+//0-下架 1-上架
+		$(".submitBtnY").click(function(){
+			var arry=[];
+
+			for (var j = 0; j < c+1; j++) {
+
+		 				var title=$(".wrapCon").eq(j).children().children().children('input[name="title"]').val()
+		 				var fileUrl=$(".wrapCon").eq(j).children('input[name="projectInfo"]').val()
+		 				if(title==""||fileUrl==''){
+		 					// alert(fileUrl)
+		 					layer.msg('请填写完信息');
+		 					return;
+		 				}else{
+		 					var dataJ={title:title,fileUrl:fileUrl}
+		 					arry.push(dataJ)
+		 				}
+		 				
+		 				// alert($(".wrapCon").eq(j).children('.btn-upload').children('input[name="upfile"]').attr('id'))
+		 				
+
+		 				// alert(amtRateInfo1)
+		 				
+			}
+			// console.log(file)
+			if(arry.length!=0){
+				// alert(arry.length)
+				var json={
+						_api:'zj.product.update',
+						_v: '1.0',
+						productId:$('input[name="id"]').val(),
+						status:1,
+						projectDescTitle:'',
+						projectDescDetail:'',
+						projectInfo:JSON.stringify(arry)
+					}
+					request("{{api}}mapi",json).done(function(response){
+							// console.log(response.model)
+						
+							if(response.success==true){
+								
+								layer.msg('提交成功');
+							    setTimeout(function(){
+							    	if(getQueryParam("projectId")){
+							    		var projectId=getQueryParam("projectId")
+							    	}else{
+							    		var projectId=''
+							    	}
+							    	if(getQueryParam("companyCategory")){
+							    		var companyCategory=getQueryParam("companyCategory")
+							    	}else{
+							    		var companyCategory=''
+							    	}
+							    	if(getQueryParam("companyId")){
+							    		var companyId=getQueryParam("companyId")
+							    	}else{
+							    		var companyId=''
+							    	}
+							    	// alert(projectId)
+							    	if(getQueryParam("companyCategory")=="88"){
+							    		location.href='/moongood/product/list?companyId='+getQueryParam("companyId")+'&companyCategory='+getQueryParam("companyCategory")
+							    	}else {
+							    		location.href='/moongood/product/list?id='+projectId+'&companyId='+getQueryParam("companyId")+'&companyCategory='+getQueryParam("companyCategory")
+							    	}
+							    	
+							    }, 1000);
+								
+
+							}
+							
+							
+							
+						})
+				// ajaxFileUpload(arry,1)
+			}
+			// console.log(arry)
+	      	
+
+			
+		})
+	$(".submitBtnN").click(function(){
+			var arry=[];
+
+			for (var j = 0; j < c+1; j++) {
+
+		 				// $(".wrapCon").eq(j).children('.btn-upload').children('input[name="upfile"]').attr('id',j);
+		 				var title=$(".wrapCon").eq(j).children().children().children('input[name="title"]').val()
+		 				var fileUrl=$(".wrapCon").eq(j).children('input[name="projectInfo"]').val()
+		 				if(title==""||fileUrl==''){
+		 					layer.msg('请填写完信息');
+		 					return;
+		 				}else{
+		 					var dataJ={title:title,fileUrl:fileUrl}
+		 					arry.push(dataJ)
+		 				}
+		 				
+		 				// alert($(".wrapCon").eq(j).children('.btn-upload').children('input[name="upfile"]').attr('id'))
+		 				
+
+		 				// alert(amtRateInfo1)
+		 				
+			}
+			console.log(arry)
+			if(arry.length!=0){
+				var json={
+						_api:'zj.product.update',
+						_v: '1.0',
+						productId:$('input[name="id"]').val(),
+						status:0,
+						projectDescTitle:'',
+						projectDescDetail:'',
+						projectInfo:JSON.stringify(arry)
+					}
+					request("{{api}}mapi",json).done(function(response){
+							// console.log(response.model)
+						
+							if(response.success==true){
+								
+								layer.msg('提交成功');
+							    setTimeout(function(){
+							    	if(getQueryParam("companyCategory")=="88"){
+									    		location.href='/moongood/product/list?companyId='+getQueryParam("companyId")+'&companyCategory='+getQueryParam("companyCategory")
+							    	}else{
+							    		location.href='/moongood/product/list?id='+getQueryParam("projectId")+'&companyId='+getQueryParam("companyId")+'&companyCategory='+getQueryParam("companyCategory")
+							    	}
+							    }, 1000);
+								
+
+							}
+							
+							
+							
+						})
+				// ajaxFileUpload(arry,0)
+			}
+			// console.log(arry)
+	      	
+
+			
+		})
+	// $(".submitBtnNo").click(function(){
+	// 		location.href="/moongood/product/list"
+	      	
+
+			
+	// 	})
+		
+	})
+  }, 500);
+	{% else %}
+
+	
+		
+		setTimeout(function(){
+		    	var response={};
+		    	response.companyId=getQueryParam("companyId")||undefined;
+		    	response.companyCategory=getQueryParam("companyCategory")||undefined;
+		    	if(getQueryParam("companyCategory")){
+		    		response.company=company;
+		    		response.project=project;
+
+		    	}
+		    	
+				response.category=category;
+				response.jinrong=jinrong;
+				// response.category=category;
+				console.log(response)
+				substitute("#form-template",response);
+				if(getQueryParam("companyCategory")){
+
+				}else{
+					company();
+					project()
+				}
+				
+				
+				getList(".companyType option",getQueryParam("companyCategory"));
+				getList(".companyId option",getQueryParam("companyId"));
+				getList(".projectId option",getQueryParam("projectId"));
+				$(".jian").hide();
+				$(".add").click(function(){
+					a=a+1;
+					aa=aa+1
+					// alert(aa)
+					var con='<div class=" noneMore " id="con'+aa+'"><input  class="pl-5  mr-5 input-text radius mb-5" type="text" style="width:140px;height:29px;" value="" name="minamtRateInfo" placeholder="最小投资金额(万元)"><input  class="pl-5  mr-5 input-text radius mb-5" type="text" style="width:140px;height:29px;" value="" name="maxamtRateInfo" placeholder="最大投资金额(万元)"><input  class="pl-5  mr-5 input-text radius mb-5" type="text" style="width:100px;height:29px;" value="" name="managerInfo" placeholder="业绩基准(%)" ><input  class="pl-5 mr-5  input-text radius mb-5" name="riskControlDesc" type="text" style="width:100px;height:29px;" value="" placeholder="佣金比例(%)" ><span class="btn-danger ml-5  pl-10 pr-10 radius mb-5 jian" onclick="jian('+aa+')" style="display:inline-block;height:29px;line-height: 29px;vertical-align: top;" ><i class="Hui-iconfont">&#xe6a1;</i></span></div>';
+					
+					$(this).parent().siblings('.col-xs-6').append(con);
+					$('.jian').show();
+				})
+				$(".picAdd").click(function(){
+					// alert('aa')
+					c=c+1;
+					cc=cc+1;
+					// var con='<div class="wrapCon" id="wrap'+cc+'"><input type="text" class="input-text radius surfaceNo mb-10"  value="{{title}}" placeholder="项目文件标题" name="title" ><span class="btn-upload form-group "><input class="input-text upload-url" type="text" placeholder="请选择文件"  readonly style="width:200px"><a href="javascript:void();" class="btn btn-primary upload-btn"><i class="Hui-iconfont">&#xe642;</i> 浏览文件</a><input type="file" multiple name="upfile"  accept="application/pdf" class="input-file"></span><span class="btn-danger ml-10 pl-10 pr-10 radius mb-5 jian" onclick="picJian('+cc+')" style="display:inline-block;height:29px;line-height: 29px;vertical-align: top;" ><i class="Hui-iconfont">&#xe6a1;</i></span></div>';
+					var con='<div class="wrapCon secWrap" id="wrap'+cc+'"><div class="row cl"><label class="form-label col-xs-3" >项目文件标题</label><div class="formControls col-xs-6 text-c"><input type="text" class="input-text radius surfaceNo mb-10"  value="" placeholder="项目文件标题" name="title" ></div></div><div class="row cl"><label class="form-label col-xs-3" >项目文件</label><div class="formControls col-xs-6 text-l" style="width:400px"><input class="input-text upload-url" type="text" placeholder="请选择文件"  readonly style="width:400px" value=""><input type="file" multiple name="upfile"  accept="application/pdf" class="input-file" id="uploadfile'+cc+'" value=""></div><div class="formControls col-xs-2 text-l"><a href="javascript:void(0);" class="btn btn-primary upload-btn" onclick="btnSum('+cc+')"><i class="Hui-iconfont">&#xe642;</i> 上传（文件）</a></div></div><div class="row cl"><label class="form-label col-xs-3"></label><div class="formControls col-xs-6 text-l"><a class="btn btn-danger mt-5 " onclick="picJian('+cc+')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a></div></div><input type="hidden" name="projectInfo" value="{{fileUrl}}"></div>'
+					
+					$(this).parent().parent().siblings('.wrap').append(con);
+					$('.jian').show();
+				})
+				
+				//选项卡
+				
+				
+				$("#HuiTab-demo1").Huitab({
+					index:0
+				});
+
+				$("#HuiTab-demo1").click(function(){
+					
+					$("#HuiTab-demo1").Huitab({
+						index:i
+					});
+					
+				})
+
+				
+				var establish = {
+					  elem: '#establish',
+					  format: 'YYYY-MM-DD hh:mm:ss',
+					  min: '', //设定最小日期为当前日期
+					  max: '2099-06-16', //最大日期
+					  istime: true,
+					  istoday: false,
+					  // choose: function(datas){
+					  //    end.min = datas; //开始日选好后，重置结束日的最小日期
+					  //    end.start = datas //将结束日的初始值设定为开始日
+					  // }
+					  
+					};
+				laydate(establish);
+				
+				var start = {
+				  elem: '#start',
+				  format: 'YYYY-MM-DD hh:mm:ss',
+				  min: '', //设定最小日期为当前日期
+				  max: '2099-06-16', //最大日期
+				  istime: true,
+				  istoday: false,
+				  choose: function(datas){
+				     end.min = datas; //开始日选好后，重置结束日的最小日期
+				     end.start = datas //将结束日的初始值设定为开始日
+				  }
+				};
+				var end = {
+				  elem: '#end',
+				  format: 'YYYY-MM-DD hh:mm:ss',
+				  min: '',
+				  max: '2099-06-16',
+				  istime: true,
+				  istoday: false,
+				  choose: function(datas){
+				    start.max = datas; //结束日选好后，重置开始日的最大日期
+				  }
+				};
+				laydate(start);
+				laydate(end);
+	
+				$(".submit").click(function(){
+					
+					var json;
+					var arr;
+					var amtRateInfo=[
+						["认购金额（元）", "业绩基准（%）", "返佣比例"],
+					]
+					any1=[];
+	 				any2=[];
+					// var amtRateInfo:[
+					// 	    	["认购金额", "业绩基准", "返佣比例"],
+						    	
+					// 	    ]
+					for (var j = 0; j < a+1; j++) {
+
+			 				var amtRateInfo1;
+			 				var managerInfo=toDecimal2($(".noneMore").eq(j).children('input[name="managerInfo"]').val());
+			 				var riskControlDesc=toDecimal2($(".noneMore").eq(j).children('input[name="riskControlDesc"]').val());
+			 				
+			 				any1.push($(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val());
+	 						any2.push($(".noneMore").eq(j).children('input[name="maxamtRateInfo"]').val());
+	 						if($(".noneMore").eq(j).children('input[name="maxamtRateInfo"]').val()==''&&j==a){
+			 					// amtRateInfo1=toThousands($(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val()*10000)+'< x ';
+			 					amtRateInfo1=$(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val()*10000+'≤ x ';
+			 				}else{
+			 					// amtRateInfo1=toThousands($(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val()*10000)+'< x ≤'+toThousands($(".noneMore").eq(j).children('input[name="maxamtRateInfo"]').val()*10000);
+			 					amtRateInfo1=$(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val()*10000+'≤ x <'+$(".noneMore").eq(j).children('input[name="maxamtRateInfo"]').val()*10000;
+			 				}
+	 							
+	 						
+			 				
+			 				if(parseInt($(".noneMore").eq(j).children('input[name="managerInfo"]').val())>100){
+			 					// alert('aa')
+			 					layer.msg('业绩基准利率不对');
+			 					return;
+			 				}else if($(".noneMore").eq(j).children('input[name="managerInfo"]').val()==''){
+			 					layer.msg('业绩基准利率不对');
+			 					return;
+			 				}
+			 				if(parseInt($(".noneMore").eq(j).children('input[name="riskControlDesc"]').val())>100){
+			 					// alert('aa2')
+			 					layer.msg('佣金比例不对');
+			 					return;
+			 				}else if($(".noneMore").eq(j).children('input[name="riskControlDesc"]').val()==''){
+			 					layer.msg('佣金比例不对');
+			 					return;
+			 				}
+			 				// amtRateInfo1=amtRateInfo
+			 				// alert($(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val())
+			 				if(parseInt($(".noneMore").eq(j).children('input[name="minamtRateInfo"]').val())>parseInt($(".noneMore").eq(j).children('input[name="maxamtRateInfo"]').val())){
+	 					
+			 					layer.msg('业绩基准金额不对');
+								return;
+								
+							}
+							
+			 				managerInfoArry.push(managerInfo)
+							// arr=[amtRateInfo1+","+managerInfo+","+riskControlDesc]
+							arr=[];
+							
+							arr[0]=amtRateInfo1;
+							arr[1]=managerInfo;
+							arr[2]=riskControlDesc
+							amtRateInfo.push(arr)
+						}
+						if(any2.length==1){
+							yes=true;
+						}
+						for (var j = 0; j < any2.length; j++) {
+							var jj=j+1;
+							if(any2[j]==any1[jj]&&any2.length!=jj){
+								
+								yes=true;
+								
+							}
+						}
+						var max=Math.max.apply(null, managerInfoArry);
+						if(parseInt($('input[name="rateFeeManager"]').val())>100){
+							// alert('aa')
+							layer.msg('管理费利率不对');
+							return;
+						}
+						if(parseInt($('input[name="rateFeeManaged"]').val())>100){
+							// alert('aa2')
+							layer.msg('托管费利率不对');
+							return;
+						}
+					// if(getQueryParam("companyCategory")=="88"){
+						if(parseInt($(".noneMore").eq(0).children('input[name="minamtRateInfo"]').val())!=parseInt($('input[name="amtInvestmentMin"]').val())){
+							layer.msg('业绩基准第一条最小金额必须等于起投金额');
+							return;
+						}
+
+					// }
+					if(i==0){
+						if(yes==true&&getQueryParam("companyCategory")=="88"){
+							if(parseInt($('input[name="amtTotal"]').val())>=parseInt($('input[name="amtInvestmentMin"]').val())){
+								if($('select[name="companyType"]').val()!=''&&$('select[name="companyId"]').val()!=''&&$('select[name="productCategoryId"]').val()!=''&&$('input[name="productName"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="amtTotal"]').val()!=''&&$('input[name="amtInvestmentMin"]').val()!=''&&$('select[name="riskLevel"]').val()!=''&&$('input[name="investmentTerm"]').val()!=''&&$('input[name="subtype"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="establishTime"]').val()!=''&&$('input[name="productTrem"]').val()!=''&&$('input[name="raiseStartTime"]').val()!=''&&$('input[name="raiseEndTime"]').val()!=''&&arr.length!=0){
+									json={
+										_api: 'zj.product.update',
+										_v: '1.0',
+										companyType:$('select[name="companyType"]').val(),
+										companyId:$('select[name="companyId"]').val(),
+										projectId:$('select[name="projectId"]').val(),
+										productCategoryId:$('select[name="productCategoryId"]').val(),
+									    productName:$('input[name="productName"]').val(),
+									    amtTotal:$('input[name="amtTotal"]').val()*10000,
+									    isNewUser:$('select[name="isNewUser"]').val(),
+
+
+									    // rightSign:$('select[name="rightSign"]').val(),
+									    // rightValue:$('input[name="rightValue"]').val(),
+
+
+										amtInvestmentMin:$('input[name="amtInvestmentMin"]').val()*10000,
+									    riskLevel:$('select[name="riskLevel"]').val(),
+									    wayInterest:$('select[name="wayInterest"]').val(),
+									    wayAmtRatio:$('select[name="wayAmtRatio"]').val(),
+									    isRecommend:$('select[name="isRecommend"]').val(),
+									    fundManager:$('input[name="fundManager"]').val(),
+									    subtype:$('input[name="subtype"]').val(),
+									    establishTime:$('input[name="establishTime"]').val(),
+									    investmentTerm:$('input[name="investmentTerm"]').val(),
+									    productTrem:$('input[name="productTrem"]').val(),
+									    raiseStartTime:$('input[name="raiseStartTime"]').val(),
+									    raiseEndTime:$('input[name="raiseEndTime"]').val(),
+									    ratePerformBaseComparison:max,
+									    amtRateInfo:JSON.stringify(amtRateInfo),
+									    rateFeeManager:$('input[name="rateFeeManager"]').val(),
+									    rateFeeManaged:$('input[name="rateFeeManaged"]').val(),
+									    companyType:$('select[name="companyType"]').val(),
+									    performanceCompensation:$('textarea[name="performanceCompensation"]').val()
+
+									}
+								}else{
+									
+									json="";
+									layer.msg('请填写完信息');
+									return;
+								}
+							}else{
+								json="";
+								layer.msg('起投金额要比募集金额小哦');
+								return;
+							} 
+						}else if(yes==true&&getQueryParam("companyCategory")!="88"){
+							if(parseInt($('input[name="amtTotal"]').val())>=parseInt($('input[name="amtInvestmentMin"]').val())){
+								if($('select[name="companyType"]').val()!=''&&$('select[name="companyId"]').val()!=''&&$('select[name="productCategoryId"]').val()!=''&&$('input[name="productName"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="amtTotal"]').val()!=''&&$('input[name="amtInvestmentMin"]').val()!=''&&$('select[name="riskLevel"]').val()!=''&&$('input[name="investmentTerm"]').val()!=''&&$('input[name="subtype"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="establishTime"]').val()!=''&&$('input[name="productTrem"]').val()!=''&&$('input[name="raiseStartTime"]').val()!=''&&$('input[name="raiseEndTime"]').val()!=''&&arr.length!=0){
+									json={
+										_api: 'zj.product.update',
+										_v: '1.0',
+										companyType:$('select[name="companyType"]').val(),
+										companyId:$('select[name="companyId"]').val(),
+										projectId:$('select[name="projectId"]').val(),
+										productCategoryId:$('select[name="productCategoryId"]').val(),
+									    productName:$('input[name="productName"]').val(),
+									    amtTotal:$('input[name="amtTotal"]').val()*10000,
+									    isNewUser:$('select[name="isNewUser"]').val(),
+
+
+									    rightSign:$('select[name="rightSign"]').val(),
+									    rightValue:$('input[name="rightValue"]').val(),
+
+
+										amtInvestmentMin:$('input[name="amtInvestmentMin"]').val()*10000,
+									    riskLevel:$('select[name="riskLevel"]').val(),
+									    wayInterest:$('select[name="wayInterest"]').val(),
+									    wayAmtRatio:$('select[name="wayAmtRatio"]').val(),
+									    isRecommend:$('select[name="isRecommend"]').val(),
+									    fundManager:$('input[name="fundManager"]').val(),
+									    subtype:$('input[name="subtype"]').val(),
+									    establishTime:$('input[name="establishTime"]').val(),
+									    investmentTerm:$('input[name="investmentTerm"]').val(),
+									    productTrem:$('input[name="productTrem"]').val(),
+									    raiseStartTime:$('input[name="raiseStartTime"]').val(),
+									    raiseEndTime:$('input[name="raiseEndTime"]').val(),
+									    ratePerformBaseComparison:max,
+									    amtRateInfo:JSON.stringify(amtRateInfo),
+									    rateFeeManager:$('input[name="rateFeeManager"]').val(),
+									    rateFeeManaged:$('input[name="rateFeeManaged"]').val(),
+									    companyType:$('select[name="companyType"]').val(),
+									    performanceCompensation:$('textarea[name="performanceCompensation"]').val()
+
+									}
+								}else{
+									
+									json="";
+									layer.msg('请填写完信息');
+									return;
+								}
+							}else{
+								json="";
+								layer.msg('起投金额要比募集金额小哦');
+								return;
+							} 
+						}
+						else{
+							json="";
+							layer.msg('利率信息中的金额范围不连续!');
+							return;
+
+						}
+						
+					}else if(i==1){
+					  if(getQueryParam("companyCategory")=="88"){
+						if($('input[name="issuer"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="hosted"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="management"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="riskControl"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="capitalUse"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="repaymentSource"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="projectPoint"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''){
+							json={
+								_api: 'zj.product.update',
+								_v: '1.0',
+								productId:$('input[name="id"]').val(),
+								managerInfo:JSON.stringify({
+									issuer:$('input[name="issuer"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+									hosted:$('input[name="hosted"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+									management:$('input[name="management"]').val().replace(/(^\s*)|(\s*$)/g, "")
+								}),
+								riskControlDesc:JSON.stringify({
+									riskControl:$('textarea[name="riskControl"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+									capitalUse:$('textarea[name="capitalUse"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+									repaymentSource:$('textarea[name="repaymentSource"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+									projectPoint:$('textarea[name="projectPoint"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+									// expectedReturn:$('textarea[name="expectedReturn"]').val()
+
+								})
+
+							}
+						}else{
+							json="";
+							layer.msg('请填写完信息');
+						}
+					  }else{
+					 	if($('textarea[name="expectedReturn"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="capitalUse"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="repaymentSource"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('textarea[name="projectPoint"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''){
+							json={
+								_api: 'zj.product.update',
+								_v: '1.0',
+								productId:$('input[name="id"]').val(),
+								
+								riskControlDesc:JSON.stringify({
+									// riskControl:$('textarea[name="riskControl"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+									capitalUse:$('textarea[name="capitalUse"]').val(),
+									repaymentSource:$('textarea[name="repaymentSource"]').val(),
+									projectPoint:$('textarea[name="projectPoint"]').val(),
+									expectedReturn:$('textarea[name="expectedReturn"]').val()
+
+								})
+
+							}
+						}else{
+							json="";
+							layer.msg('请填写完信息');
+						}
+					 }
+					}else if(i==2){
+						if($('input[name="raiseAcctOrganization"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="raiseAcctNumber"]').val()!=''&&$('input[name="raiseAcctOrganBranch"]').val().replace(/(^\s*)|(\s*$)/g, "")!=''&&$('input[name="raiseAcctName"]').val()!=''){
+							json={
+								_api: 'zj.product.update',
+								_v: '1.0',
+								productId:$('input[name="id"]').val(),
+								raiseAcctOrganization:$('input[name="raiseAcctOrganization"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+								raiseAcctOrganBranch:$('input[name="raiseAcctOrganBranch"]').val().replace(/(^\s*)|(\s*$)/g, ""),
+								raiseAcctNumber:$('input[name="raiseAcctNumber"]').val(),
+								raiseAcctName:$('input[name="raiseAcctName"]').val().replace(/(^\s*)|(\s*$)/g, "")
+								
+								
+
+							}
+						}else{
+							json="";
+							layer.msg('请填写完信息');
+						}
+					}else if(i==3){
+						if($('input[name="projectInfo"]').val()!=''){
+							json={
+								_api: 'zj.product.update',
+								_v: '1.0',
+								productId:$('input[name="id"]').val(),
+								projectInfo:$('input[name="projectInfo"]').val()	
+
+							}
+						}else{
+							json="";
+							layer.msg('请填写完信息');
+						}
+					}
+
+					// 
+						// console.log(json.amtRateInfo)
+					if(json!=""){
+					
+						
+						request("{{api}}mapi",json).done(function(response){
+							// console.log(response.model)
+							// alert(i)
+							if(response.success==true){
+								i=i+1;
+								$("#HuiTab-demo1").Huitab({
+									index:i
+								});
+								if(i==1){
+									$('input[name="id"]').val(response.model)
+								}
+								
+
+							}
+							
+							
+							
+						})
+					}
+						
+					
+					
+					
+
+				})
+				//0-下架 1-上架
+				$(".submitBtnY").click(function(){
+					var arry=[];
+
+					for (var j = 0; j < c+1; j++) {
+
+				 				var title=$(".wrapCon").eq(j).children().children().children('input[name="title"]').val()
+				 				var fileUrl=$(".wrapCon").eq(j).children('input[name="projectInfo"]').val()
+				 				if(title==""||fileUrl==''){
+				 					// alert(fileUrl)
+				 					layer.msg('请填写完信息');
+				 					return;
+				 				}else{
+				 					var dataJ={title:title,fileUrl:fileUrl}
+				 					arry.push(dataJ)
+				 				}
+				 				
+				 				// alert($(".wrapCon").eq(j).children('.btn-upload').children('input[name="upfile"]').attr('id'))
+				 				
+
+				 				// alert(amtRateInfo1)
+				 				
+					}
+					// console.log(file)
+					if(arry.length!=0){
+						// alert(arry.length)
+						var json={
+								_api:'zj.product.update',
+								_v: '1.0',
+								productId:$('input[name="id"]').val(),
+								status:1,
+								projectDescTitle:'',
+								projectDescDetail:'',
+								projectInfo:JSON.stringify(arry)
+							}
+							request("{{api}}mapi",json).done(function(response){
+									// console.log(response.model)
+								
+									if(response.success==true){
+										
+										layer.msg('提交成功');
+									    setTimeout(function(){
+									    	if(getQueryParam("companyCategory")=="88"){
+									    		location.href='/moongood/product/list?companyId='+getQueryParam("companyId")+'&companyCategory='+getQueryParam("companyCategory")
+									    	}else{
+									    		location.href='/moongood/product/list?id='+getQueryParam("projectId")+'&companyId='+getQueryParam("companyId")+'&companyCategory='+getQueryParam("companyCategory")
+									    	}
+									    	
+									    }, 1000);
+										
+
+									}
+									
+									
+									
+								})
+						// ajaxFileUpload(arry,1)
+					}
+					// console.log(arry)
+			      	
+
+					
+				})
+			$(".submitBtnN").click(function(){
+					var arry=[];
+
+					for (var j = 0; j < c+1; j++) {
+
+				 				// $(".wrapCon").eq(j).children('.btn-upload').children('input[name="upfile"]').attr('id',j);
+				 				var title=$(".wrapCon").eq(j).children().children().children('input[name="title"]').val()
+				 				var fileUrl=$(".wrapCon").eq(j).children('input[name="projectInfo"]').val()
+				 				if(title==""||fileUrl==''){
+				 					layer.msg('请填写完信息');
+				 					return;
+				 				}else{
+				 					var dataJ={title:title,fileUrl:fileUrl}
+				 					arry.push(dataJ)
+				 				}
+				 				
+				 				// alert($(".wrapCon").eq(j).children('.btn-upload').children('input[name="upfile"]').attr('id'))
+				 				
+
+				 				// alert(amtRateInfo1)
+				 				
+					}
+					console.log(arry)
+					if(arry.length!=0){
+						var json={
+								_api:'zj.product.update',
+								_v: '1.0',
+								productId:$('input[name="id"]').val(),
+								status:0,
+								projectDescTitle:'',
+								projectDescDetail:'',
+								projectInfo:JSON.stringify(arry)
+							}
+							request("{{api}}mapi",json).done(function(response){
+									// console.log(response.model)
+								
+									if(response.success==true){
+										
+										layer.msg('提交成功');
+									    setTimeout(function(){
+									    	if(getQueryParam("projectId")){
+									    		var projectId=getQueryParam("projectId")
+									    	}else{
+									    		var projectId=''
+									    	}
+									    	if(getQueryParam("companyCategory")){
+									    		var companyCategory=getQueryParam("companyCategory")
+									    	}else{
+									    		var companyCategory=''
+									    	}
+									    	if(getQueryParam("companyId")){
+									    		var companyId=getQueryParam("companyId")
+									    	}else{
+									    		var companyId=''
+									    	}
+									    	// alert(projectId)
+									    	if(getQueryParam("companyCategory")=="88"){
+									    		location.href='/moongood/product/list?companyId='+getQueryParam("companyId")+'&companyCategory='+getQueryParam("companyCategory")
+									    	}else {
+									    		location.href='/moongood/product/list?id='+projectId+'&companyId='+getQueryParam("companyId")+'&companyCategory='+getQueryParam("companyCategory")
+									    	}
+									    	// if(getQueryParam("companyCategory")=="1"){
+									    	// 	location.href='/moongood/product/list?companyId='+getQueryParam("companyId")+'&companyCategory='+getQueryParam("companyCategory")
+									    	// }else{
+									    	// 	location.href='/moongood/product/list?id='+getQueryParam("projectId")+'&companyId='+getQueryParam("companyId")+'&companyCategory='+getQueryParam("companyCategory")
+									    	// }
+									    }, 1000);
+										
+
+									}
+									
+									
+									
+								})
+						// ajaxFileUpload(arry,0)
+					}
+					// console.log(arry)
+			      	
+
+					
+				})
+		  }, 500);
+		
+      // $(".btnSum").click(function () {
+
+      // 	if($(this).siblings('.upload-url').val()!=""){
+      // 		var id=$(this).siblings('.upload-url').attr('id')
+      // 		// alert(id)
+      //       ajaxFileUpload(id);	
+      // 	}
+      // })
+		
+	
+
+	
+	
+		
+
+	// })
+	
+	
+	{% endif %}
+		// alert(i)
+	
+})
+
+</script>

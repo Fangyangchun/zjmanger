@@ -1,0 +1,155 @@
+{% extends "../layout/insidePage.html" %}
+
+{% block content %}
+<script id="list-template" type="text/x-handlebars-template">
+{% raw %}
+<input type="hidden" name="elementIdList" value="{{elementIdList}}">
+<input type="hidden" name="elementName" value="{{elementName}}">
+<div class="box-content pd-20">
+	<table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
+		<thead>
+			<tr class="text-c">
+				<th>选择</th>
+				<th>所属模块</th>
+				<th>功能名称</th>
+				<th>url</th>
+			</tr>
+		</thead>
+		<tbody>	
+				{{#each elementList}}
+				<tr class="text-c">
+					<td><input class="element-item" type="checkbox" value="{{id}}" {{#if isChecked}}checked="true"{{/if}}></td>
+					<td>{{moduleName}}</td>
+					<td class="elementName">{{eleName}}</td>
+					<td>{{elePath}}</td>
+				</tr>
+				{{/each}}
+		</tbody>
+	</table>
+	<div class="row text-c mt-20">
+		<button class="btn btn-primary btn-submit" type="button">提交</button>
+	</div>
+</div>
+{% endraw %}
+</script>
+<script type="text/javascript">
+	
+		
+	function setVal(){
+		var elementIdList,
+			elementName,
+			idArray = [],
+			nameArray = [];
+		$(".element-item").on("change", function(){
+			var o = $(this),idString = "", nameString = "";
+			elementIdList = $('input[name="elementIdList"]').val();
+			elementName = $('input[name="elementName"]').val();
+			idArray = elementIdList.split(",");
+			nameArray = elementName.split(",");
+			if($(this).is(':checked')){
+				for(var i=0;i<idArray.length;i++){
+					if(idArray[i] == o.val()){
+						break;
+					}else{
+						if(i==idArray.length-1){
+							if(elementIdList){
+								$('input[name="elementIdList"]').val(elementIdList+","+o.val());
+							}else{
+								$('input[name="elementIdList"]').val(o.val());
+							}
+						}
+					}
+				}
+				for(var i=0;i<nameArray.length;i++){
+					if(nameArray[i] == o.parent().parent().children(".elementName").text()){
+						break;
+					}else{
+						if(i==nameArray.length-1){
+							if(elementIdList){
+								$('input[name="elementName"]').val(elementName+","+o.parent().parent().children(".elementName").text());
+							}else{
+								$('input[name="elementName"]').val(o.parent().parent().children(".elementName").text());
+							}
+						}
+					}
+				}
+			}else{
+				for(var i=0;i<idArray.length;i++){
+					if(idArray[i] == o.val()){
+						idArray.splice(i,1);
+						break;
+					}
+				}
+				for(var j=0;j<idArray.length;j++){
+					idString += j==0? idArray[j] : ","+idArray[j];
+				}
+				$('input[name="elementIdList"]').val(idString);
+
+				for(var i=0;i<nameArray.length;i++){
+					if(nameArray[i] == o.parent().parent().children(".elementName").text()){
+						nameArray.splice(i,1);
+						break;
+					}
+				}
+				for(var j=0;j<nameArray.length;j++){
+					nameString += j==0? nameArray[j] : ","+nameArray[j];
+				}
+				$('input[name="elementName"]').val(nameString);
+			}
+		})
+	}
+	function submit(){
+		$(".btn-submit").on("click", function(){
+			// window.parent.document.getElementById("elementIdList").value = $('input[name="elementIdList"]').val();
+			// window.parent.document.getElementById("elementName").value = $('input[name="elementName"]').val();
+			// parent.$("#elementIdList",parent.doucment).trigger('change');
+			request("{{api}}user/permission/role/web/add", {roleId: getQueryParam("roleId"), "elementIdList[]": $('input[name="elementIdList"]').val()}).done(function(response){
+				layer_close();
+			})
+			
+		})
+	}
+	$(document).ready(function(){
+			request({
+				url: "{{api}}user/permission/role/web/list",
+				data: {roleId: getQueryParam("roleId")},
+				type: "get",
+				dataType: "jsonp",
+				jsonp: 'callback'
+			}).done(function(response){
+				if(response.data){
+					var roleWebList = response.data.roleWebList,
+						elementName="",
+						elementIdList="";
+					for(var i=0;i<roleWebList.length;i++){
+						elementIdList += i==0? roleWebList[i].eleId : ","+roleWebList[i].eleId;
+						elementName += i==0? roleWebList[i].eleName : ","+roleWebList[i].eleName;
+					}
+					var selected = elementIdList.split(",");
+				}
+				request({
+					url: "{{api}}user/permission/element/list",
+					type: "get",
+					dataType: "jsonp",
+            		jsonp: 'callback'
+				}).done(function(res){
+					if(response.data){
+						for(var i=0;i<res.data.elementList.length;i++){
+							for(var j=0;j<selected.length;j++){
+								if(res.data.elementList[i].id == selected[j]){
+									res.data.elementList[i].isChecked = true;
+								}
+							}
+						}
+					}
+					res.data.elementIdList = elementIdList || [];
+					res.data.elementName = elementName || "";
+					substitute("#list-template", res.data);
+					setVal();
+					submit();
+				})
+			})
+
+	})
+</script>
+{% endblock %}

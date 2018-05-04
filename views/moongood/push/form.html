@@ -1,0 +1,651 @@
+
+<style type="text/css">
+.swfupload{
+	width: 100%;
+	height: 31px;
+}
+.uploadify-button-test {
+	width: 100%;
+	height: 31px;
+	background:#6595e3;
+	border-radius: 0;
+	border: none;
+}
+.uploadify:hover .uploadify-button {
+	background:#6595e3;
+}
+.img-show{
+	margin-bottom: 10px;
+}
+
+.btn-upload{
+	/*display: inline-block;*/
+	width: 100px;
+	height: 100px;
+	background: url({{host}}static/h-ui/images/btn-photo.png) no-repeat center center;
+	background-size: contain;
+
+}
+
+.icon{
+	display: block;
+	width: 100px;
+}
+.upload-url{
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	left:20px;
+	display: none;
+	/*z-index: -9999;*/
+}
+
+@media screen and (max-width: 768px){
+    #edui51_body{
+        width: 50%!important;
+    }
+    
+}
+input[type="checkbox"]{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-top: 3px;
+
+}
+
+</style>
+<script id="form-template" type="text/x-handlebars-template">
+{% raw %}
+<div class="box-content">
+	<div class="panel panel-default mt-20">
+		<div class="panel-body">
+			
+			<form id="editForm" class="form form-horizontal">
+				<!-- <div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>推送icon：</label>
+					<div class="formControls col-xs-6 text-c">
+						<div class="text-c btn-upload"></div>
+						<input class="upload-url" type="file" name="upfile" accept="image/*" id="uploadfile1">
+						<input type="button" class="btn btnSum mt-10 ml-10 radius"  value="上传图片">
+					</div>
+				</div> -->
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>推送标题：</label>
+					<div class="formControls col-xs-6 text-c">
+						<input class="input-text radius" name="msgTitle" value="{{model.msgTitle}}" placeholder="" maxlength="20" />
+					</div>
+				</div>
+				
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>推送内容（50个汉字）：</label>
+					<div class="formControls col-xs-6 text-c">
+						<textarea cols="" rows="" class="textarea radius" maxlength="50" name="msgContent" id="beizhu" placeholder="推送内容（50个汉字）">{{model.msgContent}}</textarea>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>消息发送范围：</label>
+					<div class="formControls col-xs-6 text-l">
+					{{#equal model.msgRange '1' }}
+						<input class="role-item va-m element-item" name="msgRange" type="checkbox" value="1" >所有用户
+						<input class="role-item va-m element-item" name="msgRange" type="checkbox" value="2" disabled="disabled">普通用户
+						<input class="role-item va-m element-item" name="msgRange" type="checkbox" value="3" disabled="disabled">省级代理
+						<input class="role-item va-m element-item" name="msgRange" type="checkbox" value="4" disabled="disabled" >市级代理
+						<input class="role-item va-m element-item" name="msgRange" type="checkbox" value="5" disabled="disabled">区级代理
+						<input class="role-item va-m element-item" name="msgRange" type="checkbox" value="6" disabled="disabled">理财师
+						{{else}}
+						<input class="role-item va-m element-item" name="msgRange" type="checkbox" value="1" >所有用户
+						<input class="role-item va-m element-item" name="msgRange" type="checkbox" value="2" >普通用户
+						<input class="role-item va-m element-item" name="msgRange" type="checkbox" value="3" >省级代理
+						<input class="role-item va-m element-item" name="msgRange" type="checkbox" value="4">市级代理
+						<input class="role-item va-m element-item" name="msgRange" type="checkbox" value="5" >区级代理
+						<input class="role-item va-m element-item" name="msgRange" type="checkbox" value="6" >理财师
+					{{/equal}}
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>推送消息 - 指定动作：</label>
+					<div class="formControls col-xs-6 text-l" >
+						
+						<select name="targetType" class="select targetType" style="width: 100%;">
+							<option value="">请选择推送消息的指定动作</option>
+							<!-- <option value="0" {{#equal model.targetType '0' }}selected="selected"{{/equal}}>不跳转</option> -->
+							<option value="1" {{#equal model.targetType '1' }}selected="selected"{{/equal}}>产品详情</option>
+							<option value="2" {{#equal model.targetType '2' }}selected="selected"{{/equal}}>静态H5页</option>
+							<option value="3" {{#equal model.targetType '3' }}selected="selected"{{/equal}}>财经文章详情</option>
+						</select>
+						
+					</div>
+				</div>
+				<div>
+
+				{{#if model.productId }}
+					<div class="row cl">
+						<label class="form-label col-xs-3" ><span class="c-red">*</span>产品编号：</label>
+						<div class="formControls col-xs-6 text-c">
+							<input style="width: 100%;" class="input-text radius" type='number' name="productId" value="{{model.productId}}" placeholder=""  /><!-- <span class="c-red">如若多个标签用"（半角的逗号）"分隔</span> -->
+						</div>
+					</div>
+				{{else}}
+					<div class="row cl" style="display: none;">
+						<label class="form-label col-xs-3" ><span class="c-red">*</span>产品编号：</label>
+						<div class="formControls col-xs-6 text-c">
+							<input style="width: 100%;" class="input-text radius" type='number' name="productId" value="{{model.productId}}" placeholder=""  /><!-- <span class="c-red">如若多个标签用"（半角的逗号）"分隔</span> -->
+						</div>
+					</div>
+				{{/if}}
+				{{#if model.economicsId }}
+					<div class="row cl">
+						<label class="form-label col-xs-3" ><span class="c-red">*</span>财经编号：</label>
+						<div class="formControls col-xs-6 text-c">
+							<input class="input-text radius" style="width: 100%;" type='number' name="economicsId" value="{{model.economicsId}}" placeholder=""  /><!-- <span class="c-red">如若多个标签用"（半角的逗号）"分隔</span> -->
+						</div>
+					</div>
+				{{else}}
+					<div class="row cl" style="display: none;">
+						<label class="form-label col-xs-3" ><span class="c-red">*</span>财经编号：</label>
+						<div class="formControls col-xs-6 text-c">
+							<input class="input-text radius" name="economicsId" style="width: 100%;" type='number' value="{{model.economicsId}}" placeholder=""  /><!-- <span class="c-red">如若多个标签用"（半角的逗号）"分隔</span> -->
+						</div>
+					</div>
+				{{/if}}
+				{{#if model.h5Url }}
+					<div class="row cl" >
+						<label class="form-label col-xs-3" ><span class="c-red">*</span>网页地址：</label>
+						<div class="formControls col-xs-6 text-c">
+							<input class="input-text radius" name="h5Url" value="{{model.h5Url}}" placeholder=""  /><!-- <span class="c-red">如若多个标签用"（半角的逗号）"分隔</span> -->
+						</div>
+					</div>
+				{{else}}
+					<div class="row cl" style="display: none;">
+						<label class="form-label col-xs-3" ><span class="c-red">*</span>网页地址：</label>
+						<div class="formControls col-xs-6 text-c">
+							<input class="input-text radius" name="h5Url" value="{{model.h5Url}}" placeholder=""  /><!-- <span class="c-red">如若多个标签用"（半角的逗号）"分隔</span> -->
+						</div>
+					</div>
+				{{/if}}
+				</div>
+				<input type="hidden" class=" mt-10"  value="{{model.iconImg}}" name="iconImg">
+				<input type="hidden" class=" mt-10"  value="{{id}}" name="id">
+				
+				
+				
+
+				
+				{{#if update }}
+		
+				<div class="row text-c row1 ">
+				   <input class="btn btn-primary submit1" type="button"  value="审核通过">
+				   <input class="btn btn-primary submit2" type="button" value="不通过" >
+				</div>
+				
+				{{else}}
+				
+				<div class="row text-c row2">
+				   <input class="btn btn-primary submit mt-10 btnSum2" value="保存">
+				  <!--  <input class="btn btn-primary submit mt-10 btnSum1" value="保存并发送"> -->
+				</div>
+				{{/if}}
+			</form>
+			
+		
+			
+		  
+		</div>
+	</div>
+
+
+</div>
+{% endraw %}
+</script>
+
+<style type="text/css">
+	body{
+		overflow-x: hidden;
+	}
+
+</style>
+
+<script type="text/javascript">
+var idArray=[];
+function setVal(){
+			
+	$(".element-item").on("change", function(){
+		var o = $(this);
+		// alert('aa')
+		if($(this).is(':checked')){
+			if(o.val()=='1'){
+			
+				o.siblings().attr('disabled','disabled').removeAttr('checked');
+				idArray=[];
+
+
+			}
+			
+			// var managerIdStr=
+			// manager.push(managerIdStr)
+			idArray.push(o.val());
+			
+		}else{
+			if(o.val()=='1'){
+				
+				o.siblings().removeAttr('disabled');
+			}
+			idArray.splice($.inArray(o.val(), idArray), 1);
+			// nameArry.splice($.inArray(o.parent().text(), nameArry), 1);
+			// var managerIdStr={userId:o.val(),realname:o.parent().text()}
+			// manager.splice($.inArray(o.parent().text(), manager), 1);
+			
+		}
+		
+	})
+}
+function save(api,id){
+	// $(".btnSum2").click(function () {
+		
+
+		var idArrayStr='',json;
+		for (var i = 0; i < idArray.length; i++) {
+			if(i==0){
+				idArrayStr=idArray[i]
+			}else{
+				idArrayStr=idArrayStr+','+idArray[i]
+			}
+			
+		}
+		console.log(idArrayStr)	
+
+		if($('input[name="msgTitle"]').val()!=""&&$('textarea[name="msgContent"]').val()!=""&&$('select[name="targetType"]').val()=='1'&&$('input[name="productId"]').val()!=''&&idArray.length>0){
+
+			 json={
+				_api: api,
+		        _v: '1.0',
+		        msgTitle:$('input[name="msgTitle"]').val(),
+		        msgRange:idArrayStr,
+		       	msgContent:$('textarea[name="msgContent"]').val(),
+		       	targetType:$('select[name="targetType"]').val(),
+		       	productId:$('input[name="productId"]').val(),
+
+		        // economicsId:$('input[name="economicsId"]').val(),
+				
+		        // h5Url:$('input[name="h5Url"]').val()
+
+		        
+			}
+		}else if($('input[name="msgTitle"]').val()!=""&&$('textarea[name="msgContent"]').val()!=""&&$('select[name="targetType"]').val()=='2'&&$('input[name="h5Url"]').val()!=''&&idArray.length>0){
+			json={
+				_api:api,
+		        _v: '1.0',
+		        msgTitle:$('input[name="msgTitle"]').val(),
+		        msgRange:idArrayStr,
+		       	msgContent:$('textarea[name="msgContent"]').val(),
+		       	targetType:$('select[name="targetType"]').val(),
+		       	// productId:$('input[name="productId"]').val(),
+		        // economicsId:$('input[name="economicsId"]').val(),
+				
+		        h5Url:$('input[name="h5Url"]').val()
+
+		        
+			}
+		}else if($('input[name="msgTitle"]').val()!=""&&$('textarea[name="msgContent"]').val()!=""&&$('select[name="targetType"]').val()=='3'&&$('input[name="economicsId"]').val()!=''&&idArray.length>0){
+			json={
+				_api: api,
+		        _v: '1.0',
+		        msgTitle:$('input[name="msgTitle"]').val(),
+		        msgRange:idArrayStr,
+		       	msgContent:$('textarea[name="msgContent"]').val(),
+		       	targetType:$('select[name="targetType"]').val(),
+		       	// productId:$('input[name="productId"]').val(),
+		        economicsId:$('input[name="economicsId"]').val(),
+				
+		        // h5Url:$('input[name="h5Url"]').val()
+
+		        
+			}
+		}else if($('input[name="msgTitle"]').val()!=""&&$('textarea[name="msgContent"]').val()!=""&&$('select[name="targetType"]').val()=='0'&&idArray.length>0){
+			json={
+				_api: api,
+		        _v: '1.0',
+		        msgTitle:$('input[name="msgTitle"]').val(),
+		        msgRange:idArrayStr,
+		       	msgContent:$('textarea[name="msgContent"]').val(),
+		       	targetType:$('select[name="targetType"]').val()
+		       	// productId:$('input[name="productId"]').val(),
+		        // economicsId:$('input[name="economicsId"]').val(),
+				
+		        // h5Url:$('input[name="h5Url"]').val()
+
+		        
+			}
+		}else{
+			layer.msg('请填写完信息');
+			return;
+		}
+		if(id){
+			var msgid={msgId:id}
+			json=$.extend(json, msgid)
+		}	
+		// console.log(json)
+			request("{{api}}mapi",json).done(function(response,option){
+			    		// console.log(option.data);
+			    if(response.success==true)	{
+			    	// if(id){
+
+			    	// }else{
+			    		$('input[name="id"]').val(response.model);
+			    	// }
+			    	
+			    	// setTimeout(function(){
+			    	// 	location.href='/moongood/push/list'
+			    	// }, 1000);
+			    	// request("{{api}}mapi",{_api:,_v:"1.0",id:response.model}).done(function(response,option){
+			    	// 	if(response.success==true)	{
+				    // 		layer.msg('提交成功');
+					   //  	setTimeout(function(){
+					   //  		location.href='/moongood/push/list'
+					   //  	}, 1000);
+			    	//   }	
+			    	// })
+			    	
+			    	
+			    	
+			    }	
+			    		
+			})
+		
+		
+			
+      
+      // })		
+	
+}
+function push(api,id){
+	// if($('input[name="id"]').val()!=''){
+		request("{{api}}mapi",{_api:api,_v:"1.0",msgId:id}).done(function(response,option){
+			if(response.success==true)	{
+	    		layer.msg('推送成功');
+		    	setTimeout(function(){
+		    		location.href='/moongood/push/list'
+		    	}, 1000);
+		    }
+		})
+	// }
+}
+ function ajaxFileUpload(id) {
+	var extras = {
+        _api: 'upimg',
+        _v: '1.0',
+        biz:"photo"
+		};
+		
+	$.ajaxFileUpload({
+        url : '{{api}}upimg?'+$._apiClient.buildData(extras),
+        secureuri: false,
+        fileElementId : id,
+        dataType : 'jsonp',
+        success : function(data, status) {
+        	// alert(data)
+        	if(data.success==true){
+        		
+        		$(".btn-upload").css({'background':'url('+data.model.url+data.model.filename+') no-repeat center center',"background-size":"contain"}).show();
+        		$('.upload-url').hide();
+        		$('input[name="iconImg"]').val(data.model.filename)
+        	}else{
+        		data.msg = data.msgInfo || "服务器出错，请稍后再试";
+        		layer.alert(data.msg);
+        		
+        	}
+         console.log(status)
+        },
+        error : function(data, status, e) {
+            layer.alert("服务器出错，请稍后再试");
+        }
+    })
+}
+
+
+$(document).ready(function(){
+	
+	
+	{% if operation == 'edit' || operation == 'update'%}
+		request("{{api}}mapi",{_api: 'zj.msg.info',_v: '1.0',msgId: getQueryParam('id')}).done(function(response){
+			
+			response.id = getQueryParam('id');
+			
+			if(getQueryParam('update')=='update'){
+				
+				response.update=true;
+			}else {
+				
+				response.update=false;
+			}
+			idArray=response.model.msgRange.split(',');
+			response.model.msgRange=idArray
+				// alert($('input[name="msgRange"]').eq(2).val())
+			if(response.model.targetType==1){
+				response.model.h5Url=null;
+				response.model.economicsId=null;
+			}else if(response.model.targetType==2){
+				response.model.productId=null;
+				response.model.economicsId=null;
+			}else if(response.model.targetType==3){
+				response.model.productId=null;
+				response.model.h5Url=null;
+			}else{
+				response.model.productId=null;
+				response.model.h5Url=null;
+				response.model.economicsId=null;
+			}
+			console.log(response)
+			substitute("#form-template",  response);
+			// if(response.model.msgRange.length){
+				
+			// }
+			for (var i = 0; i < response.model.msgRange.length; i++) {
+				var idArra=parseInt(idArray[i])-1
+					// alert(idArra)
+				$('input[name="msgRange"]').eq(idArra).attr('checked','true')
+				
+				// response.model.msgRange[i].isChecked=true
+			}
+			// $(".btn-upload").css({'background':'url(http://img1.zhongjing-hz.com/'+response.model.iconImg+') no-repeat center center',"background-size":"contain"});
+			
+			
+			// $(".btnSum").click(function () {
+
+		 //      	if($(this).siblings('.upload-url').val()!=""){
+		 //      		var id=$(this).siblings('.upload-url').attr('id')
+		 //      		// alert(id)
+		 //            ajaxFileUpload(id);	
+		 //      	}
+		 //      })
+			// $(".btn-upload").click(function () {
+			// 	$(this).siblings('.upload-url').click()
+			// 	$(this).css("display","none").siblings('.upload-url').css({"position":"relative","width":"100%"}).show()
+				
+		            
+		      	
+		 //      })
+			setVal()
+			$('select[name="targetType"]').change(function(){
+				if($('select[name="targetType"]').val()=='1'){
+					$('input[name="productId"]').parent().parent().show();
+					$('input[name="productId"]').parent().parent().siblings().hide();
+				}else if($('select[name="targetType"]').val()=='2'){
+					$('input[name="h5Url"]').parent().parent().show();
+					$('input[name="h5Url"]').parent().parent().siblings().hide();
+				}else if($('select[name="targetType"]').val()=='3'){
+					$('input[name="economicsId"]').parent().parent().show();
+					$('input[name="economicsId"]').parent().parent().siblings().hide();
+				}else{
+					$('input[name="economicsId"]').parent().parent().siblings().hide();
+					$('input[name="economicsId"]').parent().parent().hide()
+				}
+				
+				
+			})
+			$(".btnSum2").click(function () {
+		
+				var api='zj.msg.update';
+				var id=response.model.id
+				save(api,id);
+				setTimeout(function(){
+					// alert($('input[name="id"]').val())
+					if($('input[name="id"]').val()=="true"){
+						location.href='/moongood/push/list'
+					}
+				}, 1000);
+				
+					
+		      
+		      })
+			$(".btnSum1").click(function () {
+				var api='zj.msg.update';
+				var id=response.model.id
+				save(api,id);
+				setTimeout(function(){
+					// alert($('input[name="id"]').val())
+					if($('input[name="id"]').val()=="true"){
+						var api1='zj.msg.push';
+						var id1=response.model.id;
+						push(api1,id1)
+					}
+					
+				}, 1000);
+
+			})
+			// $(".submit1").click(function(){
+			// 	request("{{api}}mapi",{economicsId: getQueryParam('id'),status:3,_api:"zj.economics.update",_v:"1.0"}).done(function(response){
+			// 		console.log(response)
+			// 		if(response.success==true){
+			// 			layer.msg('审核通过');
+			// 	    	setTimeout(function(){
+			// 	    		location.href='/moongood/finance/list'
+			// 	    	}, 1000);
+						
+			// 		}
+			// 	})
+					
+					
+
+			// })
+			// $('.submit2').click(function(){
+				
+			// 	  // layer.close(index);
+			// 	  layer.prompt({title: '不通过原因', formType: 2}, function(text, index){
+			// 	  	console.log(text)
+			// 	  	console.log(index)
+			// 	  	request("{{api}}mapi",{economicsId: getQueryParam('id'),status:2,_api:"zj.economics.update",_v:"1.0",auditFailReason:text}).done(function(response){
+			// 			console.log(response)
+			// 			if(response.success==true){
+			// 				layer.close(index);
+			// 				layer.msg('不通过原因上传成功');
+			// 		    	setTimeout(function(){
+			// 		    		location.href='/moongood/finance/list'
+			// 		    	}, 1000);
+							
+			// 			}
+			// 		})
+			// 	    // layer.close(index);
+				    
+			// 	  });
+			// 	// });
+			// })
+				  
+		
+		
+	
+		
+		})
+	{% else %}
+		
+		response={};
+		// response.companyId = getQueryParam('id');
+		response.update=false;
+		substitute("#form-template", response);
+		setVal()
+		$('select[name="targetType"]').change(function(){
+			if($('select[name="targetType"]').val()=='1'){
+				$('input[name="productId"]').parent().parent().show();
+				$('input[name="productId"]').parent().parent().siblings().hide();
+			}else if($('select[name="targetType"]').val()=='2'){
+				$('input[name="h5Url"]').parent().parent().show();
+				$('input[name="h5Url"]').parent().parent().siblings().hide();
+			}else if($('select[name="targetType"]').val()=='3'){
+				$('input[name="economicsId"]').parent().parent().show();
+				$('input[name="economicsId"]').parent().parent().siblings().hide();
+			}else{
+				$('input[name="economicsId"]').parent().parent().siblings().hide();
+				$('input[name="economicsId"]').parent().parent().hide()
+			}
+			
+			
+		})
+		
+		$(".btnSum2").click(function () {
+			var api='zj.msg.create';
+			
+			save(api);
+			setTimeout(function(){
+				// alert($('input[name="id"]').val())
+				if($('input[name="id"]').val()!=''){
+					location.href='/moongood/push/list'
+				}
+			}, 1000);
+
+		})
+		$(".btnSum1").click(function () {
+			var api='zj.msg.create';
+			
+			save(api);
+			setTimeout(function(){
+				if($('input[name="id"]').val()!=''){
+					var api1='zj.msg.push';
+					var id=$('input[name="id"]').val();
+					push(api1,id)
+				}
+			}, 1000);
+
+		})
+      // $(".btnSum").click(function () {
+
+      // 	if($(this).siblings('.upload-url').val()!=""){
+      // 		var id=$(this).siblings('.upload-url').attr('id')
+      // 		// alert(id)
+      //       ajaxFileUpload(id);	
+      // 	}
+      // })
+	
+	
+
+	// $(".btn-upload").click(function () {
+	// 	$(this).siblings('.upload-url').click()
+	// 	$(this).css("display","none").siblings('.upload-url').css({"position":"relative","width":"100%"}).show()
+		
+            
+      	
+ //      })
+
+		// alert($("#HuiTab-demo1").children('.tabBar').children('span').attr("class"))
+		
+		
+	
+		
+
+	
+	
+	
+	
+	{% endif %}
+		// alert(i)
+	
+})
+
+    function setContent(isAppendTo) {
+        var arr = [];
+        arr.push("使用editor.setContent('欢迎使用ueditor')方法可以设置编辑器的内容");
+        UE.getEditor('editor').setContent('欢迎使用ueditor', isAppendTo);
+        alert(arr.join("\n"));
+    }
+
+</script>

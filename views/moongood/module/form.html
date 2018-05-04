@@ -1,0 +1,67 @@
+<script id="form-template" type="text/x-handlebars-template">
+{% raw %}
+<div class="box-content">
+	<form id="editForm" class="form form-horizontal">
+		<input type="hidden" name="id" value="{{id}}">
+		<div class="row cl">
+			<label class="form-label col-xs-3"><span class="c-red">*</span>模块编号：</label>
+			<div class="formControls col-xs-6">
+				<input type="text" class="input-text" value="{{moduleNo}}" placeholder="" name="moduleNo">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-3"><span class="c-red">*</span>模块名称：</label>
+			<div class="formControls col-xs-6">
+				<input type="text" class="input-text" value="{{moduleName}}" placeholder="" name="moduleName">
+			</div>
+		</div>
+		<div class="row text-c">
+			<button class="btn btn-primary" type="submit">提交</button>
+		</div>
+	</form>
+</div>
+{% endraw %}
+</script>
+<style type="text/css">
+	body{
+		overflow-x: hidden;
+	}
+</style>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	function init(){
+		$("#editForm").validate({
+			rules: {
+				"moduleNo": {
+					required: true
+				},
+				"moduleName": {
+					required: true
+				}
+			},
+		    submitHandler:function(form){ 
+		    	request("{{api}}user/permission/module/{% if operation == 'update' %}update{%else%}add{% endif %}", $(form).serialize()).done(function(response,option){
+		    		console.log(option.data);
+					parent.location.reload();
+				})
+		    }
+		})
+	}
+	{% if operation == 'update' %}
+	request({
+		url: "{{api}}user/permission/module/info",
+		data: {id: getQueryParam('id')},
+		type: "get",
+		dataType: "jsonp",
+		jsonp: 'callback'
+	}).done(function(response){
+		substitute("#form-template", response.data.info);
+		init();
+	})
+	{% else %}
+	substitute("#form-template", {});
+	init();
+	{% endif %}
+})
+</script>

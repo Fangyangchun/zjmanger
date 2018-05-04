@@ -1,0 +1,17 @@
+{% extends "../layout/default.html" %}
+
+{% block content %}
+
+<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/Mshenqing/list" class="c-primary">M端申请提现订单</a>
+			<span class="c-gray en">&gt;</span>
+			<a href="javascript:location.replace(location.href);">>M端申请提现订单详情</a>
+		</div>
+		
+</nav>
+{% set operation = "update" %}
+{% include "../layout/insidePage.html" %}
+{% include "form.html" with operation %}
+{% endblock %}

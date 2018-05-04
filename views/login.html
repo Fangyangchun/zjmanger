@@ -1,0 +1,295 @@
+{% include "moongood/layout/param.html" %}
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="{{host}}lib/html5.js"></script>
+<script type="text/javascript" src="{{host}}lib/respond.min.js"></script>
+<script type="text/javascript" src="{{host}}lib/PIE_IE678.js"></script>
+<![endif]-->
+<link href="{{host}}static/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<!-- <link href="/hui-admin/static/h-ui/css/H-ui.login.css" rel="stylesheet" type="text/css" /> -->
+<link href="{{host}}static/h-ui/css/style.css" rel="stylesheet" type="text/css" />
+<link href="{{host}}lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title></title>
+<meta name="keywords" content="中经汇金内部管理系统">
+<meta name="description" content="中经汇金内部管理系统">
+</head>
+<style type="text/css">
+  body{
+    background-color: #eee;
+    position: relative;
+  }
+  .header{
+    font-size: 30px;
+    color: #fff;
+    line-height: 60px;
+    padding-left: 20px;
+  }
+  .header,
+  .footer{
+    background: #222;
+  }
+  .footer{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+  .loginWraper{
+   
+    background: #eee;
+    
+  }
+  #loginform{
+    /*border: 1px solid #ccc;*/
+    background: #eee;
+  }
+  .btn-sms{
+    padding: 0 5px!important;
+    /*font-size: 12px !important;*/
+  }
+  .btn-sms.wait{
+    background: #f1f1f1;
+    color: #999;
+  }
+  #phone{
+    float: left;
+    width: 100%;
+  }
+
+  @media (max-width: 767px){
+    .small{
+      width: 20%!important;
+    }
+    .big{
+      width: 80%!important;
+    }
+}
+@media (min-width: 767px){
+    .form-horizontal{
+      width:50%;
+      margin: 0 auto;
+    }
+    
+}
+</style>
+<body>
+
+<div class="header"><span></span>内部管理系统</div>
+
+<div class="loginWraper">
+  <div id="loginform" class="loginBox">
+    <form class="form form-horizontal " action="index.html" method="post">
+      <div class="row cl " >
+        <label class="form-label col-xs-2 small" >手机号</label>
+        <div class="formControls col-xs-6 big"  style="padding-right: 30px !important;">
+          <input id="phone" name="phone" type="text" placeholder="手机号" class="input-text size-L mr-5" >
+         <!--  <input type="button" class="btn btn-info btn-sms size-L" value="发送验证码" > -->
+        </div>
+        
+      </div>
+      <div class="row cl">
+        <label class="form-label col-xs-2 small">密码</label>
+        <div class="formControls col-xs-6 big" style="padding-right: 30px !important;">
+          <input id="pwd" name="pwd" type="password" placeholder="密码" class="input-text size-L ">
+        </div>
+      </div>       
+      <div class="row cl">
+        <label class="form-label col-xs-2 small"></label>
+        <div class="formControls col-xs-6 big cl" style="padding-right: 30px !important;">
+          
+            <div class="col-xs-4" style="padding: 0!important;">
+                <input type="text" id="code_input" class='input-text' style="height: 37px;" value=""  placeholder="请输入验证码"/>
+            </div>
+            <div id="v_container" class='col-xs-1 ' style="width: 50%;height: 35px;"></div><br/>
+            <div class="col-xs-1 button ml-20" style="padding: 0!important;width:70%;font-size: 14px;text-align: right;">
+              看不清换一张
+            </div>
+            <input type="hidden" id="TenantId" name="TenantId" value="" />
+        </div>
+        
+        
+      </div>
+      
+   
+      <div class="row cl">
+        <label class="form-label col-xs-2 small"></label>
+        <div class="formControls col-xs-6 big">
+          <input name="" type="button" class="btn btn-success radius size-L" id='btn-submit' value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="footer">copyright &copy;<span></span></div>
+<script type="text/javascript" src="{{host}}lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="{{host}}static/h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="{{host}}lib/jquery.md5.js"></script>
+<script type="text/javascript" src="{{host}}lib/askQuestion.js"></script>
+<script type="text/javascript" src="{{host}}lib/gVerify.js"></script> 
+<script type="text/javascript" src="{{host}}lib/layer/2.4/layer.js"></script> 
+<script type="text/javascript">
+// var settings = require("../conf/settings");
+
+
+ function getQueryParam(name, url) {
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+  var r = url? url.substr(1).match(reg) : window.location.search.substr(1).match(reg); //匹配目标参数
+  if (r != null) return decodeURI(r[2]); return null; //返回参数值
+}  
+  function setCookie(name,value){
+    var Days = 30;
+    var exp = new Date();
+    exp.setTime(exp.getTime() + Days*24*60*60*1000);
+    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+  }
+  function getCookie(name){
+      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+      if(arr=document.cookie.match(reg))
+
+
+      return unescape(arr[2]);
+      else
+      return null;
+  }
+ function delCookie(name){
+  var exp = new Date();
+  exp.setTime(exp.getTime() - 1);
+  var cval=getCookie(name);
+  if(cval!=null)
+  document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+}
+  function sendSms(){
+    $(".btn-sms").on("click", function(){
+      var o = $(this);
+
+       var extras = {
+        _api: 'zj.verify.send',
+        mobile: $("#phone").val(),
+        _v: '1.0',
+        sign: "login"
+      };
+      if(!o.hasClass("wait")){
+        if($("#phone").val()){
+              o.addClass("wait");
+              o.val("发送中");
+          $.ajax({
+            url: "{{api}}mapi", 
+            data: $._apiClient.buildData(extras),
+            // type: "post",
+            dataType: "jsonp",
+            jsonp: 'callback',
+            success: function(response){
+              setTimeout(function(){
+                o.removeClass("wait");
+                o.val("发送验证码");
+              }, 5000)
+            }
+          })
+        }else{
+          alert("请填写手机号码");
+        }
+      }
+    })
+  }
+  function ven(){
+    if(getQueryParam('a')){
+      var vendorId=getQueryParam('a').split('_')[0]
+    }else{
+      var vendorId=getCookie('ven')
+    }
+    var extras = {
+      _api: 'zj.vendor.info',
+      vendorId:vendorId,
+      _v: '2.0'
+    };
+    $.ajax({
+      url: "{{api}}mapi", 
+      data: $._apiClient.buildData(extras),
+      type: "post",
+      dataType: "jsonp",
+      jsonp: 'callback',
+      success: function(response){
+        // alert(response)
+        // var res=JSON.parse(response)
+        var res=response
+        if(res.success==true){
+          $('.header span').html(res.model.vendorName)
+          $('.footer span').html(res.model.vendorFullName)
+          document.title='登录－'+res.model.vendorName+'内部管理系统'
+        }
+        
+      }
+    })
+  }
+  $(document).ready(function(){
+    sendSms();
+    ven();
+    var verifyCode = new GVerify("v_container");
+    if(getQueryParam('a')){
+      setCookie("ven", getQueryParam('a').split('_')[0]);
+    }
+    
+    delCookie("token")
+    $('body').css("height",$(window).height())
+    $('#code_input').blur(function(){
+       var res = verifyCode.validate(document.getElementById("code_input").value);
+       if(res){
+
+       }else{
+          $('#code_input').val("");
+       }
+      
+    })
+    $(".button").click(function(){
+      // alert('aa')
+      var res = verifyCode.validate(document.getElementById("code_input").value);
+
+    })
+    $("#btn-submit").on("click", function(){
+       var res = verifyCode.validate(document.getElementById("code_input").value);
+       console.log(res);
+       if(res){
+          var extras = {
+            _api: 'zj.user.login',
+            mobile: $("#phone").val(),
+            pwd:$("#pwd").val(),
+            _v: '1.0',
+            // verifyCode:$("#verifyCode").val()
+          };
+          $.ajax({
+            type: "post",
+            url: "{{api}}mapi",
+            data: $._apiClient.buildData(extras),
+            dataType: "jsonp",
+            jsonp: 'callback',
+            success: function(response){
+              console.log(response);
+              // response=JSON.parse(response)
+              if(response.success==true){
+                setCookie("token", response.model.sessionId);
+                location.href = "/moongood"
+              }else{
+                alert(response.msgInfo);
+              }
+            }
+          })
+        }else{
+          layer.msg('验证码错误');
+          $('#code_input').val("");
+        }
+      
+    })
+  })
+</script>
+</body>
+</html>

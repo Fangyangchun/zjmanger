@@ -1,0 +1,683 @@
+
+<style type="text/css">
+.swfupload{
+	width: 100%;
+	height: 31px;
+}
+.uploadify-button-test {
+	width: 100%;
+	height: 31px;
+	background:#6595e3;
+	border-radius: 0;
+	border: none;
+}
+.uploadify:hover .uploadify-button {
+	background:#6595e3;
+}
+.img-show{
+	margin-bottom: 10px;
+}
+
+.btn-upload{
+	/*display: inline-block;*/
+	width: 100px;
+	height: 100px;
+	background: url({{host}}static/h-ui/images/btn-photo.png) no-repeat center center;
+	background-size: contain;
+
+}
+
+.icon{
+	display: block;
+	width: 100px;
+}
+.upload-url{
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	left:20px;
+	display: none;
+	/*z-index: -9999;*/
+}
+input[type="checkbox"]{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	vertical-align:middle;
+	margin-top: 3px;
+
+}
+@media screen and (max-width: 768px){
+    #edui51_body{
+        width: 50%!important;
+    }
+    
+}
+
+</style>
+<script id="form-template" type="text/x-handlebars-template">
+{% raw %}
+<div class="box-content">
+	<div class="panel panel-default mt-20">
+		<div class="panel-body">
+			
+			<form id="editForm" class="form form-horizontal">
+				
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>活动名称：</label>
+					<div class="formControls col-xs-6 text-c">
+						<input class="input-text radius" name="title" value="{{model.title}}" placeholder="活动名称" />
+					</div>
+				</div>
+				<!-- <div class="row cl">
+					<label class="form-label col-xs-3"><span class="c-red">*</span>活动时间：</label>
+					<div class="formControls col-xs-6">
+				
+						 <input id='establish' class="laydate-icon pl-5 establishTime" name="startTime" style="width:140px;height:29px;" value="" data-time='{{model.startTime}}' placeholder="活动时间">
+					</div>
+				</div> -->
+				<div class="row cl">
+					<label class="form-label col-xs-3"><span class="c-red">*</span>活动时间：</label>
+					<div class="formControls col-xs-6">
+				
+						 <input id='start' class="laydate-icon pl-5 raiseStartTime mr-5 mb-5"  style="width:140px;height:29px;" value="" data-time='{{model.startTime}}' readonly="readonly" name="startTime" placeholder="开始时间" /> --
+						 <input id='end' class="laydate-icon pl-5 raiseEndTime" readonly="readonly" name="endTime" style="width:140px;height:29px;" value="" data-time='{{model.endTime}}' placeholder="结束时间" />
+					</div>
+
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>省市名称：</label>
+					<div class="formControls col-xs-6 text-l">
+					
+					<select name="provinceCode" class="select provinceCode" style="width: 200px;">
+						<option value="">选择省市</option>
+						{{#each city1}}
+							<option value="{{areaId}}">{{areaName}}</option>
+						{{/each}}
+					</select>
+					{{#if model.city}}
+						<select name="cityCode" class="select" style="width: 200px;">
+							<option value="{{model.cityCode}}">{{model.city}}</option>
+						</select>
+					{{else}}
+					<select name="cityCode" class="select" style="width: 200px;display: none;"></select>
+					{{/if}}
+					{{#if model.district}}
+						<select name="districtCode" class="select" style="width: 200px;">
+							<option value="{{model.districtCode}}">{{model.district}}</option>
+						</select>
+					{{else}}
+					<select name="districtCode" class="select" style="width: 200px;display: none;"></select>
+					{{/if}}
+					
+					
+			
+					</div>
+				</div>
+				{{#if model.address}}
+					<div class="row cl address">
+						<label class="form-label col-xs-3" ></label>
+						<div class="formControls col-xs-6 text-c">
+							<input class="input-text radius" name="address" value="{{model.address}}" placeholder="具体地址" />
+						</div>
+						<a class="btn  btn-success f-l clickMap" onclick="layer_open('地图', '/moongood/activity/address', 1000)" href="javascript:void(0)">
+								从地图中获取经纬度
+				
+						</a>
+						
+					</div>
+				{{else}}
+					<div class="row cl address" style="display: none;">
+						<label class="form-label col-xs-3" ></label>
+						<div class="formControls col-xs-6 text-c mb-10">
+							<input class="input-text radius" name="address" value="{{model.address}}" placeholder="具体地址" maxlength="100" />
+						</div>
+						<a class="btn  btn-success f-l clickMap ml-10" onclick="layer_open('地图', '/moongood/activity/address', 1000)" href="javascript:void(0)">
+								从地图中获取经纬度
+				
+						</a>
+						
+					</div>
+				{{/if}}
+				
+				<input type="hidden" class=" mt-10 "  value="{{model.lbsAddress}}" name="lbsAddress">
+				<input type="hidden" class=" mt-10 "  value="{{model.customerManagers}}" name="customerManagers">
+				<input type="hidden" class=" mt-10 "  value="{{model.description}}" name="description">
+				<input type="hidden" class=" mt-10 "  value="{{id}}" name="id">
+				<div class="row cl">
+					<label class="form-label col-xs-3"><span class="c-red">*</span>报名截止时间：</label>
+					<div class="formControls col-xs-6">
+				
+						 <input id='establish' class="laydate-icon pl-5 establishTime" name="limitTime" style="width:140px;height:29px;" value="" readonly="readonly" data-time='{{model.limitTime}}' placeholder="报名截止时间">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>联系人：</label>
+					<div class="formControls col-xs-6 text-c">
+						<input class="input-text radius" name="linkMan" value="{{model.linkMan}}" placeholder="联系人" />
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>联系电话：</label>
+					<div class="formControls col-xs-6 text-c">
+						<input class="input-text radius" name="linkPhone" value="{{model.linkPhone}}" onblur='checkPhone(this.value,"linkPhone")' maxlength="11" placeholder="联系电话" />
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>客户经理：</label>
+					<div class="formControls col-xs-6 text-l cl">
+						<!-- <div class="col-xs-3">
+							<input class="role-item" type="checkbox" value="{{id}}" {{#if isChecked}}checked="true"{{/if}}>
+						客户经理
+						</div>
+						<div class="col-xs-3 yesMan">
+							<input class="role-item" type="checkbox" value="{{id}}" {{#if isChecked}}checked="true"{{/if}}>
+						客户经理
+						</div>
+						<div class="col-xs-3 noneMan">
+							<a href="/moongood/manager/add">没有要找客户经理？</a>
+						
+						</div> -->
+						<a class="btn  btn-success f-l mr-10  mb-10" onclick="layer_open('选择客户经理', '/moongood/activity/search', 1000)" href="javascript:void(0)">
+							客户经理选择
+			
+						</a>
+						<a class="btn  btn-info f-l noneMan mr-10 mb-10" href="/moongood/manager/add">
+							没有要找的客户经理？
+			
+						</a>
+						<a class="btn  btn-info f-l mr-10 mb-10" onclick="layer_open('查看所选的客户经理', '/moongood/activity/zhanshi', 1000)" href="javascript:void(0)">
+							查看所选的客户经理
+			
+						</a>
+					</div>
+					
+				</div>
+				
+				
+				
+				
+				
+				
+				<p class="pt-10">活动简介图文编辑：</p>
+				<script id="editor" type="text/plain" style="width:100%;height:400px; ">
+					      		
+
+				</script>
+
+				
+				
+		
+				
+				
+				
+				
+				<div class="row text-c">
+				   <input class="btn btn-primary submit mt-10 btnSum2"  value="确认">
+				</div>
+		
+			</form>
+			
+		
+			
+		  
+		</div>
+	</div>
+
+
+</div>
+{% endraw %}
+</script>
+
+<style type="text/css">
+	body{
+		overflow-x: hidden;
+	}
+
+</style>
+
+<script type="text/javascript">
+	function insertHtml(value) {
+       
+        UE.getEditor('editor').execCommand('insertHtml', value)
+    }
+    var city,managerName=[],managerId=[];
+ 	function city(){
+		$.ajax({
+			type: "GET",
+			url: "../../../hui-admin/static/js/city.json",
+			dataType:"json",
+		    jsonp:'callback',
+			success: function(d){
+				city=d;
+				
+			}
+		});
+	}
+
+
+$(document).ready(function(){
+	
+	
+	{% if operation == 'edit' %}
+	city()
+	setTimeout(function(){
+		
+		request("{{api}}mapi",{_api: 'zj.activity.detail',_v: '1.0',id: getQueryParam('id')}).done(function(response){
+			response.id = getQueryParam('id');
+			console.log(response)
+			// var model=response.model
+			response.city1=city;
+			
+			
+			
+			// delCookie("managerName");
+			// delCookie("managerIdStr");
+			setCookie("address",response.model.address);
+			setCookie("province",response.model.province);
+			setCookie("city",response.model.city);
+			setCookie("district",response.model.district);
+			setCookie("manager",JSON.stringify(response.model.customerManagersList));
+			for (var i = 0; i < response.model.customerManagersList.length; i++) {
+				managerName.push(response.model.customerManagersList[i].realname);
+				managerId.push(response.model.customerManagersList[i].id);
+				// response.model.customerManagers=response.model.customerManagersList[i].userId
+			}
+			setCookie("managerName",managerName);
+			setCookie("managerIdStr",managerId);
+
+			substitute("#form-template",  response);
+			 UE.getEditor('editor');
+			$('input[name="address"]').change(function(){
+				setCookie('address',$('input[name="address"]').val())
+			})
+			getList(".provinceCode option",response.model.provinceCode)
+			getTime2('.establishTime');
+			// getTime2('.productTrem');
+			getTime2('.raiseEndTime');
+			getTime2('.raiseStartTime');
+			setTimeout(function(){
+				var value=decodeURIComponent(response.model.description)
+				insertHtml(value)
+
+			 }, 1000);
+			$('select[name="provinceCode"]').change(function(){
+				var provinceCode=$('select[name="provinceCode"]').val();
+				
+				for (var i = 0; i <city.length; i++) {
+					if(city[i].areaId==provinceCode){
+						setCookie('province',city[i].areaName)
+						aa=i;
+						$('select[name="districtCode"]').hide();
+						$('select[name="cityCode"]').show().children('option').remove();
+						$('select[name="cityCode"]').append('<option value="">选择市</option>')
+						for (var a = 0; a <city[i].cities.length; a++) {
+							$('select[name="cityCode"]').append('<option value="'+city[i].cities[a].areaId+'">'+city[i].cities[a].areaName+'</option');
+						}
+						
+					}
+				}
+				$('.address').show();
+			});
+			$('select[name="provinceCode"]').blur(function(){
+				var provinceCode=$('select[name="provinceCode"]').val();
+				
+				for (var i = 0; i <city.length; i++) {
+					if(city[i].areaId==provinceCode){
+						setCookie('province',city[i].areaName)
+						aa=i;
+						$('select[name="districtCode"]').hide();
+						$('select[name="cityCode"]').show().children('option').remove();
+						$('select[name="cityCode"]').append('<option value="">选择市</option>')
+						for (var a = 0; a <city[i].cities.length; a++) {
+							$('select[name="cityCode"]').append('<option value="'+city[i].cities[a].areaId+'">'+city[i].cities[a].areaName+'</option');
+						}
+						
+					}
+				}
+				$('.address').show();
+			});
+			$('select[name="cityCode"]').change(function(){
+				// alert(aa)
+				var cityCode=$('select[name="cityCode"]').val();
+				for (var i = 0; i <city[aa].cities.length; i++) {
+					if(city[aa].cities[i].areaId==cityCode){
+						setCookie('city',city[aa].cities[i].areaName);
+						ii=i;
+						$('select[name="districtCode"]').show().children('option').remove();
+						$('select[name="districtCode"]').append('<option value="">选择区</option>')
+						for (var a = 0; a <city[aa].cities[i].counties.length; a++) {
+							$('select[name="districtCode"]').append('<option value="'+city[aa].cities[i].counties[a].areaId+'">'+city[aa].cities[i].counties[a].areaName+'</option');
+						}
+						
+					}
+				}
+			});
+		
+			$('select[name="districtCode"]').change(function(){
+				// alert(aa)
+				var districtCode=$('select[name="districtCode"]').val();
+				for (var i = 0; i <city[aa].cities[ii].counties.length; i++) {
+					if(city[aa].cities[ii].counties[i].areaId==districtCode){
+						setCookie('district',city[aa].cities[ii].counties[i].areaName)
+						
+						
+					}
+				}
+				//在这里请求
+				
+			});
+			var establish = {
+			  elem: '#establish',
+			  format: 'YYYY-MM-DD hh:mm:ss',
+			  min: '', //设定最小日期为当前日期
+			  max: $('input[name="endTime"]').val(), //最大日期
+			  istime: true,
+			  istoday: false,
+			  
+			  
+			};
+			laydate(establish);
+					
+			var start = {
+			  elem: '#start',
+			  format: 'YYYY-MM-DD hh:mm:ss',
+			  min: '', //设定最小日期为当前日期
+			  max: $('input[name="endTime"]').val(), //最大日期
+			  istime: true,
+			  istoday: false,
+			  choose: function(datas){
+			     end.min = $('input[name="startTime"]').val(); //开始日选好后，重置结束日的最小日期
+			     // end.start = datas //将结束日的初始值设定为开始日
+			  }
+			};
+			var end = {
+			  elem: '#end',
+			  format: 'YYYY-MM-DD hh:mm:ss',
+			  min: $('input[name="startTime"]').val(),
+			  max: '2099-06-16',
+			  istime: true,
+			  istoday: false,
+			  choose: function(datas){
+			    // alert('aa')
+			    start.max = $('input[name="endTime"]').val();
+			    // start.max = datas; //结束日选好后，重置开始日的最大日期
+			    establish.max =$('input[name="endTime"]').val();
+			  }
+			};
+			laydate(start);
+			laydate(end);
+
+			$(".btnSum2").click(function () {
+			
+				$('input[name="description"]').val(UE.getEditor('editor').getContent())
+				// var str=$('textarea[name="title"]').val();
+				// alert(getCookie("managerIdStr"))
+				if(getCookie("position")){
+					$('input[name="lbsAddress"]').val(getCookie("position"));	
+				}
+					
+				if(getCookie("managerIdStr")){
+					$('input[name="customerManagers"]').val(getCookie("managerIdStr"));	
+				}	
+						
+						
+				if($('input[name="lbsAddress"]').val()!=""&&$('input[name="customerManagers"]').val()!=""&&$('input[name="title"]').val()!=''&&$('input[name="description"]').val()!=""&&$('input[name="startTime"]').val()!=''&&$('input[name="endTime"]').val()!=''&&$('input[name="address"]').val()!=''&&$('input[name="limitTime"]').val()!=''&&$('select[name="provinceCode"]').val()!=''&&$('select[name="cityCode"]').val()!=''&&$('select[name="districtCode"]').val()!=''&&$('input[name="linkMan"]').val()!=''&&$('input[name="linkPhone"]').val()!=''){
+					var json={
+						_api: 'zj.activity.update',
+				        _v: '1.0',
+				        id:$('input[name="id"]').val(),
+				        lbsAddress:$('input[name="lbsAddress"]').val(),
+				       	customerManagers:$('input[name="customerManagers"]').val(),
+				        title:$('input[name="title"]').val(),
+						content:encodeURIComponent($('input[name="description"]').val()),
+						startTime:$('input[name="startTime"]').val(),
+						endTime:$('input[name="endTime"]').val(),
+						address:$('input[name="address"]').val(),
+						limitTime:$('input[name="limitTime"]').val(),
+				        provinceCode:$('select[name="provinceCode"]').val(),
+				        cityCode:$('select[name="cityCode"]').val(),
+				        districtCode:$('select[name="districtCode"]').val(),
+				        linkMan:$('input[name="linkMan"]').val(),
+				        linkPhone:$('input[name="linkPhone"]').val()
+
+				        // tag:$('select[name="tag"]').val().replace(/(^\s*)|(\s*$)/g, "")
+
+				        
+					}
+
+
+					request("{{api}}mapi",json).done(function(response,option){
+					    		// console.log(option.data);
+					    if(response.success==true)	{
+					    	layer.msg('提交成功');
+					    	setTimeout(function(){
+					    		location.href='/moongood/activity/list'
+					    	}, 1000);
+					    	// location.href='/moongood/finance/list'
+					    }	
+					    		
+					})
+				}else{
+					layer.msg('请填写完信息');
+				}
+				
+					
+		      
+		      })
+
+
+			
+			
+				  
+		
+		
+	
+		
+		})
+		}, 500);
+	{% else %}
+	city()
+	setTimeout(function(){
+		var res={}
+		res.city1=city
+		delCookie("province");
+		delCookie("city");
+		delCookie("district");
+		delCookie("address");
+		delCookie("position");
+		delCookie("manager");
+		delCookie("managerName");
+		delCookie("managerIdStr");
+		substitute("#form-template", res);
+		$('select[name="provinceCode"]').change(function(){
+			var provinceCode=$('select[name="provinceCode"]').val();
+			
+			for (var i = 0; i <city.length; i++) {
+				if(city[i].areaId==provinceCode){
+					setCookie('province',city[i].areaName)
+					aa=i;
+					$('select[name="districtCode"]').hide();
+					$('select[name="cityCode"]').show().children('option').remove();
+					$('select[name="cityCode"]').append('<option value="">选择市</option>')
+					for (var a = 0; a <city[i].cities.length; a++) {
+						$('select[name="cityCode"]').append('<option value="'+city[i].cities[a].areaId+'">'+city[i].cities[a].areaName+'</option');
+					}
+					
+				}
+			}
+			$('.address').show();
+		});
+		
+		$('select[name="cityCode"]').change(function(){
+			// alert(aa)
+			var cityCode=$('select[name="cityCode"]').val();
+			for (var i = 0; i <city[aa].cities.length; i++) {
+				if(city[aa].cities[i].areaId==cityCode){
+					setCookie('city',city[aa].cities[i].areaName);
+					ii=i;
+					$('select[name="districtCode"]').show().children('option').remove();
+					$('select[name="districtCode"]').append('<option value="">选择区</option>')
+					for (var a = 0; a <city[aa].cities[i].counties.length; a++) {
+						$('select[name="districtCode"]').append('<option value="'+city[aa].cities[i].counties[a].areaId+'">'+city[aa].cities[i].counties[a].areaName+'</option');
+					}
+					
+				}
+			}
+		});
+	
+		$('select[name="districtCode"]').change(function(){
+			// alert(aa)
+			var districtCode=$('select[name="districtCode"]').val();
+			for (var i = 0; i <city[aa].cities[ii].counties.length; i++) {
+				if(city[aa].cities[ii].counties[i].areaId==districtCode){
+					setCookie('district',city[aa].cities[ii].counties[i].areaName)
+					
+					
+				}
+			}
+			//在这里请求
+			
+		});
+		
+		$('input[name="address"]').change(function(){
+			setCookie('address',$('input[name="address"]').val())
+		})
+		// var max;
+		// $('input[name="endTime"]').change(function(){
+		// 	max=$('input[name="endTime"]').val()
+		// 	alert('aa')
+		// })
+		var ue = UE.getEditor('editor');
+		
+		
+		
+				
+		var start = {
+			  elem: '#start',
+			  format: 'YYYY-MM-DD hh:mm:ss',
+			  min: '', //设定最小日期为当前日期
+			  max: $('input[name="endTime"]').val(), //最大日期
+			  istime: true,
+			  istoday: false,
+			  choose: function(datas){
+			     end.min = $('input[name="startTime"]').val(); //开始日选好后，重置结束日的最小日期
+			     // end.start = datas //将结束日的初始值设定为开始日
+			  }
+			};
+			var end = {
+			  elem: '#end',
+			  format: 'YYYY-MM-DD hh:mm:ss',
+			  min: $('input[name="startTime"]').val(),
+			  max: '2099-06-16',
+			  istime: true,
+			  istoday: false,
+			  choose: function(datas){
+			    // alert('aa')
+			    start.max = $('input[name="endTime"]').val();
+			    // start.max = datas; //结束日选好后，重置开始日的最大日期
+			    establish.max =$('input[name="endTime"]').val();
+			  }
+			};
+		laydate(start);
+		laydate(end);
+		// $('#establish').on("click",function(){
+		// 	alert('aa')
+			var establish = {
+			  elem: '#establish',
+			  format: 'YYYY-MM-DD hh:mm:ss',
+			  min: '', //设定最小日期为当前日期
+			  max:'', //最大日期
+			  istime: true,
+			  istoday: false,
+			  // choose: function(datas){
+			  //   // establish.max = ; //结束日选好后，重置开始日的最大日期
+			  // }
+			  
+			  
+			};
+			laydate(establish);
+		// })
+		
+		
+	$(".btnSum2").click(function () {
+		
+		$('input[name="description"]').val("<style>img{display:block;width:100%;}</style>"+UE.getEditor('editor').getContent())
+		// var str=$('textarea[name="title"]').val();
+		// alert(getCookie("managerIdStr"))
+		if(getCookie("position")){
+			$('input[name="lbsAddress"]').val(getCookie("position"));	
+		}
+			
+		if(getCookie("managerIdStr")){
+			$('input[name="customerManagers"]').val(getCookie("managerIdStr"));	
+		}	
+				
+				
+		if($('input[name="lbsAddress"]').val()!=""&&$('input[name="customerManagers"]').val()!=""&&$('input[name="title"]').val()!=''&&$('input[name="description"]').val()!="<style>img{display:block;width:100%;}</style>"&&$('input[name="startTime"]').val()!=''&&$('input[name="endTime"]').val()!=''&&$('input[name="address"]').val()!=''&&$('input[name="limitTime"]').val()!=''&&$('select[name="provinceCode"]').val()!=''&&$('select[name="cityCode"]').val()!=''&&$('select[name="districtCode"]').val()!=''&&$('input[name="linkMan"]').val()!=''&&$('input[name="linkPhone"]').val()!=''){
+			var json={
+				_api: 'zj.activity.create',
+		        _v: '1.0',
+		        lbsAddress:$('input[name="lbsAddress"]').val(),
+		       	customerManagers:$('input[name="customerManagers"]').val(),
+		        title:$('input[name="title"]').val(),
+				content:encodeURIComponent($('input[name="description"]').val()),
+				startTime:$('input[name="startTime"]').val(),
+				endTime:$('input[name="endTime"]').val(),
+				address:$('input[name="address"]').val(),
+				limitTime:$('input[name="limitTime"]').val(),
+		        provinceCode:$('select[name="provinceCode"]').val(),
+		        cityCode:$('select[name="cityCode"]').val(),
+		        districtCode:$('select[name="districtCode"]').val(),
+		        linkMan:$('input[name="linkMan"]').val(),
+		        linkPhone:$('input[name="linkPhone"]').val(),
+
+		        // tag:$('select[name="tag"]').val().replace(/(^\s*)|(\s*$)/g, "")
+
+		        
+			}
+
+
+			request("{{api}}mapi",json).done(function(response,option){
+			    		// console.log(option.data);
+			    if(response.success==true)	{
+			    	layer.msg('提交成功');
+			    	setTimeout(function(){
+			    		location.href='/moongood/activity/list'
+			    	}, 1000);
+			    	// location.href='/moongood/finance/list'
+			    }	
+			    		
+			})
+		}else{
+			layer.msg('请填写完信息');
+		}
+		
+			
+      
+      })
+
+	}, 500);
+		
+		
+		
+	
+		
+
+	
+	
+	
+	
+	{% endif %}
+		// alert(i)
+	
+})
+
+    function setContent(isAppendTo) {
+        var arr = [];
+        arr.push("使用editor.setContent('欢迎使用ueditor')方法可以设置编辑器的内容");
+        UE.getEditor('editor').setContent('欢迎使用ueditor', isAppendTo);
+        alert(arr.join("\n"));
+    }
+
+</script>

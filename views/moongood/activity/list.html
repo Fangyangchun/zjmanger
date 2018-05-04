@@ -1,0 +1,256 @@
+
+{% extends "../layout/default.html" %} 
+{% block content %}
+	<script id="list-template" type="text/x-handlebars-template">
+	{% raw %}
+	<section class="Hui-article-box">
+	<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/activity/list" class="c-primary">活动列表</a>
+		</div>
+		
+	</nav>
+	<div class="row ml-20 mt-20 mr-20 clearfix">
+		
+		<a class="btn  btn-success f-l mr-10 addBtn" style="font-size: 14px;" href="/moongood/activity/add">
+			<i class="Hui-iconfont">&#xe600;</i>
+			发布活动
+		</a>
+		
+	
+		<div class="text-r f-r">
+			<form id="splitPage" action="/moongood/activity/list">
+				<!-- <input placeholder="活动名称" style="width:20%" class="input-text mb-5 radius" type="text" name="title" value='{{title}}' maxlength="50" >
+				<input placeholder="联系人" style="width:20%" class="input-text mb-5 radius" type="text" name="linkMan" value='{{linkMan}}' maxlength="50" > -->
+				<!-- <span class="select-box radius" style="width:80px">
+					<select class="select partnerRole" name="partnerRole" value="{{partnerRole}}" style="height:22px;">
+						<option value="">合伙类型</option>
+						
+						<option value="1">普通合伙人</option>
+						<option value="2">有限合伙人</option>
+						<option value="3">理财顾问</option>
+						
+					</select>
+				</span> -->
+				<!-- <span class="select-box radius" style="width:120px">
+					<select class="select provinceCode" name="provinceCode" value="{{provinceCode}}" style="height:22px;">
+						<option value="">选择省份</option>
+						{{#each city1}}
+							<option value="{{areaId}}">{{areaName}}</option>
+						{{/each}}
+					</select>
+				</span> -->
+				<!-- <span class="select-box radius" style="width:20%;display: none;">
+					<select class="select cityCode" name="cityCode" value="{{cityCode}}" style="height:22px;">
+						
+					</select>
+				</span> -->
+				<!-- {{#if city}}
+					<span class="select-box radius" style="width:120px;">
+						<select class="select cityCode" name="cityCode" value="{{cityCode}}" style="height:22px;">
+							<option value="{{cityCode}}">{{city}}</option>
+						</select>
+					</span>
+						
+				{{else}}
+				<span class="select-box radius" style="width:120px;display: none;">
+					<select class="select cityCode" name="cityCode" value="{{cityCode}}" style="height:22px;">
+						
+					</select>
+				</span>
+				{{/if}}
+				{{#if district}}
+				<span class="select-box radius" style="width:120px;">
+					<select class="select districtCode" name="districtCode" value="{{districtCode}}" style="height:22px;">
+						<option value="{{districtCode}}">{{district}}</option>
+					</select>
+				</span>
+				{{else}}
+				<span class="select-box radius" style="width:120px;display: none;">
+					<select class="select districtCode" name="districtCode" value="{{districtCode}}" style="height:22px;">
+						
+					</select>
+				</span>
+				{{/if}} -->
+				
+				<!-- <span class="select-box radius" style="width:120px">
+					<select class="select status" name="status" value="{{status}}" style="height:22px;">
+					
+						<option value="">代理商状态</option>
+						<option value="0">冻结</option>
+						<option value="1">申请</option>
+						<option value="2">已缴纳合作费用</option>
+						<option value="3">审核失败</option>
+						<option value="4">审核通过</option>
+					</select>
+				</span> -->
+				
+				
+				<!-- <button name="" id="" class="btn btn-success radius" type="submit">
+					<i class="Hui-iconfont">&#xe709;</i>
+					查询
+				</button> -->
+			</form>
+		</div>
+	</div>
+	<div class="box-content pd-20">
+		<table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
+			<thead>
+				<tr class="text-c">
+					<th>活动名称</th>
+					<th>联系人</th>
+					<th>地点</th>
+					<th>开始时间</th>
+					<th>结束时间</th>
+					<th>活动二维码</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>	
+			{{#if model}}
+					{{#each model}}
+					<tr class="text-c">
+						<td>{{title}}</td>
+						<td>{{linkMan}}</td>
+						<td >{{province}}{{city}}{{district}}{{address}}</td>
+						<!-- <td>{{startDate}}</td> -->
+						<td class="addTime" data-time='{{startTime}}'></td>
+						<td class="endTime" data-time='{{endTime}}'></td>
+						<td style="width: 200px;"><a href="{{qrCode}}"><img style="width:100px;" src="{{qrCode}}"></a></td>
+						<!-- <td class="status" data-status="{{status}}"></td> -->
+						
+						<td>
+							{{#equal status '0' }}
+							
+							<a class="btn btn-info mt-5" href="/moongood/activity/draw?id={{id}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 开启抽奖</a>
+							
+							{{/equal}}
+							<a class="btn btn-info mt-5" href="http://h5.zhongjing-hz.com/#/introduction?activityId={{id}}&ven=1"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 查看</a>
+							
+							<a class="btn btn-info mt-5" href="/moongood/activity/edit?id={{id}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							<!-- <a class="btn btn-info mt-5" href="/moongood/agent/edit?id={{id}}&update=edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							
+							<a class="btn btn-info mt-5" href="/moongood/agent/update?id={{id}}&update=update"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 审核</a>
+							<a class="btn btn-info mt-5" > <i class="glyphicon glyphicon-zoom-in icon-white"></i> 上架</a>
+							<a class="btn btn-danger mt-5" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a> -->
+							
+						</td>
+					</tr>
+					{{/each}}
+					{{else}}
+					<tr class="text-c">
+						<td colspan='7'>暂时还没有数据哦</td>
+					</tr>
+				{{/if}}
+			</tbody>
+		</table>
+		{{#if model}}
+		<div class="text-center">
+			<div id="splitPageDiv" class="pagination pagination-centered"></div>
+		</div>
+		{{/if}}
+	</div>
+  </section>
+	{% endraw %}
+	</script>
+	{% include "../layout/insidePage.html" %}
+
+	<script type="text/javascript">
+		var deleteItem = function(id){
+			layer_confirm("确认删除?", "{{api}}user/permission/element/delete", {id: id});
+		};
+		var city,aa,cityCodeStr,distinctCodeStr;
+		function city(){
+			$.ajax({
+				type: "GET",
+				url: "../../../hui-admin/static/js/city.json",
+				dataType:"jsonp",
+			    jsonp:'callback',
+				success: function(d){
+					city=d;
+					
+				}
+			});
+		}
+		$(document).ready(function(){
+			city()
+			setTimeout(function(){
+				request({
+					url: "{{api}}mapi",
+					data: {_api:'zj.activity.list',_v:'1.0',page:getQueryParam('pageIndex') || 1,title:getQueryParam('title')||undefined,linkMan:getQueryParam('linkMan')||undefined,provinceCode:getQueryParam('provinceCode')||undefined,cityCode:getQueryParam('cityCode')||undefined,districtCode:getQueryParam('districtCode')||undefined,pageSize:10},
+					type: "get",
+					dataType:"jsonp",
+			    	jsonp:'callback',
+				}).done(function(response){
+					console.log(response)
+					response.city1=city;
+					response.title = getQueryParam('title')||undefined;
+					response.provinceCode = getQueryParam('provinceCode')||undefined;
+					response.linkMan = getQueryParam('linkMan')||undefined;
+					// response.status= getQueryParam('status')||undefined;
+					response.cityCode = getQueryParam('cityCode')||undefined;
+					response.districtCode = getQueryParam('districtCode')||undefined;
+					// if(getCookie("cityCodeStr")){
+					// 	alert('aa')
+					// 	response.cityCodeStr=getCookie("cityCodeStr")
+					// }
+					// if(getCookie("distinctCodeStr")){
+					// 	response.distinctCodeStr=getCookie("distinctCodeStr")
+					// }
+					substitute("#list-template", response);
+					getTimeList('.addTime');
+					$('select[name="provinceCode"]').change(function(){
+						var provinceCode=$('select[name="provinceCode"]').val();
+						for (var i = 0; i <city.length; i++) {
+							if(city[i].areaId==provinceCode){
+								aa=i;
+								$('select[name="cityCode"]').parent().show();
+								$('select[name="cityCode"]').children('option').remove();
+								$('select[name="cityCode"]').append('<option value="">选择市</option>')
+								for (var a = 0; a <city[i].cities.length; a++) {
+									$('select[name="cityCode"]').append('<option value="'+city[i].cities[a].areaId+'">'+city[i].cities[a].areaName+'</option');
+									
+								}
+								
+							}
+						}
+					});
+					$('select[name="cityCode"]').change(function(){
+						// alert(aa)
+						var cityCode=$('select[name="cityCode"]').val();
+						for (var i = 0; i <city[aa].cities.length; i++) {
+							if(city[aa].cities[i].areaId==cityCode){
+								$('select[name="districtCode"]').parent().show();
+								$('select[name="districtCode"]').children('option').remove();
+								$('select[name="districtCode"]').append('<option value="">选择区</option>')
+								for (var a = 0; a <city[aa].cities[i].counties.length; a++) {
+
+									$('select[name="districtCode"]').append('<option value="'+city[aa].cities[i].counties[a].areaId+'">'+city[aa].cities[i].counties[a].areaName+'</option');
+									
+								}
+								
+							}
+						}
+					});
+					
+					// -1-删除 0-冻结 1-申请 2-已缴纳合作费用 3-审核失败 4-审核通过
+					getStatus(["删除", "冻结","申请","已缴纳合作费用","审核失败","审核通过"]);
+					getStatusList(["普通合伙人","有限合伙人","理财顾问"]);
+					getTimeList2('.addTime');
+					getTimeList2('.endTime');
+					getCount('.count');
+					getList(".status option",response.status);
+					getList(".provinceCode option",response.provinceCode);
+					getList(".partnerRole option",response.partnerRole);
+					initPage({
+						count: response.count,
+						pageIndex: parseInt(getQueryParam("pageIndex")) || 1
+
+					});
+				})
+			}, 500);	
+		})
+	</script>
+{% endblock %}
+

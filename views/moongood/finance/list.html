@@ -1,0 +1,179 @@
+
+{% extends "../layout/default.html" %} 
+{% block content %}
+	<script id="list-template" type="text/x-handlebars-template">
+	{% raw %}
+	<section class="Hui-article-box">
+	<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/finance/list" class="c-primary">财经列表</a>
+		</div>
+		
+	</nav>
+	<div class="row ml-20 mt-20 mr-20 clearfix">
+		
+		<a class="btn  btn-success f-l mr-10 addBtn" style="font-size: 14px;" href="/moongood/finance/add">
+			<i class="Hui-iconfont">&#xe600;</i>
+			新增财经
+		</a>
+		
+	
+		<div class="text-r f-r">
+			<form id="splitPage" action="/moongood/finance/list">
+				<input placeholder="财经标题" style="width:20%" class="input-text mb-5 radius" type="text" name="title" value='{{title}}' maxlength="50" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>
+				<input  placeholder="作者" style="width:20%" class="input-text mb-5 radius" type="text" name="nickname" value='{{nickname}}' maxlength="50" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>
+				<input  placeholder="标签" style="width:20%" class="input-text mb-5 radius" type="text" name="tag" value='{{tag}}' maxlength="50" onkeyup='this.value=this.value.replace(/(^\s*)|(\s*$)/g, "")'>
+				<span class="select-box radius" style="width:20%">
+					<select class="select status" name="status" value="{{status}}"  style="height:22px;">
+						<option value="">财经状态</option>
+						
+						<option value="0">作者创建</option>
+						<option value="1">提交审核</option>
+						<option value="2">审核未通过</option>
+						<option value="3">审核通过</option>
+						<option value="4">下架</option>
+						<option value="5">上架</option>
+					</select>
+				</span>
+				
+				
+				<button name="" id="" class="btn btn-success radius" type="submit">
+					<i class="Hui-iconfont">&#xe709;</i>
+					查询
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="box-content pd-20">
+		<table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
+			<thead>
+				<tr class="text-c">
+					<th>编号</th>
+					<th>标题</th>
+					<th>作者</th>
+					<th>标签</th>
+					<th>浏览量</th>
+					<th>审核状态</th>
+					<th>更新时间</th>
+					<th>审核失败原因</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>	
+			{{#if model}}
+					{{#each model}}
+					<tr class="text-c">
+						<td>{{id}}</td>
+						<td style="width: 200px;">{{title}}</td>
+						<td>{{nickname}}</td>
+						<td>{{tag}}</td>
+						<td>{{readNum}}</td>
+						<td class="status" data-status="{{status}}"></td>
+						<td class="addTime" data-time='{{updatedTime}}'></td>
+						<td>{{auditFailReason}}</td>
+						<!-- <td>上架中</td> -->
+						<td style="width: 200px;">
+							{{#equal status '0' }}
+							<a class="btn btn-info mt-5" href="/moongood/finance/edit?id={{id}}&update=edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							
+							<!-- <a class="btn btn-info mt-5" href="/moongood/finance/update?id={{id}}&update=update"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 审核</a> -->
+							<a class="btn btn-info mt-5" onclick="subItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 提交审核</a>
+							
+							<a class="btn btn-danger mt-5" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+							{{/equal}}
+							{{#equal status '1' }}
+							<a class="btn btn-info mt-5" href="/moongood/finance/edit?id={{id}}&update=edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							
+							<a class="btn btn-info mt-5" href="/moongood/finance/update?id={{id}}&update=update"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 审核</a>
+							
+							<a class="btn btn-danger mt-5" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+							{{/equal}}
+							{{#equal status '2' }}
+							<a class="btn btn-info mt-5" href="/moongood/finance/edit?id={{id}}&update=edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							
+							<a class="btn btn-info mt-5" href="/moongood/finance/update?id={{id}}&update=update"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 审核</a>
+							<a class="btn btn-danger mt-5" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+							{{/equal}}
+							{{#equal status '3' }}
+							<a class="btn btn-info mt-5" onclick="shangItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 上架</a>
+							<a class="btn btn-info mt-5" onclick="xiaItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 下架</a>
+							<a class="btn btn-danger mt-5" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+							{{/equal}}
+							{{#equal status '4' }}
+							<a class="btn btn-info mt-5" href="/moongood/finance/edit?id={{id}}&update=edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							<a class="btn btn-info mt-5" onclick="shangItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 上架</a>
+							<a class="btn btn-danger mt-5" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+							{{/equal}}
+							{{#equal status '5' }}
+							
+							<a class="btn btn-info mt-5" onclick="xiaItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 下架</a>
+							
+							{{/equal}}
+						</td>
+					</tr>
+					{{/each}}
+					{{else}}
+					<tr class="text-c">
+						<td colspan='9'>暂时还没有数据哦</td>
+					</tr>
+				{{/if}}
+			</tbody>
+		</table>
+		{{#if model}}
+		<div class="text-center">
+			<div id="splitPageDiv" class="pagination pagination-centered"></div>
+		</div>
+		{{/if}}
+	</div>
+  </section>
+	{% endraw %}
+	</script>
+	{% include "../layout/insidePage.html" %}
+
+	<script type="text/javascript">
+		var deleteItem = function(id){
+			// alert(id)
+			layer_confirm("确认删除?", "{{api}}mapi", {economicsId:id,status:-1,_api:"zj.economics.update",_v:"1.0"});
+		};
+		var subItem = function(id){
+			// alert(id)
+			layer_confirm("确定要提交审核吗?", "{{api}}mapi", {economicsId:id,status:1,_api:"zj.economics.update",_v:"1.0"});
+		};
+		var xiaItem = function(id){
+			// alert(id)
+			layer_confirm("确认下架?", "{{api}}mapi", {economicsId:id,status:4,_api:"zj.economics.update",_v:"1.0"});
+		};
+		var shangItem = function(id){
+			// alert(id)
+			layer_confirm("确认上架?", "{{api}}mapi", {economicsId:id,status:5,_api:"zj.economics.update",_v:"1.0"});
+		};
+		$(document).ready(function(){
+			request({
+				url: "{{api}}mapi",
+				data: {_api:'zj.economics.search',_v:'1.0',page: getQueryParam('pageIndex') || 1,pageSize:10,title:getQueryParam('title')||undefined,nickname:getQueryParam('nickname')||undefined,tag:getQueryParam('tag')||undefined,status:getQueryParam('status')||undefined},
+				type: "post",
+				dataType: "jsonp",
+				jsonp: 'callback'
+			}).done(function(response){
+				console.log(response)
+				response.title = getQueryParam('title')||undefined;
+				response.nickname = getQueryParam('nickname')||undefined;
+				response.tag= getQueryParam('tag')||undefined;
+				response.status= getQueryParam('status')||undefined;
+				substitute("#list-template", response);
+				getTimeList('.addTime');
+				getList(".status option",response.status);
+				 // -1-删除 0-作者创建 1-提交审核  2-审核未通过 3-审核通过 4-下架 5-上架
+				getStatus(["删除","作者创建", "提交审核","审核未通过","审核通过","下架","上架"]);
+				
+				initPage({
+					count: response.count,
+					pageIndex: parseInt(getQueryParam("pageIndex")) || 1
+
+				});
+			})
+		})
+	</script>
+{% endblock %}
+

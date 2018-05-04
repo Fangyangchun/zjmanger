@@ -1,0 +1,88 @@
+﻿{% extends "../layout/insidePage.html" %}
+
+{% block content %}
+	<script id="list-template" type="text/x-handlebars-template">
+	{% raw %}
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 功能列表
+		<a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+			<i class="Hui-iconfont">&#xe68f;</i>
+		</a>
+	</nav>
+	<div class="row ml-20 mt-20 mr-20 clearfix">
+		{{#if auth.operator.add}}
+		<a class="btn  btn-success f-l" href="/moongood/operator/add">
+			<i class="Hui-iconfont">&#xe600;</i>
+			新建
+		</a>
+		{{/if}}
+		<div class="text-r f-r">
+			<form id="splitPage" action="/moongood/operator/list">
+				<input placeholder="名称" style="width:250px" class="input-text" type="text" name="eleName" value='{{eleName}}' maxlength="50" >
+				<input placeholder="url" style="width:250px" class="input-text" type="text" name="elePath" value='{{elePath}}' maxlength="50" >
+				<button name="" id="" class="btn btn-success" type="submit">
+					<i class="Hui-iconfont">&#xe709;</i>
+					查询
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="box-content pd-20">
+		<table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
+			<thead>
+				<tr class="text-c">
+					<th>所属模块</th>
+					<th>功能名称</th>
+					<th>url</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>	
+					{{#each elementList}}
+					<tr class="text-c">
+						<td>{{moduleName}}</td>
+						<td>{{eleName}}</td>
+						<td>{{elePath}}</td>
+						<td>
+							{{#if ../auth.operator.edit}}
+							<a class="btn btn-info" href="/moongood/operator/update?id={{id}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							{{/if}}
+							{{#if ../auth.operator.delete}}
+							<a class="btn btn-danger" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+							{{/if}}
+						</td>
+					</tr>
+					{{/each}}
+			</tbody>
+		</table>
+		<!-- <div class="text-center">
+			<div id="splitPageDiv" class="pagination pagination-centered"></div>
+		</div> -->
+	</div>
+	{% endraw %}
+	</script>
+	<script type="text/javascript">
+		var deleteItem = function(id){
+			layer_confirm("确认删除?", "{{api}}user/permission/element/delete", {id: id});
+		};
+		$(document).ready(function(){
+			request({
+				url: "{{api}}user/permission/element/list",
+				data: {pageIndex: getQueryParam('pageIndex') || 1, eleName: getQueryParam('eleName') || "", url: getQueryParam('elePath') || ""},
+				type: "get",
+				dataType: "jsonp",
+				jsonp: 'callback'
+			}).done(function(response){
+				response.data.auth = auth;
+				response.data.eleName = getQueryParam("eleName");
+				response.data.elePath = getQueryParam("elePath");
+				substitute("#list-template", response.data);
+				initPage({
+					count: response.data.total,
+					pageIndex: parseInt(getQueryParam("pageIndex")) || 1
+				});
+			})
+		})
+	</script>
+{% endblock %}
+

@@ -1,0 +1,146 @@
+
+{% extends "../layout/default.html" %} 
+{% block content %}
+	<script id="list-template" type="text/x-handlebars-template">
+	{% raw %}
+	<section class="Hui-article-box">
+	<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/orderForm/list" class="c-primary">订单列表</a>
+		</div>
+		
+	</nav>
+	<div class="row ml-20 mt-20 mr-20 clearfix">
+		
+		<div class="text-r f-r">
+			<form id="splitPage" action="/moongood/orderForm/list">
+				<input placeholder="合同编号" style="width:20%" class="input-text mb-5 radius" type="text" name="contractNumber" value='{{contractNumber}}' maxlength="50" >
+				<input  placeholder="客户电话" style="width:20%" class="input-text mb-5 radius" type="text" name="mobile" value='{{mobile}}' maxlength="50" >
+				<input  placeholder="客户姓名" style="width:20%" class="input-text mb-5 radius" type="text" name="realname" value='{{realname}}' maxlength="50" >
+				<span class="select-box radius" style="width:20%">
+					<select class="select status" name="status" value="{{status}}" size="1" style="height:22px;">
+						<option value="">合同状态</option>
+						<!-- <option value="-1">删除</option> -->
+						<!-- <option value="0">冻结</option> -->
+						<!-- <option value="1">客户已预约</option>
+						<option value="2">线下客户已打款和签署合同</option> -->
+						<option value="3">理财师已交单</option>
+						<option value="4">审核未通过</option>
+						<option value="5">审核已通过</option>
+						<!-- <option value="6">合同失败</option>
+						<option value="7">合同成立</option>
+						<option value="8">合同失效</option> -->
+					</select>
+				</span>
+				
+				
+				<button name="" id="" class="btn btn-success radius" type="submit">
+					<i class="Hui-iconfont">&#xe709;</i>
+					查询
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="box-content pd-20">
+		<table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
+			<thead>
+				<tr class="text-c">
+					<th>合同编号</th>
+			<!-- 		<th>产品名称</th> -->
+					<th>客户姓名</th>
+					<th>客户电话</th>
+					<th>预订金额(万元)</th>
+					<th>打款金额(万元)</th>
+					<th>客户银行卡号</th>
+					<th>客户开户银行</th>
+					<th>客户支行名称</th>
+					<th>审核状态</th>
+					<!-- <th>是否上架</th> -->
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>	
+				{{#if success}}
+					{{#if model}}
+					{{#each model}}
+					<tr class="text-c">
+						<td>{{contractNumber}}</td>
+					<!-- 	<td>{{openBank}}</td> -->
+						<td>{{realname}}</td>
+						<td>{{mobile}}</td>
+						<td class="amtReservation" data-count="{{amtReservation}}"></td>
+						<td class="amtPay" data-count="{{amtPay}}"></td>
+						<td style="width: 200px;">{{bankCardNumber}}</td>
+						<td style="width: 200px;">{{openBank}}</td>
+						<td style="width: 200px;">{{branchBank}}</td>
+						<td class="status" data-status="{{status}}"></td>
+						<!-- <td>上架中</td> -->
+						<td>
+							{{#equal status '3' }}
+							<a class="btn btn-info mt-5" href="/moongood/orderForm/edit?id={{id}}&update=edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							
+							<a class="btn btn-info mt-5" href="/moongood/orderForm/update?id={{id}}&update=update"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 审核</a>
+							{{/equal}}
+							<!-- <a class="btn btn-danger mt-5" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a> -->
+						
+						</td>
+					</tr>
+					{{/each}}
+					{{else}}
+					<tr class="text-c">
+						<td colspan='10'>暂时还没有数据哦</td>
+					</tr>
+					{{/if}}
+					{{else}}
+					<tr class="text-c">
+						<td colspan='10'>{{msgInfo}}</td>
+					</tr>
+					{{/if}}
+			</tbody>
+		</table>
+		{{#if success}}
+			{{#if model}}
+		<div class="text-center">
+			<div id="splitPageDiv" class="pagination pagination-centered"></div>
+		</div>
+			{{/if}}
+		{{/if}}
+	</div>
+  </section>
+	{% endraw %}
+	</script>
+	{% include "../layout/insidePage.html" %}
+
+	<script type="text/javascript">
+		// var deleteItem = function(id){
+		// 	layer_confirm("确认删除?", "{{api}}user/permission/element/delete", {id: id});
+		// };
+		$(document).ready(function(){
+			request({
+				url: "{{api}}mapi",
+				data: {page: getQueryParam('pageIndex') || 1, pageSize:10,_api:'zj.contract.list',_v:'1.0',contractNumber:getQueryParam("contractNumber")||undefined,mobile:getQueryParam("mobile")||undefined,realname:getQueryParam("realname")||undefined,status:getQueryParam("status")||undefined},
+				type: "post",
+				dataType: "jsonp",
+				jsonp: 'callback'
+			}).done(function(response){
+				// response.data.auth = auth;
+				response.contractNumber = getQueryParam("contractNumber")||undefined;
+				response.realname = getQueryParam("realname")||undefined;
+				response.status = getQueryParam("status")||undefined;
+				response.mobile = getQueryParam("mobile")||undefined;
+				substitute("#list-template", response);
+				getList(".status option",response.status);
+				//合同状态  -1-删除 0-冻结 1-客户已预约 2-线下客户已打款和签署合同 3-理财师已交单 4-审核未通过 5-审核已通过 6-合同失败 7-合同成立 8-合同失效
+				getStatus(["删除", "冻结","客户已预约","线下客户已打款和签署合同","理财师已交单","审核未通过","审核已通过","合同失败","合同成立","合同失效"]);
+				getCount('.amtPay');
+				getCount('.amtReservation');
+				initPage({
+					count: response.count,
+					pageIndex: parseInt(getQueryParam("pageIndex")) || 1
+				});
+			})
+		})
+	</script>
+{% endblock %}
+

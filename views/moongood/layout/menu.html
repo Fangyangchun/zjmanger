@@ -1,0 +1,127 @@
+<aside class="Hui-aside">
+	<input runat="server" id="divScrollValue" type="hidden" value="" />
+	<div class="menu_dropdown bk_2">
+		{% if subUrlList['/erp/module/list'] %}
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe623;</i> 模块管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/moongood/module/list" data-title="模块管理" href="javascript:void(0)">模块列表</a></li>			
+				</ul>
+			</dd>
+		</dl>
+		{% endif %}
+		{% if subUrlList['/erp/operator/list'] %}
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe623;</i> 功能管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/moongood/operator/list" data-title="功能管理" href="javascript:void(0)">功能列表</a></li>		
+				</ul>
+			</dd>
+		</dl>
+		{% endif %}
+		<!-- {% if subUrlList['/erp/role/list'] %}
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe623;</i> 角色管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/erp/role/list" data-title="角色管理" href="javascript:void(0)">角色列表</a></li>		
+				</ul>
+			</dd>
+		</dl>
+		{% endif %} -->
+		{% if subUrlList['/erp/staff/list'] %}
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe623;</i> 录入员工管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/erp/staff/list" data-title="员工管理" href="javascript:void(0)">员工列表</a></li>	
+				</ul>
+			</dd>
+		</dl>
+		{% endif %}
+		<!-- {% if subUrlList['/erp/category/list'] %}
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe623;</i> 类目管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/erp/category/list" data-title="类目管理" href="javascript:void(0)">类目列表</a></li>	
+				</ul>
+			</dd>
+		</dl>
+		{% endif %} -->
+		<!-- {% if subUrlList['/erp/user/list'] %}
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe623;</i> 用户管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/erp/user/list" data-title="用户管理" href="javascript:void(0)">用户列表</a></li>	
+				</ul>
+			</dd>
+		</dl>
+		{% endif %} -->
+		<!-- {% if subUrlList['/erp/umbrella/list'] %}
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe623;</i> 成品库管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/erp/umbrella/list" data-title="成品库管理" href="javascript:void(0)">成品库列表</a></li>	
+				</ul>
+			</dd>
+		</dl>
+		{% endif %} -->
+		<!-- {% if subUrlList['/erp/visualization/list'] %}
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe623;</i> 可视化管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/erp/visualization/list" data-title="可视化管理" href="javascript:void(0)">可视化</a></li>	
+				</ul>
+			</dd>
+		</dl>
+		{% endif %} -->
+		<!-- {% if subUrlList['/erp/fault/list'] %}
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe623;</i> 故障管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/erp/fault/list" data-title="可视化管理" href="javascript:void(0)">故障列表</a></li>	
+				</ul>
+			</dd>
+		</dl>
+		{% endif %} -->
+		<!-- {% if subUrlList['/erp/price/peizhi'] %}
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe623;</i> 价格配置管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/erp/price/peizhi" data-title="价格配置" href="javascript:void(0)">价格配置</a></li>	
+				</ul>
+			</dd>
+		</dl>
+		{% endif %} -->
+		<!-- {% if subUrlList['/erp/mbrellaPile/list'] %}
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe623;</i> 伞桩管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/erp/umbrellaPile/list" data-title="伞桩管理配置" href="javascript:void(0)">伞桩管理配置</a></li>	
+				</ul>
+			</dd>
+		</dl>
+		{% endif %} -->
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe623;</i> 调试模块<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/moongood/fault/list" data-title="故障管理" href="javascript:void(0)">风险调查问卷录入模块</a></li>
+					<li><a data-href="/moongood/task/list" data-title="任务管理" href="javascript:void(0)">理财师管理模块</a></li>
+					<li><a data-href="/moongood/product/list" data-title="基金管理" href="javascript:void(0)">基金管理模块</a></li>
+					
+					
+				</ul>
+			</dd>
+		</dl>
+	</div>
+</aside>

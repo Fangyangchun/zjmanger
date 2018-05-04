@@ -1,0 +1,143 @@
+
+{% extends "../layout/default.html" %} 
+{% block content %}
+	<script id="list-template" type="text/x-handlebars-template">
+	{% raw %}
+	<section class="Hui-article-box">
+	<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/financialPlanners/list" class="c-primary">理财师列表</a>
+		</div>
+		
+	</nav>
+	<div class="row ml-20 mt-20 mr-20 clearfix">
+		
+		<div class="text-r">
+			<form id="splitPage" action="/moongood/financialPlanners/list">
+				<!-- <input placeholder="系统编号" style="width:10%" class="input-text mb-5 radius" type="text" name="id" value='{{id}}' maxlength="50" >
+				<input  placeholder="理财师姓名" style="width:10%" class="input-text mb-5 radius" type="text" name="realname" value='{{realname}}' maxlength="50" >
+				<input  placeholder="推荐人" style="width:10%" class="input-text mb-5 radius" type="text" name="referrals" value='{{referrals}}' maxlength="50" >
+				<input  placeholder="地区" style="width:10%" class="input-text mb-5 radius" type="text" name="eleName" value='{{eleName}}' maxlength="50" > -->
+				<!-- <span class="select-box radius" style="width:80px">
+					<select class="select batch" name="batch" value="{{batch}}" size="1" style="height:22px;">
+						<option value="0">地区</option>
+						<option value="1">类型1</option>
+						<option value="2">类型2</option>
+					</select>
+				</span> -->
+				<!-- <span class="select-box radius" style="width:80px">
+					<select class="select batch" name="batch" value="{{batch}}" size="1" style="height:22px;">
+						<option value="0">资格证书类型</option>
+						<option value="1">类型1</option>
+						<option value="2">类型2</option>
+					</select>
+				</span>
+				<span class="select-box radius" style="width:80px">
+					<select class="select batch" name="batch" value="{{batch}}" size="1" style="height:22px;">
+						<option value="0">待审核</option>
+						<option value="1">审核通过</option>
+						<option value="2">审核不通过</option>
+					</select>
+				</span>
+				
+				
+				<button name="" id="" class="btn btn-success radius" type="submit">
+					<i class="Hui-iconfont">&#xe709;</i>
+					查询
+				</button> -->
+			</form>
+		</div>
+	</div>
+	<div class="box-content pd-20">
+		<table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
+			<thead>
+				<tr class="text-c">
+					<th>系统编号</th>
+					<th>理财师姓名</th>
+					<th>地区</th>
+					<th>资格证书类型</th>
+					<th>推荐人</th>
+					<th>积分</th>
+					<th>审核状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>	
+			{{#if model}}
+					{{#each model}}
+					<tr class="text-c">
+						<td>{{id}}</td>
+						<td>{{realname}}</td>
+						<td>{{provinceCode}}{{cityCode}}{{distinctCode}}</td>
+						<td class="status1" data-status="{{certificateTypeId}}"></td>
+						<td>{{referrals}}</td>
+						<td>{{integral}}</td>
+						<td class="status" data-status="{{userPlannerAuthStatus}}"></td>
+						<td>
+							{{#equal userPlannerAuthStatus '3' }}
+								<a class="btn btn-info mt-5" href="/moongood/financialPlanners/edit?id={{id}}&update=edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+								<a class="btn btn-info mt-5" href="/moongood/financialPlanners/update?id={{id}}&update=update"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 审核</a>
+							{{/equal}}
+							{{#equal userPlannerAuthStatus '5' }}
+								<a class="btn btn-info mt-5" href="/moongood/financialPlanners/edit?id={{id}}&update=edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+							{{/equal}}
+							{{#equal userPlannerAuthStatus '4' }}
+								<a class="btn btn-info mt-5" href="/moongood/financialPlanners/edit?id={{id}}&update=edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+								<a class="btn btn-info mt-5" href="/moongood/financialPlanners/update?id={{id}}&update=update"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 重新审核</a>
+							{{/equal}}
+							<!-- <a class="btn btn-info mt-5" href="/moongood/financialPlanners/edit?id={{userId}}&update=edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a> -->
+							
+							<!-- <a class="btn btn-info mt-5" href="/moongood/financialPlanners/update?id={{userId}}&update=update"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 审核</a>
+							 -->
+							
+							<!-- <a class="btn btn-danger mt-5" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a> -->
+							
+						</td>
+					</tr>
+					{{/each}}
+					{{else}}
+					<tr class="text-c">
+						<td colspan='8'>暂时还没有数据哦</td>
+					</tr>
+				{{/if}}
+			</tbody>
+		</table>
+		{{#if model}}
+		<div class="text-center">
+			<div id="splitPageDiv" class="pagination pagination-centered"></div>
+		</div>
+		{{/if}}
+	</div>
+  </section>
+	{% endraw %}
+	</script>
+	{% include "../layout/insidePage.html" %}
+
+	<script type="text/javascript">
+		var deleteItem = function(id){
+			layer_confirm("确认删除?", "{{api}}user/permission/element/delete", {id: id});
+		};
+		$(document).ready(function(){
+			request({
+				url: "{{api}}mapi",
+				data: {_api:"zj.planner.list",_v:"1.0",page: getQueryParam('pageIndex') || 1,pageSize:10},
+				type: "post",
+				dataType: "jsonp",
+				jsonp: 'callback'
+			}).done(function(response){
+				// response.data.auth = auth;
+				// response.eleName = getQueryParam("eleName");
+				// response.elePath = getQueryParam("elePath");
+				substitute("#list-template", response);
+				getStatus(["删除","未同意协议","已同意协议","未认证","已认证","审核未通过","审核通过"]);
+				getStatusList(["证券从业资格证","银行从业资格证","基金销售人员从业资格证","保险销售人员从业资格证","期货从业资格证","经济师证书","会计从业资格证","法律职业资格证","AFP证书","CFP证书","CFA证书","FRM证书","CIIA证书","CPA证书","其他相关证书"]);
+				initPage({
+					count: response.count,
+					pageIndex: parseInt(getQueryParam("pageIndex")) || 1
+				});
+			})
+		})
+	</script>
+{% endblock %}
+

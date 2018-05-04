@@ -1,0 +1,417 @@
+
+<style type="text/css">
+.swfupload{
+	width: 100%;
+	height: 31px;
+}
+.uploadify-button-test {
+	width: 100%;
+	height: 31px;
+	background:#6595e3;
+	border-radius: 0;
+	border: none;
+}
+.uploadify:hover .uploadify-button {
+	background:#6595e3;
+}
+.img-show{
+	margin-bottom: 10px;
+}
+
+.btn-upload{
+	/*display: inline-block;*/
+	width: 100px;
+	height: 100px;
+	background: url({{host}}static/h-ui/images/btn-photo.png) no-repeat center center;
+	background-size: contain;
+
+}
+
+.icon{
+	display: block;
+	width: 100px;
+}
+.upload-url{
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	left:20px;
+	display: none;
+	/*z-index: -9999;*/
+}
+
+@media screen and (max-width: 768px){
+    #edui51_body{
+        width: 50%!important;
+    }
+    
+}
+
+</style>
+<script id="form-template" type="text/x-handlebars-template">
+{% raw %}
+<div class="box-content">
+	<div class="panel panel-default mt-20">
+		<div class="panel-body">
+			
+			<form id="editForm" class="form form-horizontal">
+				
+				<input type="hidden" class="id" value="{{id}}" name="companyId">
+				<input type="hidden" class="id" value="{{model.goodsIcon}}" name="goodsIcon">
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>商品列表icon：<br/><span class="c-red">（最好是上传正方形的icon哦）</span></label>
+					<div class="formControls col-xs-6 text-c">
+						<div class="text-c btn-upload" onclick="uploadurl1()"></div>
+						<input class="upload-url" type="file" name="upfile" accept="image/*" id="uploadfile">
+						<input type="button" class="btn btnSum mt-10 ml-10 radius" onclick="btnSum1()" value="上传图片">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>商品名字：</label>
+					<div class="formControls col-xs-6 text-c">
+						<input class="input-text radius" name="goodsName" value="{{model.goodsName}}" placeholder="商品名字" />
+						
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>商品介绍：</label>
+					<div class="formControls col-xs-6 text-c">
+						<textarea cols="" rows="" class="textarea radius" maxlength="50" name="goodsSummary" id="beizhu" placeholder="请输入介绍">{{model.goodsSummary}}</textarea>
+					</div>
+				</div>
+				<div class="shopWrapWrap">
+					
+					{{#each model.goodsImg}}
+					<div class="secWrap" id="con{{@index}}">
+						<div class="row cl">
+							<label class="form-label col-xs-3" ></label>
+							<div class="formControls col-xs-6 text-c">
+								<div class="text-c btn-upload" onclick="uploadurl('{{@index}}')"></div>
+								<input class="upload-url" type="file" name="upfile" accept="image/*" id="uploadfile{{@index}}">
+								<input type="button" class="btn btnSum mt-10 ml-10 radius"  onclick="btnSum('{{@index}}')" value="上传图片">
+							</div>
+						</div>
+						<div class="row cl">
+							<label class="form-label col-xs-3"></label>
+							<div class="formControls col-xs-6 text-c">
+								<a class="btn btn-danger mt-5 " onclick="jian({{@index}})" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+							
+							</div>
+							
+						</div>
+						<input type="hidden" class=" mt-10"  value="{{this}}" name="goodsImg">
+					</div>
+				
+				 {{/each}}
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3"><span class="c-red">*</span> 添加商品图片</label>
+					<div class="formControls col-xs-6">
+						<span class="btn-success pl-10 pr-10 radius mb-5 addshop"  style="display:inline-block;height:29px;line-height: 29px;" ><i class="Hui-iconfont">&#xe600;</i></span>
+					</div>	
+				</div>
+				
+				
+				
+				
+				
+				
+				
+				
+		
+				
+				
+				
+				<div class="row text-c row2">
+				   <input class="btn btn-primary submit mt-10 btnSum2" value="确认">
+				</div>
+		
+			</form>
+			
+		
+			
+		  
+		</div>
+	</div>
+
+
+</div>
+{% endraw %}
+</script>
+
+<style type="text/css">
+	body{
+		overflow-x: hidden;
+	}
+
+</style>
+
+<script type="text/javascript">
+var a=0,aa=0,arr=[];
+function jian(z){
+	if(a!=0){
+		a=a-1;
+		$("#con"+z).remove();
+	}
+	
+}
+ function ajaxFileUpload(id) {
+	
+
+	var extras = {
+        _api: 'upimg',
+        _v: '1.0',
+        biz:"photo"
+		};
+		
+	$.ajaxFileUpload({
+        url : '{{api}}upimg?'+$._apiClient.buildData(extras),
+        secureuri: false,
+        fileElementId : id,
+        dataType : 'jsonp',
+        success : function(data, status) {
+        	// alert(data)
+        	// alert(i)
+        	if(data.success==true){
+        		if(id=="uploadfile"){
+        			$('#'+id).siblings(".btn-upload").css({'background':'url('+data.model.url+data.model.filename+') no-repeat center center',"background-size":"contain"}).show();
+	        		$('#'+id).hide();
+        			$('#'+id).parent().parent().siblings('input[name="goodsIcon"]').val(data.model.filename)
+        		}else{
+        			$('#'+id).siblings(".btn-upload").css({'background':'url('+data.model.url+data.model.filename+') no-repeat center center',"background-size":"contain"}).show();
+	        		$('#'+id).hide();
+        			$('#'+id).parent().parent().siblings('input[name="goodsImg"]').val(data.model.filename)
+        		}
+        			
+        		
+        	}else{
+        		data.msg = data.msgInfo || "服务器出错，请稍后再试";
+        		layer.alert(data.msg);
+        		
+        	}
+         console.log(status)
+        },
+        error : function(data, status, e) {
+            layer.alert("服务器出错，请稍后再试");
+        }
+    })
+}
+function uploadurl(z){
+
+	$("#con"+z).children().children().children('.upload-url').click();
+	$("#con"+z).children().children().children('.btn-upload').css("display","none").siblings('.upload-url').css({"position":"relative","width":"100%"}).show()
+	
+	
+}
+function uploadurl1(){
+	// alert('aa')
+	$("#uploadfile").click();
+	$("#uploadfile").siblings('.btn-upload').css("display","none");
+	$("#uploadfile").css({"position":"relative","width":"100%"}).show()
+	
+	
+}
+function btnSum1(){
+  	if($("#uploadfile").val()!=""){
+        ajaxFileUpload('uploadfile');	
+  	}
+			
+}
+function btnSum(z){
+  	if($("#con"+z).children().children().children('.upload-url').val()!=""){
+        ajaxFileUpload('uploadfile'+z);	
+  	}
+			
+}
+$(document).ready(function(){
+	
+	
+	{% if operation == 'edit' %}
+		request("{{api}}mapi",{_api: 'zj.goods.info',_v: '1.0',goodsId: getQueryParam('shopId')}).done(function(response){
+			
+			response.id = getQueryParam('id');
+			response.goodsId = getQueryParam('shopId');
+			response.model.goodsImg=JSON.parse(response.model.goodsImg);
+			a=response.model.goodsImg.length;
+			aa=response.model.goodsImg.length;
+			substitute("#form-template",  response);
+			
+			$('#uploadfile').siblings('.btn-upload').css({'background':'url(http://img1.zhongjing-hz.com/'+response.model.goodsIcon+') no-repeat center center',"background-size":"contain"});
+			
+			
+			for (var j = 0; j < a; j++) {
+				var hh=$('.secWrap').eq(j).children('input[name="goodsImg"]').val()
+					
+				$('.secWrap').eq(j).children().children().children('.btn-upload').css({'background':'url(http://img1.zhongjing-hz.com/'+hh+') no-repeat center center',"background-size":"contain"});	
+						
+			}	
+			
+		$(".addshop").click(function(){
+			a=a+1;
+			
+			// alert(aa)
+			var con='<div class="secWrap" id="con'+aa+'"><div class="row cl"><label class="form-label col-xs-3" ></label><div class="formControls col-xs-6 text-c"><div class="text-c btn-upload" onclick="uploadurl('+aa+')"></div><input class="upload-url" type="file" name="upfile" accept="image/*" id="uploadfile'+aa+'"><input type="button" class="btn btnSum mt-10 ml-10 radius"  value="上传图片" onclick="btnSum('+aa+')"></div></div><input type="hidden" class=" mt-10"  value="{{model.goodsImg}}" name="goodsImg"><div class="row cl"><label class="form-label col-xs-3"></label><div class="formControls col-xs-6 text-c"><a class="btn btn-danger mt-5" onclick="jian('+aa+')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a></div></div></div>';
+			
+			aa=aa+1
+			$(this).parent().parent().siblings('.shopWrapWrap').append(con);
+			
+			
+		})
+	
+		$(".btnSum2").click(function () {
+			
+			
+			// var str=$('textarea[name="title"]').val();
+					// alert(a)
+			for (var j = 0; j < a; j++) {
+				// alert(j)
+				// alert(a)
+				if($('.secWrap').eq(j).children('input[name="goodsImg"]').val()!=''){
+					var josnData=$('.secWrap').eq(j).children('input[name="goodsImg"]').val()
+					
+					arr.push(josnData)
+				}
+			}	
+			console.log(arr)		
+				// alert(arr.length)	
+			if($('input[name="goodsName"]').val()!=""&&$('input[name="goodsIcon"]').val()!=''&&$('textarea[name="goodsSummary"]').val()!=""&&arr.length>0){
+				var json={
+					_api: 'zj.goods.update',
+			        _v: '1.0',
+			        companyId:getQueryParam('id'),
+			        goodsId:getQueryParam('shopId'),
+			        goodsName:$('input[name="goodsName"]').val(),
+			        goodsSummary:$('textarea[name="goodsSummary"]').val(),
+			        goodsImg:JSON.stringify(arr),
+			        goodsIcon:$('input[name="goodsIcon"]').val()
+					
+
+			        
+				}
+
+
+				request("{{api}}mapi",json).done(function(response,option){
+				    		// console.log(option.data);
+				    if(response.success==true)	{
+				    	layer.msg('提交成功');
+				    	setTimeout(function(){
+				    		location.href='/moongood/company/shopList?id='+getQueryParam('id')
+				    	}, 1000);
+				    	// location.href='/moongood/finance/list'
+				    }else{
+				    	arr=[]
+				    }	
+				    		
+				})
+			}else{
+				layer.msg('请填写完信息');
+			}
+			
+				
+	      
+	      })
+			
+			
+		
+		
+	
+		
+		})
+	{% else %}
+		var res={}
+		res.id=getQueryParam('id');
+		substitute("#form-template", res);
+		
+	
+      
+      $(".addshop").click(function(){
+			a=a+1;
+			
+			// alert(aa)
+			var con='<div class="secWrap" id="con'+aa+'"><div class="row cl"><label class="form-label col-xs-3" ></label><div class="formControls col-xs-6 text-c"><div class="text-c btn-upload" onclick="uploadurl('+aa+')"></div><input class="upload-url" type="file" name="upfile" accept="image/*" id="uploadfile'+aa+'"><input type="button" class="btn btnSum mt-10 ml-10 radius"  value="上传图片" onclick="btnSum('+aa+')"></div></div><input type="hidden" class=" mt-10"  value="{{model.goodsImg}}" name="goodsImg"><div class="row cl"><label class="form-label col-xs-3"></label><div class="formControls col-xs-6 text-c"><a class="btn btn-danger mt-5" onclick="jian('+aa+')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a></div></div></div>';
+			
+			aa=aa+1
+			$(this).parent().parent().siblings('.shopWrapWrap').append(con);
+			
+			
+		})
+	
+	$(".btnSum2").click(function () {
+		// alert(a)
+		
+		// var str=$('textarea[name="title"]').val();
+				
+		for (var j = 0; j < a; j++) {
+			// alert(j)
+			// alert(a)
+			if($('.secWrap').eq(j).children('input[name="goodsImg"]').val()!=''){
+				var josnData=$('.secWrap').eq(j).children('input[name="goodsImg"]').val()
+			
+				arr.push(josnData)
+			}
+
+			// alert($('.secWrap').eq(j).children('input[name="goodsImg"]').val())	
+		}	
+		console.log(arr)		
+				
+		if($('input[name="goodsName"]').val()!=""&&$('input[name="goodsIcon"]').val()!=''&&$('textarea[name="goodsSummary"]').val()!=""&&arr.length>0){
+			var json={
+				_api: 'zj.goods.update',
+		        _v: '1.0',
+		        companyId:getQueryParam('id'),
+		        goodsName:$('input[name="goodsName"]').val(),
+		        goodsIcon:$('input[name="goodsIcon"]').val(),
+		        goodsSummary:$('textarea[name="goodsSummary"]').val(),
+				goodsImg:JSON.stringify(arr)
+
+		        
+			}
+
+
+			request("{{api}}mapi",json).done(function(response,option){
+			    		// console.log(option.data);
+			    if(response.success==true)	{
+			    	layer.msg('提交成功');
+			    	setTimeout(function(){
+			    		location.href='/moongood/company/shopList?id='+getQueryParam('id')
+			    	}, 1000);
+			    	// location.href='/moongood/finance/list'
+			    }else{
+			    	arr=[]
+			    }	
+			    		
+			})
+		}else{
+			layer.msg('请填写完信息');
+		}
+		
+			
+      
+      })
+
+	// $(".btn-upload").click(function () {
+	// 	$(this).siblings('.upload-url').click()
+	// 	$(this).css("display","none").siblings('.upload-url').css({"position":"relative","width":"100%"}).show()
+		
+            
+      	
+ //      })
+
+		// alert($("#HuiTab-demo1").children('.tabBar').children('span').attr("class"))
+		
+		
+	
+		
+
+	
+	
+	
+	
+	{% endif %}
+		// alert(i)
+	
+})
+
+   
+
+</script>

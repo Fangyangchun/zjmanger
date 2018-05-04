@@ -1,0 +1,370 @@
+
+<style type="text/css">
+.swfupload{
+	width: 100%;
+	height: 31px;
+}
+.uploadify-button-test {
+	width: 100%;
+	height: 31px;
+	background:#6595e3;
+	border-radius: 0;
+	border: none;
+}
+.uploadify:hover .uploadify-button {
+	background:#6595e3;
+}
+.img-show{
+	margin-bottom: 10px;
+}
+
+.btn-upload{
+	/*display: inline-block;*/
+	width: 100px;
+	height: 100px;
+	background: url({{host}}static/h-ui/images/btn-photo.png) no-repeat center center;
+	background-size: contain;
+
+}
+
+.icon{
+	display: block;
+	width: 100px;
+}
+.upload-url{
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	left:20px;
+	display: none;
+	/*z-index: -9999;*/
+}
+
+@media screen and (max-width: 768px){
+    #edui51_body{
+        width: 50%!important;
+    }
+    
+}
+
+</style>
+<script id="form-template" type="text/x-handlebars-template">
+{% raw %}
+<div class="box-content">
+	<div class="panel panel-default mt-20">
+		<div class="panel-body">
+			
+			<form id="editForm" class="form form-horizontal">
+				
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>省市名称：</label>
+					<div class="formControls col-xs-6 text-l">
+					{{#if provinceCode}}
+					<select name="provinceCode" class="select provinceCode" style="width: 200px;" disabled="disabled">
+						{{#each city}}
+						
+							<option value="{{areaId}}">{{areaName}}</option>
+						{{/each}}
+
+					</select>
+					{{else}}
+					<select name="provinceCode" class="select provinceCode" style="width: 200px;display: none;"></select>
+					{{/if}}
+					{{#if cityCode}}
+						<select name="cityCode" class="select" style="width: 200px;" disabled="disabled">
+							<option value="{{cityCode}}">{{cityCodeStr}}</option>
+						</select>
+					{{else}}
+					<select name="cityCode" class="select" style="width: 200px;display: none;"></select>
+					{{/if}}
+					{{#if distinctCode}}
+						<select name="distinctCode" class="select" style="width: 200px;" disabled="disabled">
+							<option value="{{distinctCode}}">{{distinctCodeStr}}</option>
+						</select>
+					{{else}}
+					<select name="distinctCode" class="select" style="width: 200px;display: none;"></select>
+					{{/if}}
+					
+					
+			
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3" ><span class="c-red">*</span>区域等级：</label>
+					<div class="formControls col-xs-6 text-c">
+						<select class="select"  name="partnerLevel" >
+						
+							<option value="1"  {{#equal partnerLevel '1' }}selected="selected"{{/equal}}>R1</option>
+							<option value="2" {{#equal partnerLevel '2' }}selected="selected"{{/equal}}>R2</option>
+							<option value="3" {{#equal partnerLevel '3' }}selected="selected"{{/equal}}>R3</option>
+							<option value="4"  {{#equal partnerLevel '4' }}selected="selected"{{/equal}}>R4</option>
+							<option value="5" {{#equal partnerLevel '5' }}selected="selected"{{/equal}}>R5</option>
+					
+						</select>
+					</div>
+				</div>
+				
+				
+				
+				
+				
+				
+
+				
+				
+				{{#if update}}
+				<div class="row text-c ">
+				   <input class="btn btn-primary submit1" type="button"  value="审核通过">
+				   <input class="btn btn-primary submit2" type="button" value="不通过" >
+				</div>
+				{{else}}
+				
+				<div class="row text-c ">
+				   <input class="btn btn-primary submit mt-10 btnSum2" value="确认">
+				</div>
+				{{/if}}
+			</form>
+			
+		
+			
+		  
+		</div>
+	</div>
+
+
+</div>
+{% endraw %}
+</script>
+
+<style type="text/css">
+	body{
+		overflow-x: hidden;
+	}
+
+</style>
+
+<script type="text/javascript">
+	var city,aa;
+isCardNo = function(card)  
+{  
+    //身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X  
+    var reg = /(^\d{15}$)|(^\d{17}(\d|X)$)/;  
+    if(reg.test(card) === false)  
+    {  
+        $('input[name="idcard"]').val("");
+        return false;  
+    }  
+    return true;  
+}; 
+$(document).ready(function(){
+	function city(){
+		$.ajax({
+			type: "GET",
+			url: "../../../hui-admin/static/js/city.json",
+			dataType:"json",
+		    jsonp:'callback',
+			success: function(d){
+				city=d;
+				
+			}
+		});
+	}
+	
+	{% if operation == 'edit' %}
+		request("{{api}}mapi",{_api: 'zj.region.info',_v: '1.0',regionCode: getQueryParam('regionCode')}).done(function(response){
+		// request("{{api}}mapi",{_api: 'zj.user.invitaion.info',_v: '1.0', invitationCode:"6"}).done(function(response){
+	// 	response.data.model = getQueryParam('model');
+			// console.log(response.model)
+		city()
+	setTimeout(function(){
+			var model=response.model
+			if(getQueryParam('update')=='update'){
+				model.update=true;
+			}else {
+				model.update=false;
+			}
+			model.city=city;
+			model.amtPartner=model.amtPartner/10000
+			console.log(city)
+			substitute("#form-template",  model);
+			getList(".provinceCode option",model.provinceCode)
+			$('select[name="provinceCode"]').change(function(){
+				var provinceCode=$('select[name="provinceCode"]').val();
+				for (var i = 0; i <city.length; i++) {
+					if(city[i].areaId==provinceCode){
+						aa=i;
+						$('select[name="cityCode"]').show().children('option').remove();
+						$('select[name="distinctCode"]').hide();
+						for (var a = 0; a <city[i].cities.length; a++) {
+							$('select[name="cityCode"]').append('<option value="'+city[i].cities[a].areaId+'">'+city[i].cities[a].areaName+'</option');
+						}
+						
+					}
+				}
+			});
+			$('select[name="cityCode"]').change(function(){
+				// alert(aa)
+				var cityCode=$('select[name="cityCode"]').val();
+				for (var i = 0; i <city[aa].cities.length; i++) {
+					if(city[aa].cities[i].areaId==cityCode){
+						$('select[name="distinctCode"]').show().children('option').remove();
+						for (var a = 0; a <city[aa].cities[i].counties.length; a++) {
+							$('select[name="distinctCode"]').append('<option value="'+city[aa].cities[i].counties[a].areaId+'">'+city[aa].cities[i].counties[a].areaName+'</option');
+						}
+						
+					}
+				}
+			});
+			
+			
+			
+			$(".btnSum2").click(function () {
+		
+				
+				if($('select[name="partnerLevel"]').val()!=''){
+					var json={
+						partnerId: getQueryParam('id'),
+						_api:"zj.region.update",
+						_v:"1.0",
+						regionCode:getQueryParam('regionCode'),
+						partnerLevel:$('select[name="partnerLevel"]').val()
+						
+
+				        
+					}
+
+
+					request("{{api}}mapi",json).done(function(response,option){
+					    		// console.log(option.data);
+					    if(response.success==true)	{
+					    	layer.msg('提交成功');
+					    	setTimeout(function(){
+					    		location.href='/moongood/grade/list'
+					    	}, 1000);
+					    }	
+					    		
+					})
+				}else{
+					layer.msg('请填写完信息');
+				}
+				
+					
+		      
+		      })
+			
+			
+				  
+		
+	
+	}, 500);	
+		})
+
+	{% else %}
+
+		// var version=getCookie('version');
+		// var batch=getCookie('batch');
+		// var res={"version":version,"batch":batch}
+		city()
+	setTimeout(function(){
+		var res={}
+		res.city=city
+
+		substitute("#form-template", res);
+		$('select[name="provinceCode"]').change(function(){
+			var provinceCode=$('select[name="provinceCode"]').val();
+			for (var i = 0; i <city.length; i++) {
+				if(city[i].areaId==provinceCode){
+					aa=i;
+					$('select[name="cityCode"]').show().children('option').remove();
+					for (var a = 0; a <city[i].cities.length; a++) {
+						$('select[name="cityCode"]').append('<option value="'+city[i].cities[a].areaId+'">'+city[i].cities[a].areaName+'</option');
+					}
+					
+				}
+			}
+		});
+		$('select[name="cityCode"]').change(function(){
+			// alert(aa)
+			var cityCode=$('select[name="cityCode"]').val();
+			for (var i = 0; i <city[aa].cities.length; i++) {
+				if(city[aa].cities[i].areaId==cityCode){
+					$('select[name="distinctCode"]').show().children('option').remove();
+					for (var a = 0; a <city[aa].cities[i].counties.length; a++) {
+						$('select[name="distinctCode"]').append('<option value="'+city[aa].cities[i].counties[a].areaId+'">'+city[aa].cities[i].counties[a].areaName+'</option');
+					}
+					
+				}
+			}
+		});
+	$('select[name="cityCode"]').blur(function(){
+			// alert(aa)
+			var cityCode=$('select[name="cityCode"]').val();
+			for (var i = 0; i <city[aa].cities.length; i++) {
+				if(city[aa].cities[i].areaId==cityCode){
+					$('select[name="distinctCode"]').show().children('option').remove();
+					for (var a = 0; a <city[aa].cities[i].counties.length; a++) {
+						$('select[name="distinctCode"]').append('<option value="'+city[aa].cities[i].counties[a].areaId+'">'+city[aa].cities[i].counties[a].areaName+'</option');
+					}
+					
+				}
+			}
+		});
+		
+		
+
+		
+      
+	$(".btnSum2").click(function () {
+		
+		// alert($('select[name="cityCode"]').val())
+			if($('select[name="provinceCode"]').val()!=""&&$('select[name="cityCode"]').val()!=undefined&&$('select[name="distinctCode"]').val()!=undefined&&$('select[name="partnerRole"]').val()!=''&&$('input[name="amtPartner"]').val()!=''&&$('input[name="realname"]').val()!=''&&$('input[name="phone"]').val()!=''){
+				var json={
+					partnerId: getQueryParam('id'),
+					_api:"zj.partner.audit",
+					_v:"1.0",
+					provinceCode:$('select[name="provinceCode"]').val(),
+					cityCode:$('select[name="cityCode"]').val(),
+					distinctCode:$('select[name="distinctCode"]').val(),
+					partnerRole:$('select[name="partnerRole"]').val(),
+					realname:$('input[name="realname"]').val(),
+					amtPartner:$('input[name="amtPartner"]').val()*10000,
+					phone:$('input[name="phone"]').val()
+
+			        
+				}
+
+
+			request("{{api}}mapi",json).done(function(response,option){
+			    		// console.log(option.data);
+			    if(response.success==true)	{
+			    	layer.msg('提交成功');
+			    	location.href='/moongood/agent/list'
+			    }	
+			    		
+			})
+		}else{
+			layer.msg('请填写完信息');
+		}
+		
+			
+      
+      })
+
+	
+
+		
+	
+		
+}, 500);
+	
+	
+	
+	
+	{% endif %}
+		// alert(i)
+	
+})
+
+   
+
+</script>
