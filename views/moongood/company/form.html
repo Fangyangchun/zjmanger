@@ -438,7 +438,7 @@ function insertHtml(value) {
     UE.getEditor('editor').execCommand('insertHtml', value)
 }
 function ajaxFileUpload(id) {
-	
+	console.log(id);
 
 	var extras = {
         _api: 'upimg',
@@ -496,9 +496,8 @@ function timeCl(z){
 function city(){
 	$.ajax({
 		type: "GET",
-		url: "../../../hui-admin/static/js/city.json",
-		dataType:"jsonp",
-	    jsonp:'callback',
+		url: "{{host}}static/js/city.json",
+		dataType:"json",
 		success: function(d){
 			city=d;
 			
@@ -516,6 +515,7 @@ $(document).ready(function(){
 	setTimeout(function(){
 
 		request("{{api}}mapi",{_api: 'zj.company.info',_v: '1.0',companyId: getQueryParam('id')}).done(function(response){
+			console.log(response);
 			response.id = getQueryParam('id');
 			response.model.registerAmt=response.model.registerAmt/10000;
 			response.city=city;
