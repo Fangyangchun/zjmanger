@@ -1,4 +1,4 @@
- {% extends "../layout/default.html" %} {% block content %}
+{% extends "../layout/default.html" %} {% block content %}
 
 <script id="list-template" type="text/x-handlebars-template">
     {% raw %}
@@ -6,38 +6,38 @@
         <nav class="breadcrumb">
             <div class="container">
                 <i class="Hui-iconfont">&#xe67f;</i>
-                <a href="/moongood/vedio/list" class="c-primary">视频列表</a>
+                <a href="/moongood/financeOrders/list" class="c-primary">理财师合同列表</a>
 
             </div>
 
         </nav>
         <div class="row ml-20 mt-20 mr-20 clearfix">
 
-            <a class="btn  btn-success f-l mr-10 addBtn" style="font-size: 14px;" href="/moongood/vedio/add">
-                <i class="Hui-iconfont">&#xe600;</i> 添加视频
+            <a class="btn  btn-success f-l mr-10 addBtn" style="font-size: 14px;" href="/moongood/financeOrders/add">
+                <i class="Hui-iconfont">&#xe600;</i> 添加理财师合同
             </a>
         </div>
         <div class="box-content pd-20">
             <table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
                 <thead>
                     <tr class="text-c">
-                        <th>视频名称</th>
-                        <th>视频图片</th>
-                        <th>视频链接</th>
-                        <th>浏览次数</th>
+                        <th>合同名称</th>
+                        <th>合同编号</th>
+                        <th>合同类型</th>
+                        <th>电子合同</th>
                         <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{#if model}} {{#each model}}
                     <tr class="text-c">
-                        <td>{{title}}</td>
-                        <td><a>{{picUrl}}</a></td>
+                        <td>{{name}}</td>
+                        <td><a>{{no}}</a></td>
+                        <td>{{typeStr}}</td>
                         <td><a>{{url}}</a></td>
-                        <td>{{scount}}</td>
                         <td>
-                            <a class="btn btn-info mt-5" href="/moongood/vedio/edit?id={{id}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
-                            <a class="btn btn-danger mt-5" onclick="deleteItem('{{id}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
+                            <a class="btn btn-info mt-5" href="/moongood/financeOrders/edit?id={{contractId}}"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a>
+                            <a class="btn btn-danger mt-5" onclick="deleteItem('{{contractId}}')" href="javascript:void(0)"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 删除</a>
                         </td>
                     </tr>
                     {{/each}} {{else}}
@@ -61,13 +61,13 @@
 
 <script type="text/javascript">
     var deleteItem = function(id) {
-        layer_confirm("确认删除?", "{{api}}mapi", {moviceId: id,_api:'zj.movice.delete',_v: '1.0'});
+        layer_confirm("确认删除?", "{{api}}mapi", {contractId: id,_api:'zj.contract.info.delete',_v: '1.0'});
     };
     $(document).ready(function() {
         request({
             url: "{{api}}mapi",
             data: {
-                _api: 'zj.movice.search',
+                _api: 'zj.contract.info.search',
                 _v: '1.0',
                 page: getQueryParam('pageIndex') || 1,
                 pageSize: 10

@@ -147,6 +147,7 @@
                                 <ul class="dropDown-menu menu radius box-shadow">
                                     <li>
                                         <a href="/moongood/orderForm/list">列表</a>
+                                        <a href="/moongood/financeOrders/list">理财师合同</a>
                                     </li>
 
 
@@ -277,6 +278,7 @@
                                 <ul class="dropDown-menu menu radius box-shadow">
                                     <li>
                                         <a href="/moongood/push/list">列表</a>
+                                        <a href="/moongood/finance/add">理财师消息</a>
                                         <a href="/moongood/push/add">新增</a>
 
                                     </li>
@@ -363,7 +365,7 @@
 
             location.href = "/login";
         }
-        $(function () {
+        $(function() {
 
 
 
@@ -373,14 +375,14 @@
             // $(".containBox").height(_bodyHeight);
 
             /*左右滑动菜单*/
-            $(".JS-nav-toggle").click(function () {
+            $(".JS-nav-toggle").click(function() {
                 $("body").addClass('sideBox-open');
                 // $(".containBox-bg").show();
                 $(".containBox").height("auto");
                 $(".containBox-bg").height("auto").show();
 
             });
-            $(".containBox-bg").click(function () {
+            $(".containBox-bg").click(function() {
                 $(this).hide();
                 $("body").removeClass('sideBox-open');
                 $(".containBox").height("auto");
@@ -405,8 +407,8 @@
             request("{{api}}mapi", {
                 _api: 'zj.vendor.info',
                 _v: '2.0',
-                vendorId:1
-            }).done(function (response) {
+                vendorId: 1
+            }).done(function(response) {
                 console.log(response)
                 $('.logo').html(response.model.vendorName);
                 document.title = response.model.vendorName + '内部管理系统'

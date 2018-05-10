@@ -59,48 +59,36 @@
             <div class="panel-body">
                 <form id="editForm" class="form form-horizontal">
                     <div class="row cl">
-                        <label class="form-label col-xs-3"><span class="c-red">*</span>视频名称：</label>
+                        <label class="form-label col-xs-3"><span class="c-red">*</span>合同名称：</label>
                         <div class="formControls col-xs-6">
 
-                            <input type="text" class="input-text radius version" value="{{model.title}}" placeholder="视频名称" name="title">
+                            <input type="text" class="input-text radius version" value="{{model.name}}" placeholder="合同名称" name="ordersName">
 
                         </div>
                     </div>
+                    <div class="row cl">
+                        <label class="form-label col-xs-3"><span class="c-red">*</span>合同类型：</label>
+                        <div class="formControls col-xs-6">
+                                <select name="typeStr" class="select typeStr" style="width: 100%;">
+                                        <option value="">请选择合同类型</option>
+                                        <option value=10 {{#equal model.type 10 }}selected="selected"{{/equal}}>普通合同</option>
+                                        <option value=20 {{#equal model.type 20 }}selected="selected"{{/equal}}>热门合同</option>
+                                    </select>
+                        </div>
+                    </div>
+
                     
                     <div class="row cl">
-                        <label class="form-label col-xs-3"><span class="c-red">*</span>视频图片：</label>
+                        <label class="form-label col-xs-3"><span class="c-red">*</span>电子合同：</label>
                         <div class="formControls col-xs-2">
                             <div class="text-c btn-upload"></div>
-                            <input class="upload-url" type="file" name="upfile" id="uploadfile2">
-                            <input type="button"  class="btn btnSum mt-10 ml-10 radius" value="上传图片">
+                            <input class="upload-url" type="file" name="upfile" id="uploadfile1">
+                            <input type="button"  class="btn btnSum mt-10 ml-10 radius" value="上传电子合同">
                         </div>
 
                     </div>
-
-
-                    <div class="row cl">
-                            <label class="form-label col-xs-3"><span class="c-red">*</span>视频：</label>
-                            <div class="formControls col-xs-2">
-                                <div class="text-c btn-upload"></div>
-                                <input class="upload-url" type="file" name="upfile" id="uploadfile1">
-                                <input type="button"  class="btn btnSum2 mt-10 ml-10 radius" value="上传视频">
-                            </div>
-    
-                        </div>
-
-                        <div class="row cl">
-                                <label class="form-label col-xs-3"><span class="c-red">*</span>发布状态：</label>
-                                <div class="formControls col-xs-6">
-                                        <select name="status" class="select status" style="width: 100%;">
-                                                <option value="">请选择合同类型</option>
-                                                <option value=10 {{#equal model.status 10 }}selected="selected"{{/equal}}>上架</option>
-                                                <option value=20 {{#equal model.status 20 }}selected="selected"{{/equal}}>下架</option>
-                                            </select>
-                                </div>
-                            </div>
-
                     <div class="row text-c ">
-                        <input class="btn btn-primary submit btnSum3" value="提交">
+                        <input class="btn btn-primary submit btnSum2" value="提交">
                     </div>
                 </form>
 
@@ -118,7 +106,6 @@
     }
 </style>
 <script type="text/javascript">
-
     function ajaxFileUpload(id) {
         var biz;
         if (id == "uploadfile1") {
@@ -137,7 +124,11 @@
             dataType: 'jsonp',
             success: function(data, status) {
                 // alert(data)
-                if (data.success == true) {$("#" + id).siblings(".btn-upload").children('img').attr('src', authUrl);
+                if (data.success == true) {
+
+                    var authUrl = replaceAll(data.model.authUrl, '&amp;', '&');
+
+                    $("#" + id).siblings(".btn-upload").children('img').attr('src', authUrl);
                     console.log(authUrl)
                     $('.upload-url').hide();
                     $("#" + id).siblings(".btn-upload").show();
@@ -161,12 +152,13 @@
 
         {% if operation == 'edit' %}
         request("{{api}}mapi", {
-            id: getQueryParam('id'),
-            _api: "zj.movice.get",
+            contractId: getQueryParam('id'),
+            _api: "zj.contract.info.get",
             _v: "1.0"
         }).done(function(response) {
             response.id = getQueryParam('id');
             substitute("#form-template", response);
+
 
             $(".btnSum").click(function() {
 
@@ -177,6 +169,8 @@
                 }
             })
 
+
+
             $(".btn-upload").click(function() {
                 $(this).siblings('.upload-url').click()
                 $(this).css("display", "none").siblings('.upload-url').css({
@@ -185,24 +179,25 @@
                     "height": "20px"
                 })
 
+
+
             })
-            $(".btnSum3").click(function() {
-                if ($('input[name="title"]').val() != '' 
-                && $('select[name="status"]').val() !=='') {
+            $(".btnSum2").click(function() {
+                if ($('input[name="ordersName"]').val() != '' 
+                && $('select[name="typeStr"]').val() !=='') {
                     request("{{api}}mapi", {
-                        id: getQueryParam('id'),
-                        _api: "zj.movice.update",
+                        contractId: getQueryParam('id'),
+                        _api: "zj.contract.info.update",
                         _v: "1.0",
-                        title: $('input[name="title"]').val(),
-                        url: 'www.test.vedio_01.com',
-                        status: $('select[name="status"]').val(),
-                        picUrl: 'www.test.img_01.com'
+                        name: $('input[name="ordersName"]').val(),
+                        url: 'www.test.order_modify.com',
+                        type: $('select[name="typeStr"]').val()
                     }).done(function(response) {
                         console.log(response)
                         if (response.success == true) {
                             layer.msg('修改成功');
                             setTimeout(function() {
-                                location.href = '/moongood/vedio/list'
+                                location.href = '/moongood/financeOrders/list'
                             }, 1000);
 
                         }
@@ -233,22 +228,21 @@
             
         })
         $(".submit").click(function() {
-            if ($('input[name="title"]').val() != '' 
-            && $('select[name="status"]').val() !=='') {
+            if ($('input[name="ordersName"]').val() != '' 
+            && $('select[name="typeStr"]').val() !=='') {
                     request("{{api}}mapi", {
-                        id: getQueryParam('id'),
-                        _api: "zj.movice.add",
+                        contractId: getQueryParam('id'),
+                        _api: "zj.contract.info.create",
                         _v: "1.0",
-                        title: $('input[name="title"]').val(),
-                        url: 'www.test.vedio_01.com',
-                        status: $('select[name="status"]').val(),
-                        picUrl: 'www.test.img_01.com'
+                        name: $('input[name="ordersName"]').val(),
+                        url: 'www.test.order.com',
+                        type: $('select[name="typeStr"]').val()
                     }).done(function(response) {
                         console.log(response)
                         if (response.success == true) {
                             layer.msg('添加成功');
                             setTimeout(function() {
-                                location.href = '/moongood/vedio/list'
+                                location.href = '/moongood/financeOrders/list'
                             }, 1000);
                         }
                     })
