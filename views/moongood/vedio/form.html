@@ -1,0 +1,20 @@
+
+
+<script id="form-template" type="text/x-handlebars-template">
+    {% raw %}
+    <div class="box-content">
+        <h1>{{operation}}</h1>
+    </div>
+    {% endraw %}
+</script>
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+        {% if operation == 'edit' || operation == 'update' %}
+            substitute("#form-template",  {operation: 'edit'});
+        {% else %}
+            substitute("#form-template",  {operation: 'add'});
+        {% endif %}
+    })
+    
+</script>

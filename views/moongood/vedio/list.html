@@ -1,0 +1,74 @@
+
+{% extends "../layout/default.html" %} 
+{% block content %}
+	<section class="Hui-article-box">
+	<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/vedio/list" class="c-primary">视频列表</a>
+			
+		</div>
+		
+	</nav>
+	<div class="row ml-20 mt-20 mr-20 clearfix">
+		
+		<a class="btn  btn-success f-l mr-10 addBtn" style="font-size: 14px;" href="/moongood/vedio/add">
+			<i class="Hui-iconfont">&#xe600;</i>
+			添加视频
+		</a>
+	</div>
+	<div class="box-content pd-20">
+		<table class="table table-border table-bordered table-striped table-bg table-hover table-sort" id="table">
+			<thead>
+				<tr class="text-c">
+					<th>视频名称</th>
+					<th>视频类型</th>
+					<th>视频链接</th>
+					<th>创建时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>	
+				<tr class="text-c">
+					<td>视频1</td>
+					<td>理财师</td>
+					<td><a href="http://www.baidu.com">http://www.baidu.com</a></td>
+					<td>2017-11-21 16:50:33</td>
+					<td><a class="btn btn-info mt-5" href="/moongood/vedio/edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a></td>
+				</tr>
+				<tr class="text-c">
+					<td>视频1</td>
+					<td>理财师</td>
+					<td><a href="http://www.baidu.com">http://www.baidu.com</a></td>
+					<td>2017-11-21 16:50:33</td>
+					<td><a class="btn btn-info mt-5" href="/moongood/vedio/edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a></td>
+				</tr>
+				<tr class="text-c">
+					<td>视频1</td>
+					<td>理财师</td>
+					<td><a href="http://www.baidu.com">http://www.baidu.com</a></td>
+					<td>2017-11-21 16:50:33</td>
+					<td><a class="btn btn-info mt-5" href="/moongood/vedio/edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a></td>
+				</tr>
+				<tr class="text-c">
+					<td>视频1</td>
+					<td>理财师</td>
+					<td><a href="http://www.baidu.com">http://www.baidu.com</a></td>
+					<td>2017-11-21 16:50:33</td>
+					<td><a class="btn btn-info mt-5" href="/moongood/vedio/edit"> <i class="glyphicon glyphicon-zoom-in icon-white"></i> 编辑</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+  </section>
+	
+	{% include "../layout/insidePage.html" %}
+
+	<script type="text/javascript">
+		
+		$(document).ready(function(){
+            
+		})
+	</script>
+{% endblock %}
+

@@ -178,7 +178,8 @@
 							<label class="form-label col-xs-3" ><span class="c-red">*</span>企业icon：</label>
 							<div class="formControls col-xs-6 text-c">
 								<div class="text-c btn-upload"></div>
-								<input class="upload-url" type="file" name="upfile" accept="image/*" id="uploadfile1">
+								<!-- <input class="upload-url" type="file" name="upfile" accept="image/*" id="uploadfile1"> -->
+								<input class="upload-url" type="file" name="uploadfile1" accept="image/*" id="uploadfile1">
 								<input type="button" class="btn btnSum mt-10 ml-10 radius"  value="上传图片">
 							</div>
 						</div>
@@ -438,42 +439,45 @@ function insertHtml(value) {
     UE.getEditor('editor').execCommand('insertHtml', value)
 }
 function ajaxFileUpload(id) {
-	console.log(id);
 
 	var extras = {
         _api: 'upimg',
         _v: '1.0',
         biz:"photo"
 		};
-		
 	$.ajaxFileUpload({
-        url : '{{api}}upimg?'+$._apiClient.buildData(extras),
+		url : '{{api}}upimg?'+$._apiClient.buildData(extras),
+		type: "POST",
         secureuri: false,
         fileElementId : id,
-        dataType : 'jsonp',
+        dataType : 'json',
         success : function(data, status) {
-        	// alert(data)
-        	// alert(i)
-        	if(data.success==true){
-        		if(i==0){
-        			$(".btn-upload").css({'background':'url('+data.model.url+data.model.filename+') no-repeat center center',"background-size":"contain"}).show();
-	        		$('.upload-url').hide();
-	        		$('input[name="logoImg"]').val(data.model.filename)
-        		}
-        		else if(i==1){
-        			$('#'+id).siblings(".btn-upload").css({'background':'url('+data.model.url+data.model.filename+') no-repeat center center',"background-size":"contain"}).show();
-	        		$('#'+id).hide();
-        			$('#'+id).parent().parent().siblings('input[name="iconImg"]').val(data.model.filename)
-        		}
-        	}else{
-        		data.msg = data.msgInfo || "服务器出错，请稍后再试";
-        		layer.alert(data.msg);
+        	// alert(data);
+			// alert(i);
+			console.log('success');
+			// console.log(data);
+        	// if(data.success==true){
+        	// 	if(i==0){
+        	// 		$(".btn-upload").css({'background':'url('+data.model.url+data.model.filename+') no-repeat center center',"background-size":"contain"}).show();
+	        // 		$('.upload-url').hide();
+	        // 		$('input[name="logoImg"]').val(data.model.filename)
+        	// 	}
+        	// 	else if(i==1){
+        	// 		$('#'+id).siblings(".btn-upload").css({'background':'url('+data.model.url+data.model.filename+') no-repeat center center',"background-size":"contain"}).show();
+	        // 		$('#'+id).hide();
+        	// 		$('#'+id).parent().parent().siblings('input[name="iconImg"]').val(data.model.filename)
+        	// 	}
+        	// }else{
+			// 	data.msg = data.msgInfo || "服务器出错，请稍后再试";
+        	// 	layer.alert(data.msg);
         		
-        	}
-         console.log(status)
+        	// }
+        //  console.log(status)
         },
         error : function(data, status, e) {
-            layer.alert("服务器出错，请稍后再试");
+			console.log('error');
+			// console.log(data);
+            // layer.alert("服务器出错，请稍后再试");
         }
     })
 }
@@ -593,10 +597,10 @@ $(document).ready(function(){
 				};
 				laydate(establish);
 				$(".btnSum").click(function () {
-
 			      	if($(this).siblings('.upload-url').val()!=""){
 			      		var id=$(this).siblings('.upload-url').attr('id')
-			      		// alert(id)
+						  // alert(id)
+						  console.log(id);
 			            ajaxFileUpload(id);	
 			      	}
 			    })

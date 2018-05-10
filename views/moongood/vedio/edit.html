@@ -1,0 +1,18 @@
+{% extends "../layout/default.html" %}
+
+{% block content %}
+
+<nav class="breadcrumb">
+		<div class="container">
+			<i class="Hui-iconfont">&#xe67f;</i>
+			<a href="/moongood/vedio/list" class="c-primary">视频列表</a>
+			<span class="c-gray en">&gt;</span>
+			<a href="javascript:location.replace(location.href);">编辑视频</a>
+		</div>
+		
+</nav>
+{% set operation = "edit" %}
+{% include "../layout/insidePage.html" %}
+{% include "form.html" with operation %}
+
+{% endblock %}
